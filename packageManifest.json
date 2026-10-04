@@ -2,9 +2,9 @@
   "packageName": "WebCoRE Status Bridge",
   "minimumHEVersion": "2.1.9",
   "author": "Rick Kane",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "dateReleased": "2026-10-04",
-  "releaseNotes": "HPM pipeline test; no functional driver changes.",
+  "releaseNotes": "HPM version-detection test; no functional driver changes.",
   "drivers": [
     {
       "id": "d5ef5e8b-b9a0-4d71-a1fd-13ea1d2a76c4",
