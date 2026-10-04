@@ -1,0 +1,17 @@
+{
+  "packageName": "WebCoRE Status Bridge",
+  "minimumHEVersion": "2.1.9",
+  "author": "Rick Kane",
+  "version": "1.0.0",
+  "dateReleased": "2026-10-04",
+  "releaseNotes": "Initial HPM-managed release.",
+  "drivers": [
+    {
+      "id": "d5ef5e8b-b9a0-4d71-a1fd-13ea1d2a76c4",
+      "name": "WebCoRE Status Bridge",
+      "namespace": "rick",
+      "location": "https://raw.githubusercontent.com/cznkane/smart-home-hubitat/main/drivers/WebCoRE_Status_Bridge.groovy",
+      "required": true
+    }
+  ]
+}
