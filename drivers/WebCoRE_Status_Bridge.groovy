@@ -1,3 +1,4 @@
+// HPM-managed source: cznkane/smart-home-hubitat
 metadata {
     definition(
         name: "WebCoRE Status Bridge",
