@@ -1,0 +1,12 @@
+{
+  "author": "Rick Kane",
+  "gitHubUrl": "https://github.com/cznkane/smart-home-hubitat",
+  "packages": [
+    {
+      "name": "WebCoRE Status Bridge",
+      "category": "Utility",
+      "location": "https://raw.githubusercontent.com/cznkane/smart-home-hubitat/main/packageManifest.json",
+      "description": "Hubitat virtual status bridge for publishing WebCoRE state to dashboards and other integrations."
+    }
+  ]
+}
