@@ -326,6 +326,45 @@ Canonical URLs emitted by the installed client:
 
 Security note: these management pages may display internal identifiers or credentials. Do not capture/share screenshots containing API keys, tokens, tunnel secrets, Organization/Workspace IDs, or commands containing credentials.
 
+### Quickstart-derived deployment rules
+
+The installed `tunnel-client 0.0.14` quickstart was reviewed on 2026-10-06. The client explicitly recommends the supported tunnel-client path rather than ngrok or another ad hoc public tunnel.
+
+For this WebCoRE architecture, the relevant target class is **local stdio MCP**. The documented initialization pattern is:
+
+```text
+tunnel-client init --sample sample_mcp_stdio_local --profile <profile-name> --tunnel-id <tunnel-id> --mcp-command "<local MCP command>"
+```
+
+Do not substitute environment-specific values into reusable documentation. Treat `<profile-name>`, `<tunnel-id>`, and `<local MCP command>` as deployment parameters.
+
+The documented validation/start sequence is:
+1. `tunnel-client doctor --profile <name> --explain`
+2. `tunnel-client run --profile <name>` for an intentional foreground session.
+3. For a long-lived managed local runtime, prefer `tunnel-client runtimes connect ...` rather than `nohup` or `disown`.
+4. After managed connection, verify `tunnel-client runtimes status <alias>`. Do not declare deployment successful until the process is running and health/readiness are reported.
+
+The daemon must remain running for ChatGPT connector discovery and subsequent MCP calls.
+
+#### Credential and permission model
+
+Keep control-plane duties separated:
+- `CONTROL_PLANE_TUNNEL_ID`: non-secret tunnel identifier selected/created in tunnel management.
+- `CONTROL_PLANE_API_KEY`: runtime credential used by `doctor` and `run`. Never commit or paste its value.
+- `OPENAI_ADMIN_KEY`: administrative CRUD credential only. Do **not** give it to the long-lived daemon.
+
+Least-privilege guidance from the installed client:
+- runtime user/key principal: **Tunnels Read + Use**
+- tunnel CRUD operator: **Tunnels Read + Manage**
+- admin-key creation permission is separate
+
+This deployment should use a dedicated runtime key for the daemon and avoid an Admin API key unless an explicit administrative operation requires one.
+
+#### Additional canonical URLs from quickstart
+
+- Organization roles: https://platform.openai.com/settings/organization/people/roles
+- Organization groups: https://platform.openai.com/settings/organization/people/groups
+
 ### Deployment productization principle
 
 The reusable deliverable should distinguish three artifacts:
