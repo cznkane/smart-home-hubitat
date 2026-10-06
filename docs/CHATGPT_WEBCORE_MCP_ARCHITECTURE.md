@@ -511,6 +511,23 @@ The existing `~/Documents/Codex/WebcoreCode` directory is classified as legacy/w
 
 The final production application directory should be deliberate, stable, user-scoped, and documented. Its exact path is to be selected before release extraction and then used consistently in the tunnel profile's MCP command, backup procedure, upgrade procedure, and uninstall/offboarding runbook.
 
+### Verified webcore-CLI production deployment and local authentication
+
+Verified on 2026-10-06:
+
+- production application root: `~/Library/Application Support/WebCoRE-MCP`
+- versioned payload directory: `~/Library/Application Support/WebCoRE-MCP/webcore-cli/0.4.7`
+- release artifact: `webcore-cli-v0.4.7.zip`
+- publisher checksum verification: `shasum -a 256 -c SHA256SUMS` returned `webcore-cli-v0.4.7.zip: OK`
+- `npm run check` completed successfully
+- `npm test` completed with 106 tests passed, 0 failed, 0 skipped
+- local setup completed successfully with `node server/cli.js setup`
+- authentication result: `ok=true`, `authenticated=true`
+- credentials/configuration path: `~/.config/webcore-toolkit/config.json`
+- credential file mode reported by webcore-CLI: `0600`
+
+The local WebCoRE execute URL/access token and dashboard password/PIN are secrets. They were entered only into the local setup prompt and are not to be copied into Git, chat, screenshots, deployment documentation, or customer runbooks. Reusable documentation records only where/how to obtain and enter them.
+
 ### Deployment productization principle
 
 The reusable deliverable should distinguish three artifacts:
