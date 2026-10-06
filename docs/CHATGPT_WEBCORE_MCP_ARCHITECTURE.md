@@ -6,6 +6,8 @@
 
 ## Objective
 
+This implementation is also intended to become a **repeatable deployment pattern** that can be reproduced for other Hubitat/WebCoRE environments and potentially offered as a professional service. Documentation therefore needs to be sufficient for a clean-room deployment by a competent technician who was not present for the original build.
+
 The acceptance test is not merely “ChatGPT can connect to WebCoRE.”
 
 The target operating experience is a request such as:
@@ -15,6 +17,26 @@ The target operating experience is a request such as:
 ChatGPT should then be able to inspect the live pistons, relevant variables/devices and execution logs; determine the root cause and blast radius; prepare the smallest appropriate change; present the proposed change for approval; apply it after approval; verify the stored piston read-back; and record the change.
 
 The user should not have to act as a human API by repeatedly supplying screenshots or manually translating changes into WebCoRE.
+
+## Documentation standard / repeatability requirement
+
+For every material installation or architecture step, record:
+- purpose and rationale
+- official source/documentation URL
+- prerequisites and supported versions
+- exact package/tool installed and version
+- install command or procedure
+- resulting executable/config/data paths
+- permissions and security implications
+- credentials required, but never credential values
+- validation command and expected result
+- rollback/uninstall procedure
+- stale-artifact cleanup procedure
+- known failure modes and troubleshooting notes
+- CTO risk score and rationale
+- date tested and platform/architecture tested
+
+Where practical, separate **environment-specific values** from the reusable procedure so the same runbook can be used for another customer without copying identifiers or secrets. The desired end state is an install/runbook that is reproducible, supportable, auditable, and suitable for controlled client deployments.
 
 ## Architectural configuration
 
@@ -267,5 +289,7 @@ A second known acceptance scenario is cancellation/control of queued WebCoRE wor
 - Verified only pre-existing local project artifacts remained in that directory, aside from normal macOS `.DS_Store` metadata.
 - Installed Homebrew successfully from https://brew.sh/.
 - Homebrew reported install prefix `/opt/homebrew` and created `/etc/paths.d/homebrew`.
-- Installer requested `~/.zprofile` initialization commands; these should be completed/verified before the next package install.
+- Installer requested `~/.zprofile` initialization commands; these were completed and verified.
+- Verified Homebrew version: `7.0.8`.
+- Verified active Homebrew executable: `/opt/homebrew/bin/brew`.
 - Added a native zsh colored prompt to `~/.zshrc` for improved prompt/output readability.
