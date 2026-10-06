@@ -229,8 +229,6 @@ Completed:
 - CTO direction/risk scoring adopted.
 
 Not yet completed:
-- Verify Homebrew PATH initialization in the active shell and confirm `brew --version`.
-- Install `openai/tools/tunnel-client` via Homebrew.
 - Verify the installed tunnel-client and matching `cloudflared` versions/paths.
 - Connect/enroll the Mac to the existing tunnel.
 - Confirm/install Node.js 24+.
@@ -292,4 +290,15 @@ A second known acceptance scenario is cancellation/control of queued WebCoRE wor
 - Installer requested `~/.zprofile` initialization commands; these were completed and verified.
 - Verified Homebrew version: `7.0.8`.
 - Verified active Homebrew executable: `/opt/homebrew/bin/brew`.
+- Installed the official OpenAI `openai/tools/tunnel-client` Homebrew formula successfully; tunnel client deployment reported complete. Exact installed version/path still requires post-install verification.
 - Added a native zsh colored prompt to `~/.zshrc` for improved prompt/output readability.
+
+
+### Deployment productization principle
+
+The reusable deliverable should distinguish three artifacts:
+1. Architecture/design record: component boundaries, trust model, decisions, and rationale.
+2. Deployment runbook: deterministic clean-room installation, validation, rollback, and customer-specific parameter collection.
+3. Operations runbook: health checks, upgrades, backup/recovery, credential rotation, incident response, Mac replacement, customer offboarding, and troubleshooting.
+
+Customer-specific identifiers and secrets must not be embedded in the reusable runbook. Use named placeholders/parameters for environment-specific values. Secrets remain local or in an approved secret store.
