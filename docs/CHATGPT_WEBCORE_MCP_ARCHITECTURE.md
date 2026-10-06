@@ -484,6 +484,33 @@ This satisfies the reviewed webcore-CLI Node.js 24+ runtime requirement.
 
 Deployment rule: verify `node --version` and `which node` before installing or changing Node.js. Do not overwrite an existing customer Node environment without first assessing dependencies and version-management requirements.
 
+### webcore-CLI deployment source and layout decision
+
+The upstream project guidance and current release metadata were re-checked on 2026-10-06.
+
+Authoritative upstream:
+- Repository: https://github.com/Cruxad0/webcore-CLI
+- Latest release page: https://github.com/Cruxad0/webcore-CLI/releases/latest
+- Reviewed release: https://github.com/Cruxad0/webcore-CLI/releases/tag/v0.4.7
+
+The upstream README explicitly recommends the **versioned release ZIP** rather than GitHub's generic Source code archive. Release v0.4.7 publishes:
+- `webcore-cli-v0.4.7.zip`
+- `SHA256SUMS`
+
+The GitHub release metadata also publishes a SHA-256 digest for the v0.4.7 ZIP: `ee5b32268c2b1898d3f51430b45905b3e92a9ece82a1ec349e3722ca42124170`.
+
+The package declares:
+- version `0.4.7`
+- Node.js engine `>=24`
+- no runtime npm dependency installation described by the README
+- CLI entrypoint `node server/cli.js`
+
+Deployment decision: use a **pinned, checksum-verified release ZIP** for the production MCP runtime. Keep the user's GitHub fork for audit/review/change tracking, not as the production executable checkout. This prevents accidental production drift from branch updates and makes rollback/version inventory deterministic.
+
+The existing `~/Documents/Codex/WebcoreCode` directory is classified as legacy/workshop space and should not become the production runtime directory merely because it already exists. It currently contains the pre-existing status-bridge source copy and normal macOS metadata. Do not delete it until ownership/use of the remaining source copy is explicitly resolved.
+
+The final production application directory should be deliberate, stable, user-scoped, and documented. Its exact path is to be selected before release extraction and then used consistently in the tunnel profile's MCP command, backup procedure, upgrade procedure, and uninstall/offboarding runbook.
+
 ### Deployment productization principle
 
 The reusable deliverable should distinguish three artifacts:
