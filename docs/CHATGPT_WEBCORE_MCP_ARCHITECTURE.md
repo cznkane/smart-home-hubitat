@@ -365,6 +365,56 @@ This deployment should use a dedicated runtime key for the daemon and avoid an A
 - Organization roles: https://platform.openai.com/settings/organization/people/roles
 - Organization groups: https://platform.openai.com/settings/organization/people/groups
 
+### Local stdio sample profile, verified
+
+The installed client's `sample_mcp_stdio_local` template was inspected on 2026-10-06.
+
+Required initialization parameters:
+- `--tunnel-id`
+- `--mcp-command`
+
+Optional initialization parameters:
+- `--control-plane-base-url`
+- `--control-plane-url-path`
+- `--control-plane-api-key-ref`
+- `--health-listen-addr`
+- `--open-web-ui`
+
+Behavior:
+- stdio skips HTTP OAuth discovery because there is no PRMD endpoint
+- the stdio command is bound to `channel=main`
+- default control-plane base URL is `https://api.openai.com`
+- runtime credential is referenced indirectly as `env:CONTROL_PLANE_API_KEY`, not embedded in the profile
+- default health/operator listener is loopback-only `127.0.0.1:8080`
+- admin UI does not open automatically by default
+- default logging is JSON at info level
+- MCP command is stored in the profile as the command used to launch the local MCP server
+
+Representative reusable profile shape:
+
+```yaml
+config_version: 1
+control_plane:
+  base_url: "https://api.openai.com"
+  tunnel_id: "<TUNNEL_ID>"
+  api_key: "env:CONTROL_PLANE_API_KEY"
+health:
+  listen_addr: "127.0.0.1:8080"
+admin_ui:
+  open_browser: false
+log:
+  level: info
+  format: json
+mcp:
+  commands:
+    - channel: main
+      command: "<LOCAL_MCP_COMMAND>"
+```
+
+Security/design consequence: the reusable profile may contain a tunnel identifier and local launch command, but the runtime API key should remain an environment reference. Never substitute a reusable secret into Git documentation.
+
+For concurrent/clean-room runs, the sample recommends `127.0.0.1:0` plus a `url_file` so the selected local operator URL can be discovered without port collision.
+
 ### Deployment productization principle
 
 The reusable deliverable should distinguish three artifacts:
