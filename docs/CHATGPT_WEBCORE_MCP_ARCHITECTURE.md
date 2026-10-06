@@ -2,7 +2,7 @@
 
 **Status:** In progress  
 **Decision owner:** CIO / CTO operating model  
-**Last updated:** 2026-10-05
+**Last updated:** 2026-10-06
 
 ## Objective
 
@@ -68,9 +68,19 @@ Hubitat and the local WebCoRE MCP service are not to be exposed directly to the 
 
 ### Official tunnel client
 
-An OpenAI Platform tunnel was created and associated with the intended Business workspace. The official OpenAI tunnel client repository/release path was identified. The target Mac reports `arm64`, so the macOS Darwin ARM64 artifact is required.
+An OpenAI Platform tunnel was created and associated with the intended Business workspace. The official OpenAI tunnel client repository/release path was identified:
+- Repository: https://github.com/openai/tunnel-client
+- Releases: https://github.com/openai/tunnel-client/releases
 
-Before execution, the downloaded artifact must be verified against the publisher-provided SHA-256 checksum.
+The target Mac reports `arm64`.
+
+A manual Darwin ARM64 ZIP was initially downloaded and its SHA-256 was verified successfully against the publisher-provided checksum. macOS Gatekeeper then blocked the unnotarized binary. The binary was temporarily approved with “Open Anyway” and its CLI/help output was inspected.
+
+This path was then deliberately abandoned after reviewing OpenAI's current macOS guidance, which identifies Homebrew as the supported installation path and warns against bypassing Gatekeeper for the unnotarized ZIP distribution.
+
+Rollback was completed and verified: the ZIP, extracted tunnel-client runtime binary, bundled `cloudflared`, manifest, license files, and SPDX metadata were removed from `~/Documents/Codex/WebcoreCode`. The pre-existing `WebCoRE_Status_Bridge.groovy` file remained intact.
+
+Current installation strategy: use Homebrew and install the official OpenAI formula `openai/tools/tunnel-client`.
 
 ### webcore-CLI
 
@@ -90,6 +100,32 @@ Observed design safeguards include:
 - no blind retry of an accepted-but-unverified write
 
 Production installation should use a pinned/auditable release rather than casually running an unpinned development branch.
+
+### Homebrew on the bridge Mac
+
+Homebrew was installed successfully on 2026-10-06 using the official installer from https://brew.sh/.
+
+Observed installation details:
+- Apple Silicon install prefix: `/opt/homebrew`
+- PATH integration file created by the installer: `/etc/paths.d/homebrew`
+- Installer-directed shell initialization target: `~/.zprofile`
+- Homebrew documentation: https://docs.brew.sh
+- Homebrew analytics documentation: https://docs.brew.sh/Analytics
+- Homebrew reports anonymous aggregate formula/cask analytics are enabled by default; opt-out remains available per the published analytics documentation.
+
+The Homebrew installation itself completed successfully. Before installing tunnel-client through Homebrew, PATH initialization and `brew --version` should be verified in the active shell.
+
+### Local terminal quality-of-life configuration
+
+The Mac uses zsh. A native colored prompt was added to `~/.zshrc` to visually separate prompt context from command output without adding a shell framework or plugin dependency.
+
+Prompt intent:
+- user/host in cyan
+- current directory in yellow
+- prompt symbol in green
+- command output in the terminal's normal foreground color
+
+This is cosmetic only and is reversible by removing the added `PROMPT=...` line from `~/.zshrc`.
 
 ### GitHub is the engineering system of record
 
@@ -161,13 +197,19 @@ Completed:
 - Private custom MCP creation UI confirmed.
 - Tunnel connection option confirmed.
 - OpenAI Platform tunnel created and associated with the intended workspace.
-- Official OpenAI tunnel-client release location identified.
+- Official OpenAI tunnel-client repository/release location identified.
 - Target Mac architecture confirmed as `arm64`.
+- Manual ZIP path tested, Gatekeeper exception encountered, and unsupported ZIP approach fully rolled back.
+- Homebrew installed successfully from https://brew.sh/ using the official installer.
+- Homebrew installed under `/opt/homebrew` with `/etc/paths.d/homebrew` PATH integration.
+- Native zsh prompt customization added to `~/.zshrc` for readability.
 - Screenshot security scoring and proactive redaction procedure adopted.
 - CTO direction/risk scoring adopted.
 
 Not yet completed:
-- Download/verify/install the Darwin ARM64 tunnel client.
+- Verify Homebrew PATH initialization in the active shell and confirm `brew --version`.
+- Install `openai/tools/tunnel-client` via Homebrew.
+- Verify the installed tunnel-client and matching `cloudflared` versions/paths.
 - Connect/enroll the Mac to the existing tunnel.
 - Confirm/install Node.js 24+.
 - Install a pinned webcore-CLI release.
@@ -183,20 +225,21 @@ Not yet completed:
 
 ## Next-session runbook
 
-1. Download the official macOS Darwin ARM64 tunnel-client artifact.
-2. Verify SHA-256 against the official published checksum before execution.
-3. Inspect/install the tunnel client using the publisher-supported procedure.
-4. Connect it to the already-created tunnel; keep enrollment credentials local.
-5. Verify Node.js version and install/upgrade to 24+ if required.
-6. Install/pin the reviewed webcore-CLI release.
-7. Run local WebCoRE setup. Enter the execute URL/token and dashboard password locally only.
-8. Run read-only `status` / `diagnose`.
-9. List/pull a known piston and verify it against the known current state.
-10. Connect the tunnel client to the webcore-CLI stdio MCP process.
-11. Create the private WebCoRE custom MCP plugin using the tunnel.
-12. Create/compress the plugin icon and publish with conservative access.
-13. From ChatGPT Business, prove live read-only inspection.
-14. Only then test an approved write through prepare → diff → approval → apply → read-back verification.
+1. Finish Homebrew shell-path initialization exactly as instructed by the installer.
+2. Verify `brew --version` and `which brew`.
+3. Install the official OpenAI formula: `brew install openai/tools/tunnel-client`.
+4. Verify `tunnel-client --version`, executable path, bundled/matching `cloudflared`, and supported profile/onboarding commands.
+5. Connect it to the already-created tunnel; keep enrollment/runtime credentials local.
+6. Verify Node.js version and install/upgrade to 24+ if required.
+7. Install/pin the reviewed webcore-CLI release.
+8. Run local WebCoRE setup. Enter the execute URL/token and dashboard password locally only.
+9. Run read-only `status` / `diagnose`.
+10. List/pull a known piston and verify it against the known current state.
+11. Connect the tunnel client to the webcore-CLI stdio MCP process.
+12. Create the private WebCoRE custom MCP plugin using the tunnel.
+13. Create/compress the plugin icon and publish with conservative access.
+14. From ChatGPT Business, prove live read-only inspection.
+15. Only then test an approved write through prepare → diff → approval → apply → read-back verification.
 
 ## Acceptance scenario
 
@@ -207,3 +250,22 @@ The integration is mature when the user can report an operational symptom in nat
 ChatGPT should independently gather the relevant live evidence, explain the root cause, distinguish whether the defect belongs in School Mornings or upstream occupancy/effective-presence logic, inspect dependencies, propose the smallest robust fix, obtain approval, apply and verify it, and document the material change.
 
 A second known acceptance scenario is cancellation/control of queued WebCoRE work: pausing School Mornings did not stop an already queued 30-minute fade. The mature design should include a deliberate kill/cancel strategy for pending work rather than relying on piston pause as an emergency stop.
+
+
+## Installation / rollback log
+
+### 2026-10-06
+
+- Confirmed Mac architecture with `uname -m`: `arm64`.
+- Downloaded OpenAI tunnel-client Darwin ARM64 runtime ZIP from the official GitHub release page.
+- Verified SHA-256 successfully before execution.
+- Extracted package contents and inspected the runtime CLI.
+- macOS Gatekeeper blocked the unnotarized manual binary.
+- A scoped “Open Anyway” exception was used temporarily for inspection.
+- Reviewed current OpenAI macOS guidance and changed direction to the supported Homebrew installation path.
+- Removed all extracted/downloaded OpenAI runtime artifacts from `~/Documents/Codex/WebcoreCode`.
+- Verified only pre-existing local project artifacts remained in that directory, aside from normal macOS `.DS_Store` metadata.
+- Installed Homebrew successfully from https://brew.sh/.
+- Homebrew reported install prefix `/opt/homebrew` and created `/etc/paths.d/homebrew`.
+- Installer requested `~/.zprofile` initialization commands; these should be completed/verified before the next package install.
+- Added a native zsh colored prompt to `~/.zshrc` for improved prompt/output readability.
