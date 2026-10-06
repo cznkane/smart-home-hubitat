@@ -532,6 +532,12 @@ Verified on 2026-10-06:
 - plugin version: `0.4.7`
 - HE version: `v0.3.114.20240115_HE`
 - webCoRE core version: `v0.3.114.20220203`
+- read-only diagnostic: `ok=true`, no errors
+- dashboard HTTP status: `200`, parsed successfully from a fresh `hub_snapshot` on first attempt
+- live piston inventory: 17 pistons
+- live authorized-device inventory: 95 devices
+- diagnostic output explicitly reported `credentials_included=false`
+- reported upload safety limits: 2048 URL bytes, 1500 chunk characters, 99 maximum chunks
 
 The local WebCoRE execute URL/access token and dashboard password/PIN are secrets. They were entered only into the local setup prompt and are not to be copied into Git, chat, screenshots, deployment documentation, or customer runbooks. Reusable documentation records only where/how to obtain and enter them.
 
