@@ -297,6 +297,35 @@ A second known acceptance scenario is cancellation/control of queued WebCoRE wor
 - Added a native zsh colored prompt to `~/.zshrc` for improved prompt/output readability.
 
 
+### Verified tunnel-client command surface (Homebrew 0.0.14)
+
+The installed full client identifies itself as “Tunnel client for the OpenAI MCP control plane” and states that it connects a local/private MCP server to the OpenAI control plane over an outbound tunnel. It also exposes local operator endpoints `/healthz`, `/readyz`, and `/ui` while running.
+
+Verified top-level commands:
+- `admin`
+- `admin-profiles`
+- `cloudflared`
+- `codex`
+- `completion`
+- `dev`
+- `doctor`
+- `health`
+- `help`
+- `init`
+- `profiles`
+- `run`
+- `runtimes`
+
+Verified agent-first help topics include `doctor`, `oauth`, `plugin`, `quickstart`, `samples`, and `troubleshooting`.
+
+Canonical URLs emitted by the installed client:
+- Tunnels management: https://platform.openai.com/settings/organization/tunnels
+- Runtime API keys: https://platform.openai.com/settings/organization/api-keys
+- Admin API keys: https://platform.openai.com/settings/organization/admin-keys
+- ChatGPT connector settings: https://chatgpt.com/#settings/Connectors
+
+Security note: these management pages may display internal identifiers or credentials. Do not capture/share screenshots containing API keys, tokens, tunnel secrets, Organization/Workspace IDs, or commands containing credentials.
+
 ### Deployment productization principle
 
 The reusable deliverable should distinguish three artifacts:
