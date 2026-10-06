@@ -290,7 +290,10 @@ A second known acceptance scenario is cancellation/control of queued WebCoRE wor
 - Installer requested `~/.zprofile` initialization commands; these were completed and verified.
 - Verified Homebrew version: `7.0.8`.
 - Verified active Homebrew executable: `/opt/homebrew/bin/brew`.
-- Installed the official OpenAI `openai/tools/tunnel-client` Homebrew formula successfully; tunnel client deployment reported complete. Exact installed version/path still requires post-install verification.
+- Installed the official OpenAI `openai/tools/tunnel-client` Homebrew formula successfully.
+- Post-install verification: `tunnel-client --version` reports `0.0.14+0f870e50a973fa820d4c409000059e181e8d242b` (git SHA `0f870e50a973fa820d4c409000059e181e8d242b`).
+- Homebrew package version: `tunnel-client 0.0.14`.
+- Executable path: `/opt/homebrew/bin/tunnel-client`.
 - Added a native zsh colored prompt to `~/.zshrc` for improved prompt/output readability.
 
 
