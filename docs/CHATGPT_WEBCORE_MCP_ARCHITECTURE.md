@@ -525,6 +525,13 @@ Verified on 2026-10-06:
 - authentication result: `ok=true`, `authenticated=true`
 - credentials/configuration path: `~/.config/webcore-toolkit/config.json`
 - credential file mode reported by webcore-CLI: `0600`
+- live status verification: `ok=true`, `connected=true`, `dashboard_confirmed=true`
+- snapshot source: `hub_snapshot`
+- connection mode: `local`
+- Hubitat/webCoRE instance label: `webCoRE - ValleyView`
+- plugin version: `0.4.7`
+- HE version: `v0.3.114.20240115_HE`
+- webCoRE core version: `v0.3.114.20220203`
 
 The local WebCoRE execute URL/access token and dashboard password/PIN are secrets. They were entered only into the local setup prompt and are not to be copied into Git, chat, screenshots, deployment documentation, or customer runbooks. Reusable documentation records only where/how to obtain and enter them.
 
