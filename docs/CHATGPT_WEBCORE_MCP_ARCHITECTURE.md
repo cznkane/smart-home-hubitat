@@ -475,6 +475,13 @@ which node      -> node not found
 
 No pre-existing Node.js runtime was present in the active shell. This is a useful clean-install baseline: Node.js must be installed before webcore-CLI can run. The reviewed webcore-CLI requires Node.js 24 or newer.
 
+Node.js 24 was then installed with Homebrew using `brew install node@24` and verified successfully:
+- Node runtime: `v24.21.0`
+- Homebrew formula/build: `node@24 24.21.0_1`
+- Executable path: `/opt/homebrew/bin/node`
+
+This satisfies the reviewed webcore-CLI Node.js 24+ runtime requirement.
+
 Deployment rule: verify `node --version` and `which node` before installing or changing Node.js. Do not overwrite an existing customer Node environment without first assessing dependencies and version-management requirements.
 
 ### Deployment productization principle
