@@ -464,6 +464,19 @@ Operational implications:
 - do not assume profile files themselves contain runtime secrets; verify generated content before defining backup handling
 - preserve file ownership/permissions when migrating profiles
 
+### Node.js prerequisite baseline
+
+The bridge Mac was checked before installing webcore-CLI:
+
+```text
+node --version  -> command not found
+which node      -> node not found
+```
+
+No pre-existing Node.js runtime was present in the active shell. This is a useful clean-install baseline: Node.js must be installed before webcore-CLI can run. The reviewed webcore-CLI requires Node.js 24 or newer.
+
+Deployment rule: verify `node --version` and `which node` before installing or changing Node.js. Do not overwrite an existing customer Node environment without first assessing dependencies and version-management requirements.
+
 ### Deployment productization principle
 
 The reusable deliverable should distinguish three artifacts:
