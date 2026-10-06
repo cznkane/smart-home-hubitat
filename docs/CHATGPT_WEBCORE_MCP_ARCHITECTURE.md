@@ -434,6 +434,18 @@ Operational rule: do not use `--force` casually in deployment automation. Existi
 
 The help output establishes that a profile directory can be explicitly controlled, but does not by itself identify the default profile filesystem location. Determine that from the profile-management interface or an actual sanitized initialization before documenting a default path.
 
+### Profile management interface, verified
+
+The `tunnel-client profiles --help` interface was inspected on 2026-10-06.
+
+Available profile-management commands:
+- `profiles add`: add a profile from a file or built-in sample
+- `profiles edit`: edit a profile and validate it before saving
+- `profiles list`: list configured profiles
+- `profiles samples`: list/inspect built-in samples
+
+A global `--profile-dir` override is supported. This help surface still does not state the default filesystem path, so the deployment documentation must not assume one until it is observed from the client itself.
+
 ### Deployment productization principle
 
 The reusable deliverable should distinguish three artifacts:
