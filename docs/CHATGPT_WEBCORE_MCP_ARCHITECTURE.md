@@ -415,6 +415,25 @@ Security/design consequence: the reusable profile may contain a tunnel identifie
 
 For concurrent/clean-room runs, the sample recommends `127.0.0.1:0` plus a `url_file` so the selected local operator URL can be discovered without port collision.
 
+### Profile initialization interface, verified
+
+The `tunnel-client init --help` interface was inspected on 2026-10-06.
+
+Important controls:
+- `--profile-dir`: explicit profile-directory override
+- `--profile`: profile name
+- `--sample`: built-in sample to materialize; `--mcp-command` auto-selects the local-stdio sample
+- `--tunnel-id`: tunnel identifier written to the generated profile
+- `--mcp-command`: local MCP launch command
+- `--control-plane-api-key-ref`: runtime-key secret reference, default `env:CONTROL_PLANE_API_KEY`
+- `--health-listen-addr`: defaults to `127.0.0.1:8080`; `:0` requests an ephemeral runtime port
+- `--open-web-ui`: enables automatic admin-UI browser opening
+- `--force`: replaces an existing profile
+
+Operational rule: do not use `--force` casually in deployment automation. Existing profiles should be inspected/backed up or intentionally retired before replacement.
+
+The help output establishes that a profile directory can be explicitly controlled, but does not by itself identify the default profile filesystem location. Determine that from the profile-management interface or an actual sanitized initialization before documenting a default path.
+
 ### Deployment productization principle
 
 The reusable deliverable should distinguish three artifacts:
