@@ -446,6 +446,24 @@ Available profile-management commands:
 
 A global `--profile-dir` override is supported. This help surface still does not state the default filesystem path, so the deployment documentation must not assume one until it is observed from the client itself.
 
+### Default profile storage, verified
+
+Running `tunnel-client profiles list` with no configured profiles reported the default profile directory as:
+
+```text
+~/.config/tunnel-client
+```
+
+On the commissioning Mac this resolves under the current user's home directory. The reusable documentation should use `~/.config/tunnel-client` rather than embedding a customer's username.
+
+At the time of discovery, no tunnel-client profiles existed in that directory. This establishes a clean pre-initialization baseline.
+
+Operational implications:
+- include `~/.config/tunnel-client` in tunnel-client configuration backup/migration procedures
+- inspect this directory during uninstall/offboarding and stale-profile cleanup
+- do not assume profile files themselves contain runtime secrets; verify generated content before defining backup handling
+- preserve file ownership/permissions when migrating profiles
+
 ### Deployment productization principle
 
 The reusable deliverable should distinguish three artifacts:
