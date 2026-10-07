@@ -169,3 +169,10 @@ Remaining validation:
 The previously archived DoorLights reference was build 10, import code `0xia`. It represents the older manual-interaction architecture and should remain historical until the V2 archive is formally promoted.
 
 The V2 duplicate retained the same visible import code during editing and reached build 8 in the captured redesign screenshot. Treat screenshot/build metadata as historical evidence only; inspect live WebCoRE before consequential work.
+
+
+## Git issue tracking
+
+- #16 — primary DoorLights V2 field validation, including multi-night reliability, repeated-door lockout behavior, G-Deck validation, final production timeout, manual-interaction policy, and archive promotion.
+- #11 — native Govee scene behavior while Fade is active; remains separate from ordinary V2 restoration until the scene-capable G-Deck/UpperDeck path is tested under V2.
+- #6 — underlying stale Govee individual-member telemetry. V2's group-based source-of-truth decision contains this risk for Door Lights but does not resolve the integration/reporting defect.
