@@ -323,3 +323,7 @@ When material Smart Home work changes durable knowledge, ask:
 5. Did a known issue become resolved or change shape?
 
 If yes, update the appropriate canonical document and this retained-context file where it materially affects future initialization.
+
+### ChatGPT ↔ WebCoRE integration design provenance
+
+The direct integration was motivated by eliminating screenshot/manual relay troubleshooting. Durable design intent: ChatGPT should directly inspect live piston definitions, variables, logs, and authorized device state; begin with read-only observability; keep Hubitat/WebCoRE private; minimize exposed capabilities; and place live tests and persistent writes behind explicit approval/change control. The initial idea of a bespoke LAN bridge and WebCoRE external-URL integration was superseded by the commissioned `webcore-CLI` + OpenAI secure MCP tunnel architecture. See `docs/CHATGPT_WEBCORE_MCP_ARCHITECTURE.md` for the design history and current implementation.
