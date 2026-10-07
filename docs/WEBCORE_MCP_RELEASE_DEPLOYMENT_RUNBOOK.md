@@ -61,6 +61,10 @@ Treat these as independent gates:
 
 Do not collapse these gates into “deployment worked.”
 
+## Foreground runtime operating note
+
+While the tunnel remains foreground-managed, terminal ownership and credential-bearing shell discipline are defined in `docs/WEBCORE_MCP_FOREGROUND_RUNTIME_OPERATIONS.md`. Apply that note automatically to stop/start/restart work. Managed reboot/recovery commissioning is tracked in #23.
+
 ## Phase 1: establish current state
 
 ### Git
