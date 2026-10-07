@@ -102,6 +102,7 @@ Known current-state concepts:
 - Night ends around the early-morning reset window; late-night arrival behavior is handled separately through Bedtime logic while preserving Night mode.
 - Noon/reset logic clears dusk tracking.
 - Dusk recovery/hysteresis remains an architectural concern when lux rises after dusk is recorded but before Evening.
+- Historical diagnostic evidence during Occupancy testing showed an older Modes snapshot with `duskStarted = 3:00:12 PM`, `eveningDue = 6:30:12 PM`, and `duskRecorded = true`, while Evening was observed to transition around 7:22 PM. This suggests the calculated due time can pass without an execution waking the Evening transition, with a later unrelated reevaluation applying the overdue transition. Treat this as an unresolved Modes/Scheduled Actions wakeup/scheduling issue, not an Occupancy responsibility. That screenshot was an older Modes build and does not supersede archived Modes build 57.
 
 Relevant globals/variables observed in the project include:
 - `@Occupied`
@@ -119,13 +120,30 @@ Use observed live/archive names rather than extrapolating additional globals.
 
 ## Presence / occupancy / guests / kids
 
-- WebCoRE effective presence is authoritative.
-- UniFi references were removed from the Occupied piston for family effective-presence truth.
-- Guest presence is derived from the guest Wi-Fi/captive-portal presence path and exposed through `@GuestsPresent`.
-- Legacy P-Guest was repurposed to a kid-home override role; do not assume its historical meaning from its name.
-- Kids Away override behavior has required work because effective child presence could repopulate unexpectedly.
-- School Departure Seen logic was identified for removal.
-- Guest state should cause occupancy/mode reevaluation where appropriate.
+- WebCoRE is the source of truth for effective presence and occupancy policy. Raw Hubitat/SharpTools device display can disagree with WebCoRE-derived truth; correct the upstream WebCoRE model rather than making dashboards authoritative.
+- Family presence inputs are the Geofency-backed `P-Rick`, `P-Andie`, `P-Everly`, and `P-Sadie` devices. UniFi family-presence references were deliberately removed from Occupancy because they created conflicting presence authorities.
+- `@GuestsPresent` is the canonical global guest-presence signal. It participates directly in occupancy, and changes to the global trigger Occupancy reevaluation.
+- `KidsAway` is a manual override for forgotten/incorrect kid-phone presence. When `KidsAway` is on, each kid's effective presence is false even if the corresponding raw Geofency device says present.
+- Current Occupancy derivation: `@RickEffective` follows `P-Rick`; each kid-effective boolean is true only when that kid's P-* device is present and `KidsAway` is off; `@KidsPresent` is true when any kid-effective boolean is true; `@Occupied` is true when `@RickEffective`, `@KidsPresent`, or `@GuestsPresent` is true.
+- Occupancy reevaluates on any family P-* presence change, `@GuestsPresent` change, or `KidsAway` switch change.
+- A naive KidsAway auto-reset based only on “any two kid devices are present” was behaviorally rejected: phones already left at home satisfied the condition and immediately defeated the manual override.
+- The proven auto-reset is event-based. While `KidsAway` is on, turn it off only when a kid **changes to present** while at least one different kid is already present: Andie arrival + Everly/Sadie present; Everly arrival + Andie/Sadie present; Sadie arrival + Andie/Everly present. This was verified with Geofency test hooks. A device already present must transition away/not-present before another present hook can exercise `changes to present`.
+- The old school-departure suppression machinery (`SchoolDepartureSeen`, school-hours gating, and garage-departure timestamp/logic) was removed from Occupancy. The manual KidsAway override replaces its forgotten-phone purpose with simpler explicit policy.
+- Historical naming warning: do not infer current guest/KidsAway semantics from legacy `P-Guest` naming; use observed live/global names.
+
+### Occupancy piston current known state
+
+The “occupied piston” cleanup superseded the older retained Occupancy archive reference.
+
+Latest screenshot-observed working state from that workstream:
+- piston: Occupancy
+- import code: `7dxps`
+- build observed after the KidsAway arrival-reset implementation: 48
+- local booleans: `andieEffective`, `everlyEffective`, `sadieEffective`
+- no remaining school-hours or `SchoolDepartureSeen` logic in the cleaned body
+- no UniFi family-presence inputs in the cleaned body
+
+The earlier `Occupancy build 24 / import 3q1s` record is superseded as a current reference. This is still not proof of live state; inspect live WebCoRE or the newest archive before consequential changes.
 
 ## Lighting architecture
 
@@ -306,7 +324,7 @@ Recommission targets have included:
 Newest retained archive identities known from project context at this reconciliation:
 
 - Modes: build 57, import `xtp9`
-- Occupancy: build 24, import `3q1s`
+- Occupancy: build 48, import `7dxps` (screenshot-observed after KidsAway cleanup; supersedes build 24/import `3q1s` as retained reference)
 - Variables: build 15, import `rep9g`
 - Bedtime: build 16, import `s6cx`
 - DoorLights: build 10, import `0xia`
