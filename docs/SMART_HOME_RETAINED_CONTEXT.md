@@ -222,20 +222,20 @@ The archived build is newer than several experimental screenshots from the redes
 
 ### Door Lights
 
-Door Lights was simplified toward a V2 focused on reliable temporary raise/restore behavior.
+Door Lights V2 is a deliberately simplified, group-based design. Full durable architecture, validation evidence, history, and remaining acceptance work are maintained in [DOOR_LIGHTS_V2.md](DOOR_LIGHTS_V2.md).
 
-Observed working concept:
-- capture state
-- door open raises lights
-- short watch delay
-- lockout/timeout
-- restore captured state
+Current retained direction:
+- use G-* lighting groups as the capture/restore boundary where practical rather than stale-prone individual Govee member telemetry
+- tested path is G-DiningKitchen; G-Deck is intended to participate when available; L-Flood and Patio String Light remain direct switch devices
+- one `lockout` datetime defines the active session; a second door opening while lockout is in the future must not restart or extend the timer
+- the two-minute lockout is a field-test duration, not a final production-duration decision
+- G-group capture/restore uses hue, saturation, level, and switch; V2 intentionally avoids generic `color` / `colorMode` restore
+- V2 intentionally removed manual-interaction suppression, `doorActive`, `watchStart`, `watchChanges`, and per-device restore flags
+- controlled validation proved G-DiningKitchen could capture RGB H0/S100/L20, raise to temporary 2500 K / 100%, and restore to RGB H0/S100/L20
+- WebCoRE/device restore work may settle asynchronously just after the lockout event; check logs and pending device commands before declaring failure
+- current decision is to freeze V2 and field-test it over multiple nights before adding features
 
-Manual-interaction complexity was deliberately removed from V2 to get the core behavior rock solid.
-
-Archived DoorLights reference:
-- build 10
-- import code `0xia`
+The archived DoorLights build 10 / import `0xia` is historical V1 reference, not the simplified V2. A captured V2 editing screenshot reached build 8 while retaining the same visible import code; neither screenshot identity proves current live state. Promote the accepted V2 into the canonical piston archive only after field validation.
 
 ### Scene interaction
 
@@ -374,7 +374,7 @@ Newest retained archive identities known from project context at this reconcilia
 - Occupancy: build 49 (saved/read-back verified after aggregate KidsAway hard gate); import `7dxps` is the latest retained import identity from the preceding build-48 cleanup and should not be assumed to identify build 49 without a newer archive
 - Variables: build 15, import `rep9g`
 - Bedtime: build 16, import `s6cx`
-- DoorLights: build 10, import `0xia`
+- DoorLights: build 10, import `0xia` (historical V1 reference; V2 not yet promoted to canonical archive)
 - Fade: build 66, import `vtyo`
 - Manual Chlorinator: build 8, import `p0cih`
 - Mode Actions: build 37, import `n82s`
