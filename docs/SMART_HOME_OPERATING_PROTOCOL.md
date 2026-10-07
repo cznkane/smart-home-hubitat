@@ -393,8 +393,10 @@ Canonical acceptance example:
 > Kids Away was on and School Mornings fired anyway because AndieEffective was true. Fix it.
 
 Second acceptance example:
-- pausing School Mornings did not stop an already queued 30-minute fade
-- the architecture needs a deliberate cancel/kill strategy for pending work rather than assuming piston pause is an emergency stop
+- a School Mornings fade appeared to continue after the piston was paused
+- forensic evidence later showed Pause stopped the scheduled fade progression before the next level pass
+- the remaining architecture need is a deliberate user-facing abort control; the leading primitive is targeted Pause -> Resume, with ordering/failure behavior and behavioral acceptance still required
+- do not preserve an initial symptom interpretation after better evidence disproves it
 
 ## 15. MCP approval boundary
 
