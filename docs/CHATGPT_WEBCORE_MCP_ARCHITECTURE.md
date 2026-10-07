@@ -84,6 +84,23 @@ GitHub (this repository)
 
 SharpTools remains the presentation/dashboard layer. Hubitat remains the device/platform layer. WebCoRE remains the automation engine.
 
+## Design origin and durable lessons
+
+The direct ChatGPT ↔ WebCoRE effort originated from a practical development problem: screenshot-driven troubleshooting made Rick act as the transport layer between ChatGPT and the live automation system. The desired loop was to let ChatGPT inspect piston definitions, variables, logs, and selected device state directly, then progress from read-only diagnosis to controlled execution and finally approval-gated edits.
+
+The original architectural proposal established several principles that remain valid in the commissioned system:
+- keep Hubitat and WebCoRE off the public Internet; use a secure intermediary/tunnel rather than inbound exposure
+- start with read-only inspection and prove observability before enabling action/write paths
+- expose only deliberately authorized devices/capabilities rather than treating Hubitat as an unrestricted remote-control surface
+- separate read access, piston execution/live tests, and persistent edits into different risk/approval classes
+- preserve backups/version history and verify read-back after writes; a successful save is not behavioral proof
+- prefer existing WebCoRE representations and supported tooling over inventing a parallel piston model
+- make direct inspection of piston definitions, variables, device state, and execution logs the normal diagnostic path so Rick is not the human API
+
+The early concept of a bespoke LAN "Smart Home bridge" and direct use of WebCoRE external execution URLs was **superseded** by the audited `webcore-CLI` MCP server plus OpenAI secure MCP tunnel. WebCoRE external execute URLs contain credentials and remain secrets; they are not the ChatGPT-facing integration contract.
+
+The staged capability model survives in the current change-control policy: autonomous/read-only inspection first; action-producing live tests and persistent writes remain separately controlled and require explicit approval under the operating protocol.
+
 ## Decisions and rationale
 
 ### ChatGPT Business, separate workspace
@@ -218,7 +235,9 @@ Default posture:
 
 Live-test/device-affecting operations remain separately authorized.
 
-## Current implementation state
+## Historical implementation checkpoint (2026-10-06, pre-commissioning)
+
+> Historical only. This checkpoint and the following next-session runbook capture the implementation plan before the MCP path was commissioned. They are retained as design history and must not be used as current-state instructions. The later 0.4.8/0.4.9 deployment sections and `SMART_HOME_RETAINED_CONTEXT.md` supersede this checkpoint for current state.
 
 Completed:
 - ChatGPT Business workspace created.
