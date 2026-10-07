@@ -271,6 +271,23 @@ Ownership remains separated: Modes owns mode selection; Fade owns fade/look beha
 
 Do not reduce this to a one-line Modes patch or duplicate policy across Modes, Fade, Bedtime, Scheduled Actions, and All Lights Off. Inspect current live/archive state before implementation.
 
+## Automation control / maintenance hold architecture
+
+A broader operational control requirement was approved after the School Mornings incident: provide a deliberate global automation maintenance/kill control plus selective function-level holds where justified.
+
+Canonical design record: `docs/AUTOMATION_CONTROL_ARCHITECTURE.md`.
+
+Important boundaries:
+- this requirement remains valid even though later forensics proved that WebCoRE Pause **did** stop the investigated School Mornings `fadeLevel` progression;
+- School Mornings-specific abort remains tracked in #13 and `docs/SCHOOL_MORNINGS_ABORT_ARCHITECTURE.md`;
+- do not assume a generic whole-house `cancelTasks` operation is safe; pending work must be classified by owner/function and blast radius;
+- global control must not blindly clear durable occupancy/presence/mode truth;
+- future pending-intent designs should revalidate authorization/current conditions at execution time so stale work cannot fire merely because it was scheduled earlier;
+- Hubitat/SharpTools should ultimately expose clear master/function control state;
+- names such as `AutomationHold` and `SchoolMorningEnabled` are conceptual only until an implementation defines and verifies canonical names.
+
+Implementation remains open and must define active-work abort semantics, pending-work handling, safe resume, persistence, observability, and failure recovery before commissioning.
+
 ## School Mornings cancellation / abort findings
 
 The earlier interpretation that pausing School Mornings failed to stop already queued fade work is **superseded by forensic evidence**.
