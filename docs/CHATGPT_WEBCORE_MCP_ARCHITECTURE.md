@@ -1,8 +1,8 @@
 # ChatGPT ↔ WebCoRE MCP Architecture
 
-**Status:** Operational read path; write workflow pending acceptance test; known Business read-approval anomaly  
+**Status:** Operational WebCoRE and direct Hubitat read paths; write workflow pending acceptance test; known Business read-approval anomaly  
 **Decision owner:** CIO / CTO operating model  
-**Last updated:** 2026-10-06
+**Last updated:** 2026-10-07
 
 ## Objective
 
@@ -667,3 +667,123 @@ Still to retire after the appropriate gates:
 - foreground-terminal dependency, after the reboot/recovery runtime design is commissioned and verified
 
 A deployment is not considered fully cleaned up while any of these items lacks an explicit retention or retirement reason.
+
+
+## 2026-10-07 production upgrade: webcore-CLI 0.4.9
+
+### Purpose
+
+Extend the existing WebCoRE MCP service with a bounded, read-only direct Hubitat Maker API path for explicitly authorized devices. This path is separate from the WebCoRE-authorized device inventory and is intended for live Hubitat state that is useful to diagnosis but is not necessarily represented through WebCoRE.
+
+### Source and release control
+
+Canonical implementation repository: `cznkane/webcore-CLI`.
+
+Release commits:
+- `1f38ed0a2077b62e3340b647f2cd7184fd25bdf3` — Add read-only Hubitat Maker API MCP tools
+- `e8eceeed487fe27dad566bdbe5ed50c160156d39` — Release 0.4.9
+
+Release `0.4.9` is now pushed to canonical `main`.
+
+Manifest/version verification:
+- `package.json`: 0.4.9
+- `plugin.json`: 0.4.9
+- `.codex-plugin/plugin.json`: 0.4.9
+- `server/hubitat.js`: present
+- `server/index.js`: registers both direct Hubitat tools
+
+The local release checkout passed the complete existing test suite: 106 tests, 106 passed, 0 failed.
+
+A previously observed 105/106 manifest failure belonged to an intermediate version-bump state during earlier release work. It is not evidence that the final 0.4.9 release shipped with a failing suite.
+
+### New Hubitat Maker API tools
+
+0.4.9 adds two MCP tools:
+- `hubitat_list_devices`
+- `hubitat_get_device`
+
+Both are classified:
+- `readOnlyHint=true`
+- `destructiveHint=false`
+- `openWorldHint=false`
+
+They operate only on devices explicitly authorized to the configured Hubitat Maker API instance and do not execute device commands.
+
+The complete 0.4.9 MCP inventory is 18 tools: 13 read-only and 5 write-capable.
+
+### Production deployment and verification
+
+Production application root remains:
+
+`~/Library/Application Support/WebCoRE-MCP`
+
+Active payload:
+
+`webcore-cli/0.4.9`
+
+Verified on 2026-10-07:
+- installed payload reports version 0.4.9
+- installed `server/index.js` contains both Hubitat Maker API tools
+- the live Node process launches `webcore-cli/0.4.9/server/index.js`
+- exactly one tunnel-client process was observed, running `tunnel-client run --profile webcore`
+- an independent MCP initialize request identified the server as `webcore-cli` 0.4.9
+- MCP `tools/list` returned all 18 tools, including both Hubitat tools
+- no production process restart was required during final certification
+
+The temporary independent MCP audit process exited normally when stdin closed. It created no persistent service or deployment artifact.
+
+### Inventory boundaries
+
+Do not conflate these three inventories:
+
+1. **Hubitat Maker API inventory** — devices explicitly authorized to the Maker API instance.
+2. **WebCoRE inventory** — devices selected/authorized inside WebCoRE.
+3. **ChatGPT-visible MCP inventory** — tools exposed to the current ChatGPT session by the private MCP plugin.
+
+During 0.4.9 acceptance:
+- direct Maker API returned 5 authorized devices
+- the established WebCoRE inventory remained 95 authorized devices
+- MCP advertised 18 tools
+
+A result of 95 devices from `webcore_list_devices` does not prove the direct Maker API path is available.
+
+### ChatGPT Business discovery and acceptance
+
+Business Admin already displayed 18 tools before the final acceptance test. Refreshing plugin discovery continued to show 18.
+
+An existing Business chat had previously failed to expose the new `hubitat_list_devices` tool even though Admin discovery already knew about all 18 tools. This established that Admin tool discovery and per-chat tool exposure/session state are distinct gates.
+
+Final acceptance was performed in a brand-new ChatGPT Business chat with the request:
+
+`Test Hubitat connection: list the authorized Hubitat devices.`
+
+The request succeeded through the direct Maker API path and returned exactly 5 authorized devices:
+- Piano
+- P-Guest
+- WX-WeatherFlow
+- WebCoRE Status Bridge
+- Virtual Switch
+
+This is the end-to-end acceptance evidence for the 0.4.9 direct Hubitat read path.
+
+Operational troubleshooting rule: when Admin shows the expected tool inventory but an existing chat cannot invoke a newly deployed tool, test a fresh Business chat before restarting the tunnel, reinstalling the MCP payload, republishing the plugin, or weakening permissions.
+
+### Security and change-control outcome
+
+No Maker API token, tunnel runtime credential, WebCoRE credential, or other reusable secret was recorded in Git or required in the acceptance transcript.
+
+The direct Hubitat tools remain read-only. Existing WebCoRE write controls and explicit approval requirements are unchanged.
+
+### Rollback and cleanup state
+
+0.4.9 is the certified active runtime.
+
+Do not delete the immediate prior production payload until rollback-retirement is explicitly approved after a suitable stability period. The versioned deployment layout makes rollback a path/profile change rather than an in-place overwrite.
+
+Final certification left no temporary MCP process running and required no permission change, `chmod`, plugin recreation, tunnel restart, or production Node restart.
+
+Remaining lifecycle work is separate from the 0.4.9 release itself:
+- commission and verify reboot/recovery management for the tunnel/MCP runtime
+- retire obsolete rollback payloads after the explicit retention decision
+- complete the approved WebCoRE write-path acceptance scenario
+- continue tracking the Business read-tool approval anomaly independently from Maker API availability
