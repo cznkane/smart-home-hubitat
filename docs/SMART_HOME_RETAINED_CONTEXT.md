@@ -363,7 +363,7 @@ Newest retained archive identities known from project context at this reconcilia
 - All Lights On: build 40, import `gjiyv`
 - Fridge: build 6, import `27ed9`
 - Living Room: build 10, import `co995`
-- Master Bedroom: build 45, import `r8x2`
+- Master Bedroom: archived build 45, import `r8x2`; later Git issue #4 records build 47 and therefore supersedes the screenshot archive for current logic
 
 These identities are reference/archive context, not proof of the current live piston body. Inspect live WebCoRE before consequential diagnosis/change.
 
@@ -384,6 +384,12 @@ Permanent lessons from 0.4.8/0.4.9 work:
 - fresh-chat acceptance is required for new ChatGPT-visible capabilities
 - once a layer is exonerated, do not disturb it without new evidence
 - finish with rollback classification, cleanup, and documentation
+
+## Piston archive governance
+
+Detailed To Do/archive governance, screenshot-era piston identities, supersession rules, completed-work anti-resurrection rules, and the local screenshot-package history are maintained in `docs/WEBCORE_PISTON_ARCHIVE_GOVERNANCE.md`.
+
+Important rule: archived screenshots are reference baselines, not immutable live truth. Newer live/Git evidence wins. In particular, later Git records supersede the archived Occupancy build 48 and Master Bedroom build 45 identities.
 
 ## Initialization / knowledge policy
 
