@@ -60,6 +60,14 @@ Do not claim a document, Git state, piston, live system, or other source was ret
 
 If initialization cannot be completed, say so and identify the missing source instead of displaying a successful handshake.
 
+## Command routing
+
+Treat these short commands as canonical Git-routed workflows after initialization:
+
+- **deploy** — load and follow `docs/WEBCORE_MCP_RELEASE_DEPLOYMENT_RUNBOOK.md`. Retrieve current Git and production evidence before giving consequential deployment instructions.
+
+A command keyword is a routing instruction, not permission to skip the operating protocol, security rules, evidence gates, or required approvals.
+
 ## Task-specific retrieval
 
 Initialization is not permission to load every project artifact for every request. Retrieve what materially affects the current task.
@@ -67,7 +75,7 @@ Initialization is not permission to load every project artifact for every reques
 Examples:
 
 - WebCoRE piston diagnosis: operating protocol, relevant archived/current piston state, dependencies, globals/devices/logs as applicable.
-- MCP/tunnel deployment: operating protocol, MCP architecture record, current Git/release state, runtime/tunnel evidence.
+- MCP/tunnel deployment or the command **deploy**: operating protocol, `docs/WEBCORE_MCP_RELEASE_DEPLOYMENT_RUNBOOK.md`, MCP architecture record, current Git/release state, runtime/tunnel evidence.
 - SharpTools work: operating protocol plus relevant dashboard/status-bridge design and current device/attribute state.
 - Simple conceptual question with no live-system consequence: operating protocol may be sufficient.
 
