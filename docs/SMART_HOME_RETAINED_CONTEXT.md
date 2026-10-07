@@ -121,16 +121,33 @@ Use observed live/archive names rather than extrapolating additional globals.
 
 All Lights On is a service/action piston. Environmental/time scheduling policy should generally live in Scheduled Actions and invoke All On rather than turning All On itself into a trigger-heavy policy piston.
 
+Durable design established during the 2026-10-01 cleanup:
+- `VB-AllLightsOn switch changes to on` is the service piston's outer invocation gate.
+- Illuminance is a decision inside that invocation, not an independent trigger.
+- The lux decision selects between a brighter/day-oriented device set and a darker/exterior-inclusive device set.
+- Both branches converge before a single `VB-AllLightsOn -> off` reset, avoiding duplicate reset logic and preventing the reset event from becoming lighting policy.
+- The darker branch includes exterior loads such as Deck, porch/walkway, FlagLight, Patio String Light, and Pool Light; the brighter branch is primarily interior.
+- Main interior groups are driven to 2500 K / 100%, can lights to 20%, and the associated switched lamps are turned on in the observed build-39 design.
+- Build 39 was the cleaned-up implementation observed in this chat. The canonical archive subsequently records build 40, so build 39 is historical design evidence and does **not** supersede the newer archive.
+
 Archived reference as of this retained-context reconciliation:
 - All Lights On
 - build 40
 - import code `gjiyv`
 
-A prior design question for “lux below X for Y minutes during A-B -> All On” was intentionally placed in Scheduled Actions rather than All On.
-
 ### Scheduled Actions
 
 Scheduled Actions owns time/environment policy that invokes service/action pistons. The low-lux All On policy belongs here under the established separation of concerns.
+
+The low-lux daytime policy was implemented in Scheduled Actions and observed in build 46 as:
+- WeatherFlow illuminance is less than 10,000 lux and stays below 10,000 lux for 30 minutes
+- AND time is between 9:30 AM and 4:30 PM
+- AND Hubitat location mode is Home
+- THEN turn on `VB-AllLightsOn`
+
+This deliberately keeps environmental/time policy out of the All Lights On service piston. The sustained-lux timer belongs to the lux condition, not to the 9:30 AM window. Therefore, if lux has already been continuously below threshold for at least 30 minutes when the time condition becomes valid, 9:30 AM is the intended earliest eligible activation; the design does not inherently impose an additional 30-minute delay after 9:30.
+
+The 10,000-lux threshold for this gloomy-day policy is distinct from dusk/mode lux thresholds. Do not infer that all lux-based automations share one threshold; use the archived/live piston for the specific policy being changed.
 
 Archived reference:
 - build 46
