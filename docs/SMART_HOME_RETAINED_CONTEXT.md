@@ -184,6 +184,16 @@ Archived reference:
 - import code `r6em`
 - modified 2026-10-02 in the archived project record
 
+Other durable Scheduled Actions responsibilities visible in the build-46 archive from this chat:
+- Pool Chlorinator: on daily at 7:30 PM and off daily at 4:00 AM.
+- BugLamp: on when location mode changes to Night; a separate sustained-on rule turns it off after it has remained on for 3 hours.
+- After location mode has remained Night for 60 minutes: pause Sadie Sonos and Twins Sonos, and turn Pool Light off.
+- Holiday lighting when `@Holidays` is true: Christmas Lights off at midnight, on at 5:00 AM, off at sunrise, and on one hour before sunset.
+- Sadie Noise: on when location mode changes to Evening while `@KidsPresent` is true; off at 5:30 AM on school days and 8:30 AM on non-school days.
+- Jackery: off daily at 1:00 AM and on daily at 11:00 AM.
+
+These are retained ownership/current-archive facts, not proof that each scheduled behavior has been field-validated. Inspect live WebCoRE before consequential changes.
+
 ### Fade
 
 Fade remains a focused lighting-look/service piston. Timing, guest, school, occupancy, and scheduling policy remain outside it.
