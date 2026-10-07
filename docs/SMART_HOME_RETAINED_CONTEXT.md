@@ -54,10 +54,12 @@ Current retained production payload classification after 0.4.9 acceptance:
 - 0.4.8 ROLLBACK
 - 0.4.7 RETIRED
 
-The tunnel remains foreground-managed pending separate reboot/recovery commissioning.
+The tunnel remains foreground-managed pending separate reboot/recovery commissioning. Interim terminal-role operations are canonicalized in `docs/WEBCORE_MCP_FOREGROUND_RUNTIME_OPERATIONS.md`; managed recovery is tracked in #23.
 
 
 ### Workspace availability boundary
+
+Tracked follow-up: #24.
 
 The proven 0.4.9 end-to-end acceptance is for 🔵 ChatGPT Business. The desired architecture is for both 🔵 Business and 🟢 Personal Smart Home chats to reach the same bounded WebCoRE + Hubitat MCP capability without maintaining divergent local implementations.
 
@@ -299,6 +301,8 @@ Archived School Mornings reference:
 
 ## Deferred observability / historical logging
 
+Tracked follow-up: #25.
+
 A robust local historical logging/observability path is intentionally deferred until the Hubitat/MCP integration is stable. The retained design direction is:
 - collect Hubitat `/logsocket` and `/eventsocket` locally on an always-on Windows VM on the trusted LAN
 - write structured rotating local logs, with JSONL/day rotation as the lightweight starting point
@@ -309,6 +313,8 @@ A robust local historical logging/observability path is intentionally deferred u
 This is a pinned future architecture item, not a commissioned service. Do not treat it as current production state.
 
 ## Status bridge / SharpTools
+
+Direct ChatGPT/SharpTools integration is a separate post-Hubitat architecture evaluation tracked in #27. Existing dashboard/status-bridge completion remains tracked in #15.
 
 A Hubitat/WebCoRE status bridge is used to expose automation state to SharpTools.
 
@@ -406,6 +412,7 @@ Permanent lessons from 0.4.8/0.4.9 work:
 - fresh-chat acceptance is required for new ChatGPT-visible capabilities
 - once a layer is exonerated, do not disturb it without new evidence
 - finish with rollback classification, cleanup, and documentation
+- Business read-tool approval anomaly is tracked in #26 and must not be "fixed" by weakening the workspace to Allow all tools
 
 ## Git issue tracking for retained work
 
