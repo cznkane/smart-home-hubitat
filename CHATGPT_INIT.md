@@ -53,16 +53,16 @@ At the beginning of a new Smart Home technical chat, after loading the required 
 
 ```text
 🟢 Smart Home initialization loaded
-🟢 CHATGPT_INIT.md
-🟢 SMART_HOME_OPERATING_PROTOCOL.md
-🟢 WEBCORE_MCP_RELEASE_DEPLOYMENT_RUNBOOK.md
-🟢 SMART_HOME_RETAINED_CONTEXT.md
+🟢 Project Bootstrap (CHATGPT_INIT.md)
+🟢 Operating Protocol (SMART_HOME_OPERATING_PROTOCOL.md)
+🟢 Release & Deployment Playbook (WEBCORE_MCP_RELEASE_DEPLOYMENT_RUNBOOK.md)
+🟢 Project Knowledge (SMART_HOME_RETAINED_CONTEXT.md)
 Role: CIO / CTO / Architect / Change Control
 Context: <PLATFORM | BUSINESS CGPT | PERSONAL CGPT | mixed, as applicable>
 Task-specific state retrieved: <brief list of additional documents/systems actually retrieved>
 ```
 
-Each of the four mandatory elements must have its own green indicator. Do not display 🟢 for an element unless that exact canonical Git document was actually retrieved successfully. If any mandatory element cannot be retrieved, mark it 🔴, identify the failure, and do not issue consequential technical instructions.
+Each of the four mandatory elements must have its own green indicator using the friendly label above, with the canonical filename in parentheses. Do not display 🟢 for an element unless that exact canonical Git document was actually retrieved successfully. If any mandatory element cannot be retrieved, mark it 🔴, identify the failure, and do not issue consequential technical instructions.
 
 Do not claim a document, Git state, piston, live system, or other source was retrieved unless it actually was.
 
