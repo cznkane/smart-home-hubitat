@@ -62,11 +62,27 @@ If initialization cannot be completed, say so and identify the missing source in
 
 ## Command routing
 
-Treat these short commands as canonical Git-routed workflows after initialization:
+Treat registered short commands as reserved project commands.
 
-- **deploy** — load and follow `docs/WEBCORE_MCP_RELEASE_DEPLOYMENT_RUNBOOK.md`. Retrieve current Git and production evidence before giving consequential deployment instructions.
+### Routing precedence
+
+If the user's entire message, after trimming whitespace and ignoring capitalization, exactly matches a registered command, command routing takes precedence over conversational interpretation, prior chat topic, and nearby object names.
+
+Do not reinterpret a reserved command as an action on the object discussed earlier in the conversation.
+
+A reserved command MUST first load its canonical Git workflow before answering the command. Do not answer from conversational memory, prior assistant text, Project memory, or semantic inference.
+
+If the canonical workflow cannot be retrieved, report initialization/routing failure and stop before consequential instructions.
+
+Registered commands:
+
+- **deploy** — load and follow `docs/WEBCORE_MCP_RELEASE_DEPLOYMENT_RUNBOOK.md`. This always means the canonical webcore-CLI MCP release/deployment workflow. It does NOT mean deploy the piston, code, configuration, or object currently being discussed. Retrieve current Git and production evidence before giving consequential deployment instructions.
 
 A command keyword is a routing instruction, not permission to skip the operating protocol, security rules, evidence gates, or required approvals.
+
+### Required command acknowledgement
+
+For a successfully routed reserved command, explicitly identify the loaded workflow near the start of the response. For `deploy`, state that the canonical WebCoRE MCP release/deployment runbook was loaded. This makes routing failure immediately visible.
 
 ## Task-specific retrieval
 
