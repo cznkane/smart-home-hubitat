@@ -255,20 +255,21 @@ Tracked in Git issues #8 and #11.
 
 ## Guest / Bedtime architecture
 
-This is intentionally isolated as its own architecture problem.
+Guest/Bedtime is intentionally isolated as a cross-piston architecture problem. Detailed canonical architecture and verification requirements are maintained in `docs/GUEST_BEDTIME_ARCHITECTURE.md`; actionable completion work is tracked in Issue #14.
 
-It needs to account for:
-- `@GuestsPresent`
-- suppression of normal Evening transition
-- suppression/handling of the 11:30 PM Night transition
-- guests still present at bedtime
-- Fade/Evening period
-- eventual Night + All Off
-- interaction with VB-Bedtime
-- late-arrival behavior
-- potentially Sadie Noise behavior
+Durable boundaries:
+- `@GuestsPresent` is guest state and must not be conflated with normal family presence semantics, even though current Occupancy includes guest presence in `@Occupied`.
+- Current retained Modes policy gates normal Dusk -> Evening and the 11:30 PM Night transition when guests are present.
+- Guest-clear should cause immediate policy reevaluation rather than waiting for another unrelated clock event.
+- A **late guest departure** is a delayed bedtime transition. The working design target is an appropriate late Evening/Fade landing period, historically about 30 minutes when still reasonable, followed by Night and canonical All Lights Off. This duration is a design target, not verified live implementation.
+- A **late arrival while already Night** is a temporary exception inside Night. Preserve Mode = Night and use the established VB-Bedtime late-arrival service path with temporary lighting and cleanup/failsafe.
+- Do not conflate late guest departure with late arrival merely because both occur after the same clock boundary.
+- The very-late guest-departure cutoff and abbreviated/direct-Night behavior remain unresolved.
+- Sadie Noise is primarily an interaction/test case here. Historical scheduling moved toward Scheduled Actions; do not casually reintroduce long overnight waits into Fade.
 
-Do not reduce this to a one-line Modes patch without reviewing the cross-piston behavior.
+Ownership remains separated: Modes owns mode selection; Fade owns fade/look behavior; Scheduled Actions owns applicable scheduling policy; Bedtime owns bedtime service behavior; All Lights Off remains the canonical whole-house off service.
+
+Do not reduce this to a one-line Modes patch or duplicate policy across Modes, Fade, Bedtime, Scheduled Actions, and All Lights Off. Inspect current live/archive state before implementation.
 
 ## School Mornings cancellation / abort findings
 
