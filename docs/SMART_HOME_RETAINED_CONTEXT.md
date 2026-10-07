@@ -132,6 +132,7 @@ Use observed live/archive names rather than extrapolating additional globals.
 - The proven auto-reset is event-based. While `KidsAway` is on, turn it off only when a kid **changes to present** while at least one different kid is already present: Andie arrival + Everly/Sadie present; Everly arrival + Andie/Sadie present; Sadie arrival + Andie/Everly present. This was verified with Geofency test hooks. A device already present must transition away/not-present before another present hook can exercise `changes to present`.
 - The old school-departure suppression machinery (`SchoolDepartureSeen`, school-hours gating, and garage-departure timestamp/logic) was removed from Occupancy. The manual KidsAway override replaces its forgotten-phone purpose with simpler explicit policy.
 - Historical naming warning: do not infer current guest/KidsAway semantics from legacy `P-Guest` naming; use observed live/global names.
+- Git issue ownership is deliberately split: closed #2 records the resolved `KidsAway ON => @KidsPresent false` safety invariant and verified build-49 hard gate; closed #3 records the intentional event-based KidsAway auto-clear design. Do not reopen either merely because the historical chat first observed KidsAway clearing unexpectedly.
 
 ### Occupancy piston current known state
 
