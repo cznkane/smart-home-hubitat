@@ -787,3 +787,17 @@ Remaining lifecycle work is separate from the 0.4.9 release itself:
 - retire obsolete rollback payloads after the explicit retention decision
 - complete the approved WebCoRE write-path acceptance scenario
 - continue tracking the Business read-tool approval anomaly independently from Maker API availability
+
+
+### 2026-10-07 rollback payload retirement
+
+After successful 0.4.9 end-to-end acceptance, the production payload directory was inspected for deployment residue. It contained only three versioned releases: 0.4.7, 0.4.8, and 0.4.9; no staging or temporary payloads were present.
+
+0.4.7 was deliberately retired because it was two releases behind the certified active runtime and 0.4.8 provides the immediate known-good rollback point.
+
+Post-cleanup production payload inventory:
+- 0.4.9 — active
+- 0.4.8 — retained rollback
+- 0.4.7 — removed
+
+This satisfies the payload portion of the no-dust rule while preserving one explicit rollback version.
