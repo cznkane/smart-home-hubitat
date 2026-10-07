@@ -124,7 +124,7 @@ Use observed live/archive names rather than extrapolating additional globals.
 - Family presence inputs are the Geofency-backed `P-Rick`, `P-Andie`, `P-Everly`, and `P-Sadie` devices. UniFi family-presence references were deliberately removed from Occupancy because they created conflicting presence authorities.
 - `@GuestsPresent` is the canonical global guest-presence signal. It participates directly in occupancy, and changes to the global trigger Occupancy reevaluation.
 - `KidsAway` is a manual override for forgotten/incorrect kid-phone presence. When `KidsAway` is on, each kid's effective presence is false even if the corresponding raw Geofency device says present.
-- Current Occupancy derivation: `@RickEffective` follows `P-Rick`; each kid-effective boolean is true only when that kid's P-* device is present and `KidsAway` is off; `@KidsPresent` is true when any kid-effective boolean is true; `@Occupied` is true when `@RickEffective`, `@KidsPresent`, or `@GuestsPresent` is true.
+- Current Occupancy derivation: `@RickEffective` follows `P-Rick`; each kid-effective boolean is true only when that kid's P-* device is present and `KidsAway` is off. As of verified build 49, the aggregate has its own fail-safe gate: `@KidsPresent = KidsAway OFF AND (andieEffective OR everlyEffective OR sadieEffective)`. `@Occupied` is true when `@RickEffective`, `@KidsPresent`, or `@GuestsPresent` is true.
 - Occupancy reevaluates on any family P-* presence change, `@GuestsPresent` change, or `KidsAway` switch change.
 - A naive KidsAway auto-reset based only on “any two kid devices are present” was behaviorally rejected: phones already left at home satisfied the condition and immediately defeated the manual override.
 - The proven auto-reset is event-based. While `KidsAway` is on, turn it off only when a kid **changes to present** while at least one different kid is already present: Andie arrival + Everly/Sadie present; Everly arrival + Andie/Sadie present; Sadie arrival + Andie/Everly present. This was verified with Geofency test hooks. A device already present must transition away/not-present before another present hook can exercise `changes to present`.
@@ -138,12 +138,12 @@ The “occupied piston” cleanup superseded the older retained Occupancy archiv
 Latest screenshot-observed working state from that workstream:
 - piston: Occupancy
 - import code: `7dxps`
-- build observed after the KidsAway arrival-reset implementation: 48
+- build 48 was observed after the KidsAway arrival-reset implementation; build 49 was subsequently saved/read back after adding the aggregate KidsAway hard gate
 - local booleans: `andieEffective`, `everlyEffective`, `sadieEffective`
 - no remaining school-hours or `SchoolDepartureSeen` logic in the cleaned body
 - no UniFi family-presence inputs in the cleaned body
 
-The earlier `Occupancy build 24 / import 3q1s` record is superseded as a current reference. This is still not proof of live state; inspect live WebCoRE or the newest archive before consequential changes.
+The earlier `Occupancy build 24 / import 3q1s` record is superseded as a current reference. Build 49 is the latest verified saved definition from this workstream; its stored definition exactly matched the approved hard-gate update, Occupancy remained active, and no other piston was changed. Inspect live WebCoRE or the newest archive before future consequential changes.
 
 ## Lighting architecture
 
@@ -252,17 +252,30 @@ It needs to account for:
 
 Do not reduce this to a one-line Modes patch without reviewing the cross-piston behavior.
 
-## School Mornings known issues
+## School Mornings cancellation / abort findings
 
-Known incident:
-- School Mornings fired while Kids Away was asserted and AndieEffective was true.
-- Pausing the piston did not stop already queued 30-minute fade work.
+The earlier interpretation that pausing School Mornings failed to stop already queued fade work is **superseded by forensic evidence**.
 
-This creates two distinct design problems:
-1. effective-presence/Kids Away correctness and where the defect belongs
-2. deliberate cancellation/kill behavior for already queued WebCoRE work
+The 5:00 AM `fadeLevel(1, 50, 45 minutes)` is implemented through repeated scheduled wakeups and incremental `setLevel()` passes, not a WebCoRE `WAIT`.
 
-Investigation concluded that `cancelTasks` was not the preferred first-choice primitive for the School Mornings abort use case. A programmatic pause -> resume operation was identified as a simpler candidate abort primitive because the observed pause stopped active fade-level repeat work while resume preserves later scheduled executions. This still requires controlled implementation/verification before being treated as production behavior.
+For the 2026-10-05 incident on WebCoRE HE `v0.3.114.20240115_HE`:
+- final recorded fade command: `Twins.setLevel(32)` at 5:28:43.506 AM CDT
+- pause: 5:28:57.548 AM
+- the expected next level-33 pass around 5:29:32–5:29:38 AM never occurred
+- no later School Mornings lighting command was found
+- no inspected overlapping WebCoRE piston took over those lights immediately after pause
+
+Conclusion: **Pause stopped the investigated School Mornings fade progression.** The post-pause visual behavior is best explained by the lights remaining at the just-commanded level 32; a short device-native ramp is possible but unproven.
+
+The live WebCoRE language surface exposes targeted `pausePiston` and `resumePiston`. Resume in the investigated event rebuilt future 6:00 AM and 8:00 AM schedules without replaying the already-passed 5:00 AM run.
+
+`cancelTasks` is not the preferred primitive because it has no target piston/task/statement parameter and its broad pending-task scope creates unnecessary uncertainty around legitimate future schedules.
+
+Leading design for a future user-facing School Mornings abort control:
+
+`Pause School Mornings -> Resume School Mornings`
+
+This is not yet commissioned. See `docs/SCHOOL_MORNINGS_ABORT_ARCHITECTURE.md` for the forensic record, design constraints, and acceptance requirements.
 
 Archived School Mornings reference:
 - build 29
@@ -336,7 +349,7 @@ Recommission targets have included:
 Newest retained archive identities known from project context at this reconciliation:
 
 - Modes: build 57, import `xtp9`
-- Occupancy: build 48, import `7dxps` (screenshot-observed after KidsAway cleanup; supersedes build 24/import `3q1s` as retained reference)
+- Occupancy: build 49 (saved/read-back verified after aggregate KidsAway hard gate); import `7dxps` is the latest retained import identity from the preceding build-48 cleanup and should not be assumed to identify build 49 without a newer archive
 - Variables: build 15, import `rep9g`
 - Bedtime: build 16, import `s6cx`
 - DoorLights: build 10, import `0xia`
