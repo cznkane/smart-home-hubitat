@@ -431,6 +431,12 @@ As of the 2026-10-07 To Do migration, durable open work from that thread is trac
 - #19 UpperDeck IP stability and UniFi reservation cleanup
 - #20 outdoor UniFi AP deployment
 - #21 publication of the verified canonical piston screenshot package to Git
+- #23 managed reboot/recovery for the foreground WebCoRE MCP tunnel runtime
+- #24 expose the canonical WebCoRE + Hubitat MCP capability to Personal ChatGPT without forking the runtime
+- #25 local historical Hubitat/WebCoRE event/log observability archive
+- #26 ChatGPT Business read-tool approval anomaly
+- #27 evaluate direct SharpTools access only after Hubitat/WebCoRE MCP stabilization
+- #28 certify the approval-gated WebCoRE persistent write path with rollback/read-back evidence
 
 Closed issues #2 and #3 retain the later Occupancy/KidsAway correction and intentional auto-clear design. Closed issue #4 records a later Master Bedroom build than the screenshot archive. These later Git records supersede older archive-era identities where they conflict.
 
@@ -461,3 +467,18 @@ When material Smart Home work changes durable knowledge, ask:
 5. Did a known issue become resolved or change shape?
 
 If yes, update the appropriate canonical document and this retained-context file where it materially affects future initialization.
+
+
+## ChatGPT ↔ WebCoRE integration provenance
+
+The direct integration was motivated by eliminating screenshot/manual-relay troubleshooting. Durable design intent is for ChatGPT to inspect live piston definitions, variables, logs, and deliberately authorized device state directly; begin with read-only observability; keep Hubitat/WebCoRE private; and place live tests plus persistent writes behind explicit approval/change control.
+
+The original proposal considered a bespoke LAN bridge and direct WebCoRE external-execution integration. That implementation concept is superseded by the commissioned `webcore-CLI` + OpenAI secure MCP tunnel architecture. Credential-bearing external execute URLs remain secrets, not a ChatGPT integration surface.
+
+Current staged state:
+- read-only WebCoRE inspection is commissioned
+- bounded direct Hubitat Maker API reads are commissioned in webcore-CLI 0.4.9
+- persistent WebCoRE write-path certification remains open in #28
+- write certification must prove recoverable pre-change state, prepare/diff approval, remote-change protection, apply, stored read-back, rollback, and separate behavioral verification
+
+See `docs/CHATGPT_WEBCORE_MCP_ARCHITECTURE.md` for the detailed architecture and design history.
