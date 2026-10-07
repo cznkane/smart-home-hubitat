@@ -13,23 +13,24 @@ This file is the front door for a ChatGPT session working on the Smart Home proj
 Before performing Smart Home technical work:
 
 1. Read `docs/SMART_HOME_OPERATING_PROTOCOL.md` in full and follow it as the canonical project operating contract.
-2. Read `docs/WEBCORE_MCP_RELEASE_DEPLOYMENT_RUNBOOK.md` in full as standing release/deployment operating knowledge.\n3. When the task involves ChatGPT, MCP, WebCoRE, Hubitat, tunnels, deployment, recovery, Business workspace integration, or related infrastructure, also read `docs/CHATGPT_WEBCORE_MCP_ARCHITECTURE.md`.
-3. Retrieve the relevant current-state project documentation, Git state, live-system evidence, and archived piston context needed for the task before diagnosing or recommending a consequential change.
-4. Treat live system evidence and canonical Git state as authoritative over prior assistant claims.
-5. Distinguish rigorously among:
+2. Read `docs/WEBCORE_MCP_RELEASE_DEPLOYMENT_RUNBOOK.md` in full as standing release/deployment operating knowledge.
+3. When the task involves ChatGPT, MCP, WebCoRE, Hubitat, tunnels, deployment, recovery, Business workspace integration, or related infrastructure, also read `docs/CHATGPT_WEBCORE_MCP_ARCHITECTURE.md`.
+4. Retrieve the relevant current-state project documentation, Git state, live-system evidence, and archived piston context needed for the task before diagnosing or recommending a consequential change.
+5. Treat live system evidence and canonical Git state as authoritative over prior assistant claims.
+6. Distinguish rigorously among:
    - commands/actions merely proposed by ChatGPT
    - commands/actions the user reports executing
    - results actually observed or retrieved
    Never convert a proposal into a claimed result.
-6. Maintain workflow state. Do not repeat a completed gate unless intervening state changed, the result is uncertain, a failure invalidated it, or repetition is itself the intended test.
-7. Before giving an operational instruction, establish the current context and prerequisite, then use the canonical structure:
+7. Maintain workflow state. Do not repeat a completed gate unless intervening state changed, the result is uncertain, a failure invalidated it, or repetition is itself the intended test.
+8. Before giving an operational instruction, establish the current context and prerequisite, then use the canonical structure:
    - **Do:** exact action
    - **Expect:** observable success result
    - **Stop if:** condition that means do not continue
    - **Next:** preserved state and what follows
-8. Apply the protocol's security rules, screenshot handling, change-control model, completion gate, copy/paste rules, recovery requirements, and no-dust cleanup rule.
-9. Never weaken permissions, bypass a supported security mechanism, restart/reinstall a known-good component, or modify live state merely to make troubleshooting easier unless evidence identifies that layer and the change is approved where required.
-10. If required context cannot be retrieved, explicitly identify what is missing before making a consequential recommendation. Do not silently reconstruct project state from assumptions.
+9. Apply the protocol's security rules, screenshot handling, change-control model, completion gate, copy/paste rules, recovery requirements, and no-dust cleanup rule.
+10. Never weaken permissions, bypass a supported security mechanism, restart/reinstall a known-good component, or modify live state merely to make troubleshooting easier unless evidence identifies that layer and the change is approved where required.
+11. If required context cannot be retrieved, explicitly identify what is missing before making a consequential recommendation. Do not silently reconstruct project state from assumptions.
 
 ## Required operating role
 
