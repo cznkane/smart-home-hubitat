@@ -229,11 +229,17 @@ Archived DoorLights reference:
 
 ### Scene interaction
 
+Detailed canonical subsystem record: `docs/GOVEE_LIGHTING_INTEGRATION.md`.
+
 Govee scene behavior observed:
-- Fade moves scene-driven lights to the randomized Fade palette.
-- Door-open raise may cause scene-driven strips to return to their prior scene rather than the intended CT 2700 / 100%.
-- On timeout, they restore to the Fade color correctly.
-- This may be acceptable in some scenarios, but scene mode/state capture remains relevant to future design.
+- Fade successfully moves scene-driven lights from their native Govee scene to the randomized Fade RGB palette.
+- When Door Lights then attempts its temporary CT 2700 K / 100% raise, affected devices can reassert the prior native scene instead of showing the intended white.
+- On timeout, Door Lights correctly restores the Fade RGB color that was active before the door-open override.
+- This localizes the observed defect to the temporary Door Lights override rather than the final Fade-state restoration.
+- The scene reappearance may be desirable in some scenarios; future design may intentionally support both functional-white and ambient-scene raise behavior.
+- Native Govee scene/effect invocation from WebCoRE remains unresolved and must be based on the observed Hubitat driver command surface rather than invented command names.
+
+Tracked in Git issues #8 and #11.
 
 ## Guest / Bedtime architecture
 
@@ -321,13 +327,19 @@ SharpTools design language:
 
 ## Govee / plug migration
 
+Detailed canonical subsystem record: `docs/GOVEE_LIGHTING_INTEGRATION.md`. It is the authoritative retained record for Govee model identities, grouping/DreamView capability boundaries, music-sync requirements, UpperDeck discovery/IP behavior, and Govee scene interaction with Fade/Door Lights.
+
 Project direction:
 - avoid returning to flaky Kasa where practical
 - H5080 was selected/tested as a candidate Govee plug
 - H5083 Matter plugs were targeted for replacement/return
 - avoid Govee V2 integration where it conflicts with native integration
 - Govee integration/device IP discovery behavior has caused an UpperDeck IP to revert unexpectedly
-- “Send discovery broadcast every hour” was turned off during investigation
+- “Send discovery broadcast every hour” was turned off during investigation; this is a mitigation pending persistence verification, not proof that the wrong-subnet discovery root cause is solved.
+- UpperDeck is Govee H6176; the primary indoor bulbs observed in this work are H6008, with H619D Kitchen separately observed as Desktop Music DreamView eligible.
+- Windows Govee Desktop Scenic DreamView saw the approximately 15-device lighting set, including H6008 bulbs and UpperDeck H6176, while Music DreamView exposed only H619D Kitchen. Music DreamView eligibility is therefore a separate capability gate from basic LAN/device visibility.
+- Whole-installation music sync requires all desired Govees, including UpperDeck and indoor bulbs, over non-Bluetooth transport. No production architecture satisfying that requirement has been selected.
+- Related open work is tracked in Git issues #18 and #19.
 
 Recommission targets have included:
 - Big lamp

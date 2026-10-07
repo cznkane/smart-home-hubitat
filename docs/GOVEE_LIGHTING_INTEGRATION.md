@@ -225,3 +225,12 @@ Do not globally eliminate the scene behavior until the mechanism is understood a
 - Capture Current States during Fade versus erroneous Door Lights scene reappearance.
 - Decide whether Door Lights should support both functional-white and ambient-scene raise behavior.
 - Find a non-Bluetooth, whole-installation music synchronization architecture, or explicitly accept a different requirement.
+
+
+## Related Git issues
+
+- #6 — stale Govee member state after Hubitat group commands.
+- #8 — WebCoRE/Fade text or native-scene selection.
+- #11 — Door Lights scene behavior while Fade is active.
+- #18 — whole-device, non-Bluetooth Govee music synchronization.
+- #19 — UpperDeck IP/discovery stability.
