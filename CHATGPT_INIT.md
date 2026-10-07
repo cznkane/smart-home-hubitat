@@ -77,7 +77,9 @@ A successful Smart Home technical initialization requires all four core elements
 3. `docs/WEBCORE_MCP_RELEASE_DEPLOYMENT_RUNBOOK.md` — standing release/deployment discipline and evidence gates.
 4. `docs/SMART_HOME_RETAINED_CONTEXT.md` — durable project architecture, current retained state, decisions, known issues, archive identities, and operational lessons.
 
-The retained-context document is standing project knowledge and must be treated as a baseline, not as proof of live state.\n\nThe release/deployment runbook is standing operating knowledge. Apply it automatically whenever work constitutes a release, deployment, upgrade, cutover, rollback, or production runtime change. No special command word is required.
+The retained-context document is standing project knowledge and must be treated as a baseline, not as proof of live state.
+
+The release/deployment runbook is standing operating knowledge. Apply it automatically whenever work constitutes a release, deployment, upgrade, cutover, rollback, or production runtime change. No special command word is required.
 
 `docs/CHATGPT_WEBCORE_MCP_ARCHITECTURE.md` remains task-specific context and must also be retrieved when the task involves ChatGPT, MCP, WebCoRE, Hubitat, tunnels, Business workspace integration, recovery, or related infrastructure.
 
