@@ -175,7 +175,7 @@ The low-lux daytime policy was implemented in Scheduled Actions and observed in 
 - AND Hubitat location mode is Home
 - THEN turn on `VB-AllLightsOn`
 
-This deliberately keeps environmental/time policy out of the All Lights On service piston. The sustained-lux timer belongs to the lux condition, not to the 9:30 AM window. Therefore, if lux has already been continuously below threshold for at least 30 minutes when the time condition becomes valid, 9:30 AM is the intended earliest eligible activation; the design does not inherently impose an additional 30-minute delay after 9:30.
+This deliberately keeps environmental/time policy out of the All Lights On service piston. The sustained-lux timer belongs syntactically to the lux condition, not to the 9:30 AM window. The intended behavior is that if lux has already been continuously below threshold for at least 30 minutes when the time window becomes valid, 9:30 AM is the earliest eligible activation. However, this chat did not capture a live execution proving WebCoRE's compound-condition scheduling semantics at the 9:30 boundary. Treat 9:30 versus 10:00 earliest activation as a field-validation item, not as established runtime truth.
 
 The 10,000-lux threshold for this gloomy-day policy is distinct from dusk/mode lux thresholds. Do not infer that all lux-based automations share one threshold; use the archived/live piston for the specific policy being changed.
 
