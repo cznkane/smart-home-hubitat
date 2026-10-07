@@ -56,6 +56,18 @@ Current retained production payload classification after 0.4.9 acceptance:
 
 The tunnel remains foreground-managed pending separate reboot/recovery commissioning.
 
+
+### Workspace availability boundary
+
+The proven 0.4.9 end-to-end acceptance is for 🔵 ChatGPT Business. The desired architecture is for both 🔵 Business and 🟢 Personal Smart Home chats to reach the same bounded WebCoRE + Hubitat MCP capability without maintaining divergent local implementations.
+
+As of the retained evidence from the 2026-10-07 integration work:
+- Business access is proven through the private plugin/tunnel path.
+- Personal Smart Home chat exposure is a separate workspace/product availability gate and was not proven in the earlier investigation.
+- Do not infer Personal availability from Business Admin discovery or Business fresh-chat acceptance.
+- Prefer one canonical local MCP implementation/tool family for both workspaces if the product surface permits it; avoid parallel forks merely to work around workspace exposure.
+
+
 ## WebCoRE / Hubitat change philosophy
 
 - Prefer read-only inspection.
@@ -225,6 +237,17 @@ Investigation concluded that `cancelTasks` was not the preferred first-choice pr
 Archived School Mornings reference:
 - build 29
 - import code `3co00`
+
+## Deferred observability / historical logging
+
+A robust local historical logging/observability path is intentionally deferred until the Hubitat/MCP integration is stable. The retained design direction is:
+- collect Hubitat `/logsocket` and `/eventsocket` locally on an always-on Windows VM on the trusted LAN
+- write structured rotating local logs, with JSONL/day rotation as the lightweight starting point
+- use an explicit retention policy rather than unbounded growth
+- consider Loki/Grafana later if richer querying/visualization is justified
+- consider structured WebCoRE logging as a separate enhancement
+
+This is a pinned future architecture item, not a commissioned service. Do not treat it as current production state.
 
 ## Status bridge / SharpTools
 
