@@ -18,6 +18,14 @@ ChatGPT should then be able to inspect the live pistons, relevant variables/devi
 
 The user should not have to act as a human API by repeatedly supplying screenshots or manually translating changes into WebCoRE.
 
+## Canonical Smart Home operating protocol
+
+All Smart Home work is governed by [`docs/SMART_HOME_OPERATING_PROTOCOL.md`](./SMART_HOME_OPERATING_PROTOCOL.md).
+
+That protocol is project-wide and applies across chats. It defines the standing CIO/CTO roles, context color coding, instruction syntax, security and screenshot handling, completion gates, WebCoRE change control, Git discipline, cleanup/no-dust rule, recovery expectations, response behavior, and definition of done.
+
+Where a procedural note in this architecture document conflicts with the operating protocol, the operating protocol governs unless Rick explicitly overrides it or this architecture document records a newer deliberate project decision.
+
 ## Documentation standard / repeatability requirement
 
 For every material installation or architecture step, record:
