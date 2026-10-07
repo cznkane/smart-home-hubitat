@@ -13,7 +13,7 @@ This file is the front door for a ChatGPT session working on the Smart Home proj
 Before performing Smart Home technical work:
 
 1. Read `docs/SMART_HOME_OPERATING_PROTOCOL.md` in full and follow it as the canonical project operating contract.
-2. When the task involves ChatGPT, MCP, WebCoRE, Hubitat, tunnels, deployment, recovery, Business workspace integration, or related infrastructure, also read `docs/CHATGPT_WEBCORE_MCP_ARCHITECTURE.md`.
+2. Read `docs/WEBCORE_MCP_RELEASE_DEPLOYMENT_RUNBOOK.md` in full as standing release/deployment operating knowledge.\n3. When the task involves ChatGPT, MCP, WebCoRE, Hubitat, tunnels, deployment, recovery, Business workspace integration, or related infrastructure, also read `docs/CHATGPT_WEBCORE_MCP_ARCHITECTURE.md`.
 3. Retrieve the relevant current-state project documentation, Git state, live-system evidence, and archived piston context needed for the task before diagnosing or recommending a consequential change.
 4. Treat live system evidence and canonical Git state as authoritative over prior assistant claims.
 5. Distinguish rigorously among:
@@ -47,42 +47,35 @@ Use the canonical labels whenever account/workspace context matters:
 
 ## Initialization handshake
 
-At the beginning of a new Smart Home technical chat, after loading the required project material and before issuing consequential technical instructions, provide a compact handshake in this form:
+At the beginning of a new Smart Home technical chat, after loading the required project material and before issuing consequential technical instructions, provide a compact handshake that individually proves all three mandatory core elements loaded:
 
 ```text
-🟢 Smart Home protocol loaded
+🟢 Smart Home initialization loaded
+🟢 CHATGPT_INIT.md
+🟢 SMART_HOME_OPERATING_PROTOCOL.md
+🟢 WEBCORE_MCP_RELEASE_DEPLOYMENT_RUNBOOK.md
 Role: CIO / CTO / Architect / Change Control
 Context: <PLATFORM | BUSINESS CGPT | PERSONAL CGPT | mixed, as applicable>
-Relevant project state retrieved: <brief list of documents/systems actually retrieved>
+Task-specific state retrieved: <brief list of additional documents/systems actually retrieved>
 ```
+
+Each of the three mandatory elements must have its own green indicator. Do not display 🟢 for an element unless that exact canonical Git document was actually retrieved successfully. If any mandatory element cannot be retrieved, mark it 🔴, identify the failure, and do not issue consequential technical instructions.
 
 Do not claim a document, Git state, piston, live system, or other source was retrieved unless it actually was.
 
 If initialization cannot be completed, say so and identify the missing source instead of displaying a successful handshake.
 
-## Command routing
+## Mandatory core documents
 
-Treat registered short commands as reserved project commands.
+A successful Smart Home technical initialization requires all three core elements below to be retrieved from canonical Git:
 
-### Routing precedence
+1. `CHATGPT_INIT.md` — initialization/bootstrap requirements.
+2. `docs/SMART_HOME_OPERATING_PROTOCOL.md` — operating roles, instruction format, security, change control, completion, and cleanup rules.
+3. `docs/WEBCORE_MCP_RELEASE_DEPLOYMENT_RUNBOOK.md` — standing release/deployment discipline and evidence gates.
 
-If the user's entire message, after trimming whitespace and ignoring capitalization, exactly matches a registered command, command routing takes precedence over conversational interpretation, prior chat topic, and nearby object names.
+The release/deployment runbook is standing operating knowledge. Apply it automatically whenever work constitutes a release, deployment, upgrade, cutover, rollback, or production runtime change. No special command word is required.
 
-Do not reinterpret a reserved command as an action on the object discussed earlier in the conversation.
-
-A reserved command MUST first load its canonical Git workflow before answering the command. Do not answer from conversational memory, prior assistant text, Project memory, or semantic inference.
-
-If the canonical workflow cannot be retrieved, report initialization/routing failure and stop before consequential instructions.
-
-Registered commands:
-
-- **deploy** — load and follow `docs/WEBCORE_MCP_RELEASE_DEPLOYMENT_RUNBOOK.md`. This always means the canonical webcore-CLI MCP release/deployment workflow. It does NOT mean deploy the piston, code, configuration, or object currently being discussed. Retrieve current Git and production evidence before giving consequential deployment instructions.
-
-A command keyword is a routing instruction, not permission to skip the operating protocol, security rules, evidence gates, or required approvals.
-
-### Required command acknowledgement
-
-For a successfully routed reserved command, explicitly identify the loaded workflow near the start of the response. For `deploy`, state that the canonical WebCoRE MCP release/deployment runbook was loaded. This makes routing failure immediately visible.
+`docs/CHATGPT_WEBCORE_MCP_ARCHITECTURE.md` remains task-specific context and must also be retrieved when the task involves ChatGPT, MCP, WebCoRE, Hubitat, tunnels, Business workspace integration, recovery, or related infrastructure.
 
 ## Task-specific retrieval
 
@@ -91,7 +84,7 @@ Initialization is not permission to load every project artifact for every reques
 Examples:
 
 - WebCoRE piston diagnosis: operating protocol, relevant archived/current piston state, dependencies, globals/devices/logs as applicable.
-- MCP/tunnel deployment or the command **deploy**: operating protocol, `docs/WEBCORE_MCP_RELEASE_DEPLOYMENT_RUNBOOK.md`, MCP architecture record, current Git/release state, runtime/tunnel evidence.
+- MCP/tunnel deployment: the deployment runbook is already mandatory core context; additionally retrieve the MCP architecture record, current Git/release state, and runtime/tunnel evidence.
 - SharpTools work: operating protocol plus relevant dashboard/status-bridge design and current device/attribute state.
 - Simple conceptual question with no live-system consequence: operating protocol may be sufficient.
 
