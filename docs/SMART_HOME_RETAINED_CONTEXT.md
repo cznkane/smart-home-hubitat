@@ -385,6 +385,25 @@ Permanent lessons from 0.4.8/0.4.9 work:
 - once a layer is exonerated, do not disturb it without new evidence
 - finish with rollback classification, cleanup, and documentation
 
+## Git issue tracking for retained work
+
+As of the 2026-10-07 To Do migration, durable open work from that thread is tracked in Git rather than only in conversational TODO state:
+- #6 Govee member-state synchronization after Hubitat group commands
+- #7 SharpTools Fade tile stale-state behavior
+- #8 Fade text/scene selection enhancement; curated build-66 palette itself is complete
+- #11 Door Lights scene behavior while Fade is active
+- #13 School Mornings user-facing abort control; later forensics disproved the earlier claim that Pause failed to stop the investigated fade progression
+- #14 guest-aware Evening/Bedtime architecture
+- #15 SharpTools status bridge and dashboard cleanup
+- #16 DoorLights V2 ordinary field validation
+- #17 smart-plug migration/recommissioning
+- #18 Govee whole-device music synchronization
+- #19 UpperDeck IP stability and UniFi reservation cleanup
+- #20 outdoor UniFi AP deployment
+- #21 publication of the verified canonical piston screenshot package to Git
+
+Closed issues #2 and #3 retain the later Occupancy/KidsAway correction and intentional auto-clear design. Closed issue #4 records a later Master Bedroom build than the screenshot archive. These later Git records supersede older archive-era identities where they conflict.
+
 ## Piston archive governance
 
 Detailed To Do/archive governance, screenshot-era piston identities, supersession rules, completed-work anti-resurrection rules, and the local screenshot-package history are maintained in `docs/WEBCORE_PISTON_ARCHIVE_GOVERNANCE.md`.
