@@ -186,17 +186,29 @@ Archived reference:
 
 ### Fade
 
-Goals/design:
-- curated bold-color palette rather than unrestricted random hue
-- zone independence for G-Deck, G-DiningKitchen, G-LivingRoom, G-Master
-- Fade should preserve Evening behavior
-- scene/text-driven selection is part of the redesign scope
-- Kasa/Govee group state reporting has produced misleading Hubitat level/hue observations
-- some Govee app state showed the intended dim level even when Hubitat group/individual state appeared stale
+Fade remains a focused lighting-look/service piston. Timing, guest, school, occupancy, and scheduling policy remain outside it.
+
+Canonical detailed design/troubleshooting record:
+- `docs/FADE_LIGHTING_ENGINE.md`
+
+Key retained findings:
+- central curated comma-delimited palette; current field-test set: `0,20,110,150,190,220,250,280,310,335`
+- ten entries use `arrayItem(random(9), fadeColors)`; correcting the stale 13-color bound fixed the observed evaluation problem
+- WebCoRE Set Hue uses 0-360 degree input and converts to Hubitat's 0-100 hue scale
+- independent zone blocks provide independent color picks while sharing one palette
+- 20 degrees / Hubitat hue about 6 is a Deck keeper but poor indoors; possible indoor/outdoor palette separation is deferred pending field experience
+- G-Master physical bulbs reached the commanded 20% even when individual Hubitat Govee member attributes remained at 100%; treat this as state synchronization/reporting, not failed Fade command delivery
+- Kasa was not proven to cause the G-Master symptom
+- long waits are not justified merely to compensate for stale Hubitat member state
+- SharpTools can independently show stale `VB-Fade` state
+- scene/text-driven selection remains future redesign scope
+- Fade must preserve Evening behavior
 
 Archived Fade reference:
 - build 66
 - import code `vtyo`
+
+The archived build is newer than several experimental screenshots from the redesign chronology. Inspect the newest archive/live piston before consequential changes.
 
 ### Door Lights
 
