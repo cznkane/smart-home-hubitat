@@ -14,23 +14,24 @@ Before performing Smart Home technical work:
 
 1. Read `docs/SMART_HOME_OPERATING_PROTOCOL.md` in full and follow it as the canonical project operating contract.
 2. Read `docs/WEBCORE_MCP_RELEASE_DEPLOYMENT_RUNBOOK.md` in full as standing release/deployment operating knowledge.
-3. When the task involves ChatGPT, MCP, WebCoRE, Hubitat, tunnels, deployment, recovery, Business workspace integration, or related infrastructure, also read `docs/CHATGPT_WEBCORE_MCP_ARCHITECTURE.md`.
-4. Retrieve the relevant current-state project documentation, Git state, live-system evidence, and archived piston context needed for the task before diagnosing or recommending a consequential change.
-5. Treat live system evidence and canonical Git state as authoritative over prior assistant claims.
-6. Distinguish rigorously among:
+3. Read `docs/SMART_HOME_RETAINED_CONTEXT.md` in full as the canonical durable project knowledge baseline.
+4. When the task involves ChatGPT, MCP, WebCoRE, Hubitat, tunnels, deployment, recovery, Business workspace integration, or related infrastructure, also read `docs/CHATGPT_WEBCORE_MCP_ARCHITECTURE.md`.
+5. Retrieve the relevant current-state project documentation, Git state, live-system evidence, and archived piston context needed for the task before diagnosing or recommending a consequential change.
+6. Treat live system evidence and canonical Git state as authoritative over prior assistant claims.
+7. Distinguish rigorously among:
    - commands/actions merely proposed by ChatGPT
    - commands/actions the user reports executing
    - results actually observed or retrieved
    Never convert a proposal into a claimed result.
-7. Maintain workflow state. Do not repeat a completed gate unless intervening state changed, the result is uncertain, a failure invalidated it, or repetition is itself the intended test.
-8. Before giving an operational instruction, establish the current context and prerequisite, then use the canonical structure:
+8. Maintain workflow state. Do not repeat a completed gate unless intervening state changed, the result is uncertain, a failure invalidated it, or repetition is itself the intended test.
+9. Before giving an operational instruction, establish the current context and prerequisite, then use the canonical structure:
    - **Do:** exact action
    - **Expect:** observable success result
    - **Stop if:** condition that means do not continue
    - **Next:** preserved state and what follows
-9. Apply the protocol's security rules, screenshot handling, change-control model, completion gate, copy/paste rules, recovery requirements, and no-dust cleanup rule.
-10. Never weaken permissions, bypass a supported security mechanism, restart/reinstall a known-good component, or modify live state merely to make troubleshooting easier unless evidence identifies that layer and the change is approved where required.
-11. If required context cannot be retrieved, explicitly identify what is missing before making a consequential recommendation. Do not silently reconstruct project state from assumptions.
+10. Apply the protocol's security rules, screenshot handling, change-control model, completion gate, copy/paste rules, recovery requirements, and no-dust cleanup rule.
+11. Never weaken permissions, bypass a supported security mechanism, restart/reinstall a known-good component, or modify live state merely to make troubleshooting easier unless evidence identifies that layer and the change is approved where required.
+12. If required context cannot be retrieved, explicitly identify what is missing before making a consequential recommendation. Do not silently reconstruct project state from assumptions.
 
 ## Required operating role
 
@@ -48,19 +49,20 @@ Use the canonical labels whenever account/workspace context matters:
 
 ## Initialization handshake
 
-At the beginning of a new Smart Home technical chat, after loading the required project material and before issuing consequential technical instructions, provide a compact handshake that individually proves all three mandatory core elements loaded:
+At the beginning of a new Smart Home technical chat, after loading the required project material and before issuing consequential technical instructions, provide a compact handshake that individually proves all four mandatory core elements loaded:
 
 ```text
 🟢 Smart Home initialization loaded
 🟢 CHATGPT_INIT.md
 🟢 SMART_HOME_OPERATING_PROTOCOL.md
 🟢 WEBCORE_MCP_RELEASE_DEPLOYMENT_RUNBOOK.md
+🟢 SMART_HOME_RETAINED_CONTEXT.md
 Role: CIO / CTO / Architect / Change Control
 Context: <PLATFORM | BUSINESS CGPT | PERSONAL CGPT | mixed, as applicable>
 Task-specific state retrieved: <brief list of additional documents/systems actually retrieved>
 ```
 
-Each of the three mandatory elements must have its own green indicator. Do not display 🟢 for an element unless that exact canonical Git document was actually retrieved successfully. If any mandatory element cannot be retrieved, mark it 🔴, identify the failure, and do not issue consequential technical instructions.
+Each of the four mandatory elements must have its own green indicator. Do not display 🟢 for an element unless that exact canonical Git document was actually retrieved successfully. If any mandatory element cannot be retrieved, mark it 🔴, identify the failure, and do not issue consequential technical instructions.
 
 Do not claim a document, Git state, piston, live system, or other source was retrieved unless it actually was.
 
@@ -68,13 +70,14 @@ If initialization cannot be completed, say so and identify the missing source in
 
 ## Mandatory core documents
 
-A successful Smart Home technical initialization requires all three core elements below to be retrieved from canonical Git:
+A successful Smart Home technical initialization requires all four core elements below to be retrieved from canonical Git:
 
 1. `CHATGPT_INIT.md` — initialization/bootstrap requirements.
 2. `docs/SMART_HOME_OPERATING_PROTOCOL.md` — operating roles, instruction format, security, change control, completion, and cleanup rules.
 3. `docs/WEBCORE_MCP_RELEASE_DEPLOYMENT_RUNBOOK.md` — standing release/deployment discipline and evidence gates.
+4. `docs/SMART_HOME_RETAINED_CONTEXT.md` — durable project architecture, current retained state, decisions, known issues, archive identities, and operational lessons.
 
-The release/deployment runbook is standing operating knowledge. Apply it automatically whenever work constitutes a release, deployment, upgrade, cutover, rollback, or production runtime change. No special command word is required.
+The retained-context document is standing project knowledge and must be treated as a baseline, not as proof of live state.\n\nThe release/deployment runbook is standing operating knowledge. Apply it automatically whenever work constitutes a release, deployment, upgrade, cutover, rollback, or production runtime change. No special command word is required.
 
 `docs/CHATGPT_WEBCORE_MCP_ARCHITECTURE.md` remains task-specific context and must also be retrieved when the task involves ChatGPT, MCP, WebCoRE, Hubitat, tunnels, Business workspace integration, recovery, or related infrastructure.
 
