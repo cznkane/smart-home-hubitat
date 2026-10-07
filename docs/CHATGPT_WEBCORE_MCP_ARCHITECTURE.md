@@ -1,6 +1,6 @@
 # ChatGPT ↔ WebCoRE MCP Architecture
 
-**Status:** In progress  
+**Status:** Operational read path; write workflow pending acceptance test; known Business read-approval anomaly  
 **Decision owner:** CIO / CTO operating model  
 **Last updated:** 2026-10-06
 
@@ -549,3 +549,113 @@ The reusable deliverable should distinguish three artifacts:
 3. Operations runbook: health checks, upgrades, backup/recovery, credential rotation, incident response, Mac replacement, customer offboarding, and troubleshooting.
 
 Customer-specific identifiers and secrets must not be embedded in the reusable runbook. Use named placeholders/parameters for environment-specific values. Secrets remain local or in an approved secret store.
+
+
+## 2026-10-06 production upgrade: webcore-CLI 0.4.8
+
+### Purpose
+
+Upgrade the local WebCoRE MCP runtime from 0.4.7 to 0.4.8 so ChatGPT Business can distinguish read-only MCP tools from write/action tools and enforce the intended approval boundary.
+
+### Source/change control
+
+The MCP annotation work was developed in `cznkane/webcore-CLI` on branch `fix/mcp-tool-annotations`, reviewed in PR #1, and squash-merged to `main` as commit `161febd35c67fd48459782098009932c4d764067`.
+
+Release version: `0.4.8`.
+
+Tool classification shipped in 0.4.8:
+- 11 read-only tools: `readOnlyHint=true`, `destructiveHint=false`, `openWorldHint=false`
+- 3 reversible/non-destructive write tools: create, pause, resume
+- 2 action/destructive tools: apply piston update and live piston test
+- all tools use `openWorldHint=false` because they operate against the bounded private Hubitat/WebCoRE environment
+
+Regression tests assert the tool annotations returned by MCP `tools/list`.
+
+### Production deployment
+
+Production application root remains:
+
+`~/Library/Application Support/WebCoRE-MCP`
+
+Versioned runtime directories:
+- previous/rollback: `webcore-cli/0.4.7`
+- active: `webcore-cli/0.4.8`
+
+The 0.4.8 payload was staged side-by-side from the clean canonical development checkout rather than overwriting 0.4.7.
+
+Validation before cutover:
+- staged package version: `0.4.8`
+- test suite: 106 tests, 106 passed, 0 failed
+- 0.4.7 retained untouched for rollback
+- tunnel profile backed up before modification
+- tunnel profile MCP command changed only from the 0.4.7 versioned path to the 0.4.8 versioned path
+- runtime credential remained an environment-variable reference; no secret was added to the tunnel profile or Git
+
+The existing foreground tunnel was stopped only after the new runtime had passed tests and the restart path was available. It was then restarted from the same credential-bearing shell, causing the already-updated profile to launch 0.4.8.
+
+### ChatGPT Business tool metadata refresh
+
+Important deployment requirement discovered during commissioning:
+
+Updating the MCP server does **not** by itself refresh the tool classification already held by the ChatGPT Business private plugin.
+
+After 0.4.8 was live, Business Admin still showed all 16 tools as write tools until:
+
+1. Admin Console → Plugins → WebCoRE → Tools
+2. Select **Refresh**
+3. Verify the inventory changes from `Write tools 16` to:
+   - `Read tools 11`
+   - `Write tools 5`
+4. Save changes
+
+This refresh step is required after a deployed MCP release changes tool metadata/annotations.
+
+Workspace permission policy remains **Allow read tools**. Do not weaken this to **Allow all tools** merely to suppress prompts.
+
+### Known ChatGPT Business approval anomaly
+
+Expected behavior after the metadata refresh:
+
+- read tools execute without approval
+- write tools require approval
+
+Observed behavior on 2026-10-06:
+
+- Business Admin correctly classifies WebCoRE as 11 read tools and 5 write tools
+- plugin permission policy is explicitly **Allow read tools**
+- the user-level plugin installation is connected and exposes no separate permission override
+- a brand-new Business chat invoking `webcore_list_pistons` still displays an approval prompt
+- the prompt offers **Allow once** or **Allow WebCoRE for this conversation**
+
+The server-side annotation path is therefore verified through the Business Admin UI. The remaining read approval prompt is tracked as a ChatGPT Business permission/inheritance behavior or platform limitation, not as evidence that the 0.4.8 MCP classification failed.
+
+Operational workaround: approve WebCoRE for the conversation when required. Do not change the workspace to **Allow all tools** as a workaround because that would weaken the intended write-approval boundary.
+
+### Rollback
+
+Until post-upgrade acceptance work is complete, retain 0.4.7 as the explicit rollback version.
+
+Rollback procedure:
+1. Stop the foreground tunnel deliberately.
+2. Restore the backed-up pre-0.4.8 tunnel profile, or change only the versioned MCP command path from 0.4.8 back to 0.4.7.
+3. Restart the tunnel with the existing runtime credential mechanism.
+4. Verify local health/readiness and read-only Business access.
+5. Record the rollback and reason in Git.
+
+Do not delete 0.4.7 until 0.4.8 has completed the remaining acceptance work and the rollback-retirement decision is explicit.
+
+### Cleanup state
+
+Completed:
+- temporary development Terminal used for the upgrade was closed after deployment
+- canonical development checkout remains intentionally installed at `~/Developer/webcore-CLI`
+- GitHub CLI/keyring authentication remains intentional development infrastructure
+- active tunnel Terminal remains intentionally open because the runtime is still foreground-managed
+- 0.4.7 remains intentionally retained as rollback inventory
+
+Still to retire after the appropriate gates:
+- merged `fix/mcp-tool-annotations` branch, after production documentation is safely recorded
+- 0.4.7 rollback payload, only after 0.4.8 acceptance/stability is established
+- foreground-terminal dependency, after the reboot/recovery runtime design is commissioned and verified
+
+A deployment is not considered fully cleaned up while any of these items lacks an explicit retention or retirement reason.
