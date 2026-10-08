@@ -88,6 +88,8 @@ The release/deployment runbook is standing operating knowledge. Apply it automat
 
 Apply this standing workflow whenever creating or revising SharpTools icons:
 
+**Mandatory approval gate:** First show side-by-side OFF and ON visual mockups for user review. Do not generate, export, or package the final individual PNG files or download ZIP until the user explicitly approves the mockups. After approval, produce individual transparent files, verify them, and package the ZIP. If changes are requested, revise the mockups and obtain approval before delivery.
+
 1. Start from the latest user-approved artwork. Preserve the accepted silhouette and geometry. For crops, scale corrections, transparency fixes, or packaging, edit the existing approved source instead of regenerating a different design.
 2. Use consistent ON/OFF state geometry. OFF is a clean white hollow outline with no glow. ON uses the same shape with controlled blue/cyan glow unless a different approved color/state convention applies. Do not add extra rings, bezels, shading, or internal lines without approval.
 3. Deliver truly transparent RGBA PNGs. A checkerboard is only a preview convention and must not be baked into the exported image. Inspect for black/white matte, speckling, and glow artifacts against varied backgrounds.
