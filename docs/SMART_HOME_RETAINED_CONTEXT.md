@@ -500,3 +500,16 @@ Current staged state:
 - write certification must prove recoverable pre-change state, prepare/diff approval, remote-change protection, apply, stored read-back, rollback, and separate behavioral verification
 
 See `docs/CHATGPT_WEBCORE_MCP_ARCHITECTURE.md` for the detailed architecture and design history.
+
+## Windows VM production MCP cutover (2026-10-07/08)
+
+The earlier Mac foreground bridge description is superseded for the **active read path** by an unattended Windows VM runtime. This is user-reported operational acceptance, not a claim that every recovery/cleanup gate is complete. Detailed deployment/recovery evidence and outstanding work: [WINDOWS_WEBCORE_MCP_RUNTIME.md](WINDOWS_WEBCORE_MCP_RUNTIME.md) and issue #23.
+
+- Host TERMINAL: Windows client VM, 8 logical CPUs, approximately 15 GB RAM, Node.js 24, Git, webcore-CLI 0.4.9, official OpenAI tunnel-client v0.0.15.
+- Windows Task Scheduler task `SmartHome-WebCoRE-MCP` runs as SYSTEM at startup in Session 0, without user login. The previous interactive process was stopped after controlled cutover.
+- Service-specific configuration uses `XDG_CONFIG_HOME` to select the protected machine-local WebCoRE toolkit config, not SYSTEM's default user profile. Both the WebCoRE dashboard connection and direct Maker API configuration must be present. Credentials are never stored in Git.
+- The first reboot proved only process startup. A Business MCP request then failed because the SYSTEM process lacked the user-profile WebCoRE config. After relocating config and correcting the service environment, the user reported a successful **second unattended reboot/no-login Business end-to-end test**.
+- User-reported inventory after the fix: Maker API **96** authorized devices, WebCoRE **95**. These are different authorization surfaces; the one-device delta has not been identified and does not alone prove a defect.
+- The old user-scoped runtime API key environment variable was removed; the SYSTEM runtime uses a protected machine-local key file. File ACL protection does not imply encryption at rest.
+- Do not mark full infrastructure retirement complete until Mac predecessor cleanup, crash-recovery/duplicate detection, backup/retention, monitoring, rollback, credential hygiene and documentation are verified.
+- API Platform identity remains separate from ChatGPT Business. The Platform organization was named Kane Consulting; an attempted invitation of the business-email identity as Owner failed in both incognito and normal sessions. Business membership does not confer Platform organization membership. Orphaned runtime key revocation remains pending.
