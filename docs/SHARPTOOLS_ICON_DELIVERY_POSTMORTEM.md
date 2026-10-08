@@ -74,6 +74,20 @@ The user requirement is categorical: **When the user says "approved", no visible
 - [ ] All provided download paths exist and point to the inspected artifacts.
 - [ ] If any check fails, stop delivery and return to preview/approval; never claim success.
 
+## V2.1 preview transparency regression
+
+V2 was approved. V2.1 changed visible lamp geometry and glow instead of preserving the V2 design. It also showed a checkerboard pattern as part of the preview without establishing actual alpha transparency. The user rejected V2.1.
+
+**New required gate before showing a preview for approval:**
+- A preview claimed to be transparent must come from an actual alpha-bearing source file, not a flattened image with a checkerboard pattern.
+- Check corner and background alpha values: empty background must be alpha zero, including between silhouette elements. RGBA mode by itself does not prove this.
+- When transparency is uncertain, composite the same file over both light and dark backgrounds to demonstrate real transparency.
+- If the preview has a baked-in checkerboard or background, label it as flattened and do not seek final export approval. Create a verifiably transparent master and show that for approval.
+- An approved version is the immutable baseline. Later versions may change only explicitly requested properties, and any visible difference requires separate approval.
+- Perform the transparency gate before approval, not merely at ZIP creation.
+
+**Disposition:** V2 remains the accepted visual baseline; V2.1 is rejected.
+
 ## Scope and current disposition
 
 This is a process postmortem, not proof that the Sadie lamp ZIP issue has been resolved. The prior mismatched exports are **rejected**. The user-supplied approved side-by-side lamp mockup is the design reference. A future delivery must be exported faithfully from that approved source, or must first receive renewed approval for an export-ready reference.
