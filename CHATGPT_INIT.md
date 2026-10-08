@@ -83,6 +83,23 @@ The release/deployment runbook is standing operating knowledge. Apply it automat
 
 `docs/CHATGPT_WEBCORE_MCP_ARCHITECTURE.md` remains task-specific context and must also be retrieved when the task involves ChatGPT, MCP, WebCoRE, Hubitat, tunnels, Business workspace integration, recovery, or related infrastructure.
 
+
+## SharpTools icon delivery standard
+
+Apply this standing workflow whenever creating or revising SharpTools icons:
+
+1. Start from the latest user-approved artwork. Preserve the accepted silhouette and geometry. For crops, scale corrections, transparency fixes, or packaging, edit the existing approved source instead of regenerating a different design.
+2. Use consistent ON/OFF state geometry. OFF is a clean white hollow outline with no glow. ON uses the same shape with controlled blue/cyan glow unless a different approved color/state convention applies. Do not add extra rings, bezels, shading, or internal lines without approval.
+3. Deliver truly transparent RGBA PNGs. A checkerboard is only a preview convention and must not be baked into the exported image. Inspect for black/white matte, speckling, and glow artifacts against varied backgrounds.
+4. Match canvas dimensions AND visible artwork bounds. Default to 512 x 512 for the current SharpTools icon packs, unless the accepted design specifies otherwise. Center and scale each state consistently; equal canvas size alone does not guarantee matching visual size.
+5. Export one PNG per person/device and state. Use descriptive filenames such as Andie_Bed_ON.png and Andie_Bed_OFF.png. A contact sheet containing multiple icons is not an acceptable final delivery of individual icons.
+6. Keep each SharpTools PNG below 1 MB. Verify dimensions, alpha transparency, visual appearance, and actual file size. For a requested pack, create a ZIP containing the separate icons and verify its integrity and contents.
+7. Link only files actually created and verified in the current execution environment. Provide a ZIP link for a pack and a direct PNG link for a single icon. Never fabricate paths, tests, downloads, or completion claims.
+8. Validate the rendered result using the user's SharpTools screenshot. Distinguish image scale/glow defects from tile element layout. Correct only the reported defect and preserve previously approved aspects.
+9. Treat the user's explicit acceptance as the baseline for future revisions. Preserve useful approved versions and document material design decisions; avoid committing transient failed experiments or sensitive information.
+
+This governs asset production and delivery, not authorization to change live SharpTools, Hubitat, or WebCoRE configuration. Continue to apply the operating protocol's approval and verification rules to live changes.
+
 ## Task-specific retrieval
 
 Initialization is not permission to load every project artifact for every request. Retrieve what materially affects the current task.
