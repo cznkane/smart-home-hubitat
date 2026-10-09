@@ -93,3 +93,30 @@ V2 was approved. V2.1 changed visible lamp geometry and glow instead of preservi
 This is a process postmortem, not proof that the Sadie lamp ZIP issue has been resolved. The prior mismatched exports are **rejected**. The user-supplied approved side-by-side lamp mockup is the design reference. A future delivery must be exported faithfully from that approved source, or must first receive renewed approval for an export-ready reference.
 
 Do not infer that this documentation authorizes modifications to live SharpTools, Hubitat, or WebCoRE. Follow the operating protocol for operational changes.
+
+
+## 2026-10-09: Kids Away repeat failure and hard-stop production contract
+
+**Incident:** The user approved the running ponytail child design (white OFF / cyan-blue ON). Instead of exporting the approved art, the assistant called image generation again, producing a different pair with a flattened checkerboard. The assistant then described the result as an icon set. This is the same failure mode as the lamp and pool icon incidents, despite the earlier postmortem. The repeated failure demonstrates that prose reminders alone are not an effective control.
+
+**Root cause:** Design generation and artifact production were not separated by a tool-level gate. The assistant treated approval as permission to make a new rendition rather than permission to export the existing rendition. The preview had no independently verified transparent per-state master. As a result, the task was not actually export-ready at approval time.
+
+### Mandatory hard stops (apply to ALL SharpTools icon work)
+
+1. **Before showing an approval candidate:** Produce separate OFF and ON source assets with genuine alpha transparency, preferably deterministic SVG or layered RGBA. If the displayed concept is generated and has no verified export-ready masters, explicitly label it *concept only, not approvable for production*; request approval of export-ready files later. A visually attractive image does not satisfy the source gate.
+2. **Before requesting final approval:** Verify each actual state file, not merely a side-by-side screenshot: transparent background between contours and at corners, correct geometry, clean edges, no foreign pixels, correct state-specific appearance. Composite the actual state PNGs on light and dark backdrops for review. Record file paths, dimensions, content hashes and whether source is editable.
+3. **At approval:** Freeze exact per-state file bytes or the export-ready layered/vector master plus deterministic export parameters. Approval is not authorization to call a generative image tool again. **Do not call image generation after approval** for production assets. Do not reconstruct by tracing, color-keying a checkerboard, or inventing a new silhouette.
+4. **If only a flattened/checkerboard concept exists:** STOP. State that the source cannot be faithfully exported as transparent without altering pixels; obtain a newly reviewed export-ready master. Never silently substitute a redraw. The earlier concept approval remains design direction, not final artifact approval.
+5. **For change requests like “glow ONLY”:** Modify a copy of the exact original using deterministic layer operations; keep the source layer byte-identical in the composite, and add glow only underneath. Verify before/after geometry, scale, placement and source pixels. No generative calls.
+6. **For splitting combined images:** Never assume the midpoint is a safe crop. Inspect both objects' actual visible and halo bounds; prevent neighboring icon/glow bleed. If clean separation is impossible, STOP and request independent masters.
+7. **For packaging:** Never create or announce a ZIP before source/approval/export gates pass. Check alpha, pixel-faithful comparison, per-file size (<1 MB), ZIP integrity, and actual linked paths. A ZIP integrity test is NOT a visual fidelity test.
+8. **When a user reports “fail” or rejects a delivery:** Mark the variant rejected, retain the previous approved source, diagnose the specific gate failure, and **do not generate a new replacement without a new design request**. Show corrected actual exported files before delivery.
+
+### Kids Away disposition and recovery
+
+- **Approved design direction:** Side-by-side running ponytail child, backpack and skirt, white OFF and bright electric-blue/cyan ON. The first concept was approved by the user.
+- **Rejected:** Subsequent regenerated “transparent checkerboard” version; not source-faithful and not proven transparent.
+- **Current production status:** **NOT DELIVERED / NOT APPROVED FOR EXPORT.** Do not claim there is a usable Kids Away ZIP or that the first concept can be exactly extracted until the source is inspected.
+- **Recovery:** Locate the exact originally approved image; inspect whether it has genuine alpha and separable per-state art. If it does, use deterministic pixel-preserving extraction, inspect each state, and seek approval on the actual export-ready assets. If it does not, stop and prepare a transparent master with explicit renewed approval. Never silently regenerate after approval.
+
+**Enforcement phrase:** *No source, no export. No verified transparency, no final approval. No generation after approval. No ZIP before fidelity proof.*
