@@ -501,6 +501,9 @@ Current staged state:
 
 See `docs/CHATGPT_WEBCORE_MCP_ARCHITECTURE.md` for the detailed architecture and design history.
 
+
+**CURRENT-RUNTIME PRECEDENCE (2026-10-12 reconciliation):** For MCP incidents, the Windows VM `TERMINAL` is the documented active production host, not the historical Mac foreground bridge. The Windows Task Scheduler task `SmartHome-WebCoRE-MCP` was already commissioned under SYSTEM with startup and post-second-reboot read-path acceptance. See `docs/WINDOWS_WEBCORE_MCP_RUNTIME.md` for exact service/configuration/evidence and #23 for unfinished crash recovery, monitoring and predecessor retirement. Historical Mac foreground sections below are not current operating instructions. Current live service state still requires observation.
+
 ## Windows VM production MCP cutover (2026-10-07/08)
 
 The earlier Mac foreground bridge description is superseded for the **active read path** by an unattended Windows VM runtime. This is user-reported operational acceptance, not a claim that every recovery/cleanup gate is complete. Detailed deployment/recovery evidence and outstanding work: [WINDOWS_WEBCORE_MCP_RUNTIME.md](WINDOWS_WEBCORE_MCP_RUNTIME.md) and issue #23.
