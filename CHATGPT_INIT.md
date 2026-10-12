@@ -8,6 +8,10 @@
 
 This file is the front door for a ChatGPT session working on the Smart Home project. It does not replace or duplicate the canonical operating protocol. Its purpose is to make initialization deterministic and prevent a new or context-poor chat from operating from memory, assumptions, stale assistant claims, or incomplete project state.
 
+## Mandatory current-runtime precedence for MCP incidents
+
+For ChatGPT/WebCoRE MCP connection, availability, resilience, tunnel, or runtime incidents, **also read `docs/WINDOWS_WEBCORE_MCP_RUNTIME.md` before diagnosing**. The active deployment documented as of 2026-10-07/08 is the Windows VM `TERMINAL`, with Windows Task Scheduler `SmartHome-WebCoRE-MCP` under SYSTEM, not the historical foreground Mac bridge. The Mac remains a predecessor/rollback candidate pending controlled retirement. The Windows record overrides older Mac-current wording in the protocol, architecture, or release history. Distinguish documented deployment state from live state; inspect current service/runtime/log evidence before attributing a new failure. Do not recommend re-commissioning an already deployed startup service. Outstanding crash-recovery and hardening acceptance remains tracked in #23.
+
 ## Mandatory initialization
 
 Before performing Smart Home technical work:
