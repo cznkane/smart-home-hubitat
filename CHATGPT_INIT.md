@@ -12,6 +12,10 @@ This file is the front door for a ChatGPT session working on the Smart Home proj
 
 For ChatGPT/WebCoRE MCP connection, availability, resilience, tunnel, or runtime incidents, **also read `docs/WINDOWS_WEBCORE_MCP_RUNTIME.md` before diagnosing**. The active deployment documented as of 2026-10-07/08 is the Windows VM `TERMINAL`, with Windows Task Scheduler `SmartHome-WebCoRE-MCP` under SYSTEM, not the historical foreground Mac bridge. The Mac remains a predecessor/rollback candidate pending controlled retirement. The Windows record overrides older Mac-current wording in the protocol, architecture, or release history. Distinguish documented deployment state from live state; inspect current service/runtime/log evidence before attributing a new failure. Do not recommend re-commissioning an already deployed startup service. Outstanding crash-recovery and hardening acceptance remains tracked in #23.
 
+## Conversational checkpoint shorthand: `go`
+
+During an active, step-by-step Smart Home workflow, when the assistant has just issued a specific action with an explicit **expected success result**, the user's reply **`go`** means **the action was performed and returned the expected result; proceed to the next step**. Do not ask the user to paste or re-verify that same expected result, and do not repeat the completed step. Carry the successful checkpoint forward as **user-reported expected success**, not as independently observed tool evidence. This shorthand is contextual: it does not override an explicitly reported error, authorize an unrelated destructive change, or mean that untested downstream behavior is verified. If the expected result was ambiguous or an additional independent safety gate is genuinely required, explain the specific new gate rather than re-asking for the same confirmation.
+
 ## Mandatory initialization
 
 Before performing Smart Home technical work:
