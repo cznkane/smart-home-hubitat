@@ -321,6 +321,9 @@ Avoid duplicated policy across pistons.
 
 ## 13. Canonical current architecture
 
+**CURRENT DEPLOYMENT OVERRIDE (2026-10-12 documentation reconciliation):** The production MCP bridge is the Windows VM `TERMINAL`, not the Mac. The authoritative active-runtime record is `docs/WINDOWS_WEBCORE_MCP_RUNTIME.md`. Its Windows Task Scheduler task `SmartHome-WebCoRE-MCP` launches tunnel-client v0.0.15 under SYSTEM at startup, using protected machine-scoped configuration and `XDG_CONFIG_HOME`. The earlier Mac diagram and foreground instructions below are historical architecture, retained for audit/rollback only. Before any MCP diagnosis, read the Windows runtime record, inspect actual current runtime/service evidence, and do not presume either a foreground Terminal dependency or that service recovery has been fully proven. A healthy tunnel alone does not prove downstream MCP/WebCoRE/Maker API health. The Mac predecessor remains pending controlled retirement; #23 tracks outstanding recovery acceptance.
+
+
 Primary stack:
 - Hubitat
 - WebCoRE
