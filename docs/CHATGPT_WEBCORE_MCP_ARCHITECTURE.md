@@ -46,6 +46,10 @@ For every material installation or architecture step, record:
 
 Where practical, separate **environment-specific values** from the reusable procedure so the same runbook can be used for another customer without copying identifiers or secrets. The desired end state is an install/runbook that is reproducible, supportable, auditable, and suitable for controlled client deployments.
 
+## Current production deployment (supersedes historical Mac diagrams)
+
+**Active production as documented 2026-10-07/08:** ChatGPT Business private WebCoRE MCP plugin → OpenAI secure tunnel → Windows VM `TERMINAL` → official tunnel-client v0.0.15 → webcore-CLI 0.4.9 MCP stdio → Hubitat WebCoRE / Maker API. Startup is via Windows Task Scheduler `SmartHome-WebCoRE-MCP`, running as SYSTEM in Session 0 without user login. Configuration and credential references are machine-scoped under protected `C:\ProgramData\SmartHome\WebCoRE`; `XDG_CONFIG_HOME` is required for downstream credentials. Successful post-second-reboot end-to-end read access was user-reported. **Unproven:** crash recovery, duplicate prevention, alerting, full operational hardening, and predecessor retirement (#23). Consult `docs/WINDOWS_WEBCORE_MCP_RUNTIME.md` first for current Windows state and evidence. The Mac architecture and foreground operations below are **historical**, not current production instructions. A `McpServerError: Session terminated` is not by itself proof of Hubitat/WebCoRE failure or proof of a particular process failure.
+
 ## Architectural configuration
 
 ```text
