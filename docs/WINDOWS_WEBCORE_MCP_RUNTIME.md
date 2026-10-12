@@ -36,3 +36,11 @@ User-scoped `CONTROL_PLANE_API_KEY` was removed after service credential commiss
 - Verify the 96-versus-95 authorized-device difference if a complete inventory parity requirement is adopted; unequal counts are not inherently wrong.
 - Historical log collector, JSONL retention, reconnect logic and backups remain uncommissioned (#25).
 - Update architecture diagrams and deployment/recovery runbooks to reflect Windows as active runtime. Do not declare full no-dust completion until that is done.
+
+## October 12, 2026 recovery acceptance
+
+User confirmed: MCP task execution limit changed from 72 hours to unlimited (PT0S). A separate SYSTEM scheduled task named SmartHome-WebCoRE-Watchdog checks every five minutes using a protected Watchdog.ps1 script in ProgramData. It checks the expected tunnel-client executable process, avoids starting a duplicate, logs recovery requests, and uses a 15-minute recovery-attempt cooldown. The task launches PowerShell with process-scoped RemoteSigned; the machine execution policy was not changed. Script ACL showed SYSTEM and Administrators only.
+
+Healthy-path test exited zero and preserved tunnel PID 7820. Controlled failure test force-stopped PID 7820; watchdog requested service task start and PID 6908 appeared. Log recorded the recovery request. Task Scheduler then showed MCP result 267009 (running) and watchdog result 0 with a future scheduled run. User then independently tested ChatGPT Business read-only calls after recovery: WebCoRE dashboard connected, fresh hub snapshot, MCP version 0.4.9, and Maker API returned 94 authorized devices. Both calls succeeded with no writes. Inventory count is a snapshot and not a device-health guarantee.
+
+Remaining hardening: prove reboot persistence, log rotation, failed-start behavior, alerts, backup/rollback, and controlled Mac predecessor retirement. Process presence alone does not guarantee application health. Track in issue #23.
