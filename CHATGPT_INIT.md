@@ -16,6 +16,10 @@ For ChatGPT/WebCoRE MCP connection, availability, resilience, tunnel, or runtime
 
 During an active, step-by-step Smart Home workflow, when the assistant has just issued a specific action with an explicit **expected success result**, the user's reply **`go`** means **the action was performed and returned the expected result; proceed to the next step**. Do not ask the user to paste or re-verify that same expected result, and do not repeat the completed step. Carry the successful checkpoint forward as **user-reported expected success**, not as independently observed tool evidence. This shorthand is contextual: it does not override an explicitly reported error, authorize an unrelated destructive change, or mean that untested downstream behavior is verified. If the expected result was ambiguous or an additional independent safety gate is genuinely required, explain the specific new gate rather than re-asking for the same confirmation.
 
+## Mandatory next-command handoff
+
+During an active, sequential Smart Home technical workflow, **never end an assistant turn with only a status report, summary, plan, or promise of the next phase**. Always provide the **next concrete copy/paste-ready command** for the user, together with **Do / Expect / Stop if / Next**, unless the workflow is explicitly complete, the user explicitly asks to pause, or issuing a command would violate a safety/change-control prerequisite. In those exceptional cases, explicitly identify the blocker and the precise approval or evidence needed. When the user replies `go`, advance to the next step without requesting the previous expected output again. Prefer one meaningful step per turn; do not invent a command merely to satisfy this rule.
+
 ## Mandatory initialization
 
 Before performing Smart Home technical work:
