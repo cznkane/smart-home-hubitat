@@ -44,3 +44,7 @@ User confirmed: MCP task execution limit changed from 72 hours to unlimited (PT0
 Healthy-path test exited zero and preserved tunnel PID 7820. Controlled failure test force-stopped PID 7820; watchdog requested service task start and PID 6908 appeared. Log recorded the recovery request. Task Scheduler then showed MCP result 267009 (running) and watchdog result 0 with a future scheduled run. User then independently tested ChatGPT Business read-only calls after recovery: WebCoRE dashboard connected, fresh hub snapshot, MCP version 0.4.9, and Maker API returned 94 authorized devices. Both calls succeeded with no writes. Inventory count is a snapshot and not a device-health guarantee.
 
 Remaining hardening: prove reboot persistence, log rotation, failed-start behavior, alerts, backup/rollback, and controlled Mac predecessor retirement. Process presence alone does not guarantee application health. Track in issue #23.
+
+### October 12 reboot test (partial acceptance)
+
+Watchdog repetition verified as PT5M, blank duration, StopAtDurationEnd=False. After reboot, user reported MCP scheduled task Running, watchdog task Ready, exactly one tunnel-client process (PID 2140, created 11:42:10 AM). Watchdog LastRunTime 11:39:00 AM (before reboot), result 0, next scheduled 11:43:59 AM. Thus service boot recovery is verified, but first post-reboot watchdog execution and Business read path remain to be verified; do not mark these complete yet.
