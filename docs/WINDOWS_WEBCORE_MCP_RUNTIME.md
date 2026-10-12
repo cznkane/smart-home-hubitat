@@ -48,3 +48,5 @@ Remaining hardening: prove reboot persistence, log rotation, failed-start behavi
 ### October 12 reboot test (partial acceptance)
 
 Watchdog repetition verified as PT5M, blank duration, StopAtDurationEnd=False. After reboot, user reported MCP scheduled task Running, watchdog task Ready, exactly one tunnel-client process (PID 2140, created 11:42:10 AM). Watchdog LastRunTime 11:39:00 AM (before reboot), result 0, next scheduled 11:43:59 AM. Thus service boot recovery is verified, but first post-reboot watchdog execution and Business read path remain to be verified; do not mark these complete yet.
+
+Post-reboot watchdog execution subsequently verified: LastRunTime 2026-10-12 11:44:00 AM, LastTaskResult 0, NextRunTime 11:48:59 AM. This closes watchdog post-reboot scheduling acceptance. Post-reboot Business read verification remains pending.
