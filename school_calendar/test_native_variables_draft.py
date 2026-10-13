@@ -38,6 +38,14 @@ class NativeDraftTests(unittest.TestCase):
         self.assertFalse(any(n.get("n") == "adddays" for n in walk(local_date(False))))
         self.assertTrue(any(n.get("n") == "adddays" for n in walk(local_date(True))))
 
+    def test_boolean_branches_use_native_boolean_nodes(self):
+        for tomorrow in (False, True):
+            nodes = list(walk(school_expression(tomorrow)))
+            bools = [n for n in nodes if n.get("t") == "boolean"]
+            self.assertTrue(bools)
+            self.assertTrue(all(n.get("v") in ("true", "false") for n in bools))
+            self.assertFalse(any(n.get("t") == "string" and n.get("v") in ("true", "false") for n in nodes))
+
     def test_all_function_arguments_are_wrapped(self):
         for root in (school_expression(False), school_expression(True)):
             for node in walk(root):
