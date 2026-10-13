@@ -3,7 +3,6 @@ import tempfile
 import unittest
 from datetime import date
 from pathlib import Path
-from calendar import monthrange
 
 from school_calendar.calendar import load_calendar, school_on_day
 
