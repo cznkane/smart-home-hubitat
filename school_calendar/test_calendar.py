@@ -19,9 +19,16 @@ class SchoolCalendarTests(unittest.TestCase):
             path.write_text(json.dumps(data))
             return load_calendar(path)
 
-    def test_provisional_is_blocked(self):
-        with self.assertRaisesRegex(ValueError, "not verified"):
-            load_calendar(DATA)
+    def test_unverified_submission_is_blocked(self):
+        data = {**self.data, "status": "provisional"}
+        with tempfile.TemporaryDirectory() as d:
+            path = Path(d) / "unverified.json"
+            path.write_text(json.dumps(data))
+            with self.assertRaisesRegex(ValueError, "not verified"):
+                load_calendar(path)
+
+    def test_current_verified_calendar_loads(self):
+        self.assertIsNotNone(load_calendar(DATA))
 
     def test_school_day(self):
         self.assertTrue(school_on_day(date(2026, 10, 14), self.verified()))
