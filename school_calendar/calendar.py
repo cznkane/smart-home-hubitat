@@ -32,3 +32,12 @@ def today_status(path, now=None):
         raise ValueError("Timezone-aware datetime required")
     day = now.astimezone(TZ).date()
     return {"date": day.isoformat(), "school": school_on_day(day, load_calendar(path))}
+
+def tomorrow_status(path, now=None):
+    """School attendance for the next local calendar day, for evening policy."""
+    from datetime import timedelta
+    now = now or datetime.now(TZ)
+    if now.tzinfo is None:
+        raise ValueError("Timezone-aware datetime required")
+    day = now.astimezone(TZ).date() + timedelta(days=1)
+    return {"date": day.isoformat(), "school": school_on_day(day, load_calendar(path))}
