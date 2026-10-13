@@ -41,3 +41,18 @@ def tomorrow_status(path, now=None):
         raise ValueError("Timezone-aware datetime required")
     day = now.astimezone(TZ).date() + timedelta(days=1)
     return {"date": day.isoformat(), "school": school_on_day(day, load_calendar(path))}
+
+
+def status_pair(path, now=None):
+    """Evaluate today and tomorrow from the same validated calendar snapshot."""
+    from datetime import timedelta
+    now = now or datetime.now(TZ)
+    if now.tzinfo is None:
+        raise ValueError("Timezone-aware datetime required")
+    today = now.astimezone(TZ).date()
+    tomorrow = today + timedelta(days=1)
+    calendar = load_calendar(path)
+    start, end, _ = calendar
+    if not start <= today <= end or not start <= tomorrow <= end:
+        raise ValueError("Calendar does not cover both dates; refuse publication")
+    return {"date": today.isoformat(), "school_today": school_on_day(today, calendar), "tomorrow_date": tomorrow.isoformat(), "school_tomorrow": school_on_day(tomorrow, calendar)}
