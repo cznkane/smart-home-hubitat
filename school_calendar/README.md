@@ -30,3 +30,13 @@ Run from repository root:
 
 ## Status
 Draft PR for review; no live writes.
+
+## Approved policy decisions — 2026-10-13
+- User-approved semantics: `@School` = students attend school **today**.
+- Evening/Modes timing must use **tomorrow's** student attendance, not today's `@School`. The read-only evaluator now exposes `tomorrow_status`; the WebCoRE consumer change is NOT implemented.
+- User accepts scraping the district's published academic calendar as authoritative, without requiring manual approval of each routine calendar update.
+- Academic calendar only; ignore events calendars.
+- District page exposes the academic calendar as a linked interactive app and official PDF; the main page itself does **not** list all closure dates. A scraper must fetch and parse the actual academic calendar, not infer days from page headings or events.
+- Source extraction is not implemented or tested yet. The provisional dataset remains blocked until a scraper with validation, source provenance and regression fixtures is implemented.
+- Scraper acceptance: reject missing year boundaries, missing/ambiguous closure labels, implausibly sparse data, unexpected structural changes, or contradictory dates. Retain last-known-good verified snapshot and alert on rejection; do not promote unverified content.
+- Distinguish daily runtime freshness checks from monthly content-change monitoring. Monthly ChatGPT report alone cannot guarantee a same-day closure update.
