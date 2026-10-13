@@ -6,8 +6,7 @@ rejects it until the official approved academic-calendar PDF is independently
 verified date by date. No source extraction has been claimed.
 
 Source: https://www.leanderisd.org/calendar/
-Official essentials PDF linked there:
-https://drive.google.com/file/d/1sXyGhcxW17UxvVXI5iTPcG1oGHXAz-pA/view
+Use the approved academic-calendar PDF linked from the district page; verify its URL before recording it.
 
 Run from repository root:
 `python -m unittest school_calendar.test_calendar`
