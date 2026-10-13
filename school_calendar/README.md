@@ -43,3 +43,6 @@ Draft PR for review; no live writes.
 
 ## ChatGPT publishing architecture
 See CHATGPT_HANDOFF.md. The monthly ChatGPT task currently reports changes; unattended GitHub publishing remains unverified. The new intake.py and validate.py validate a proposed verified calendar JSON but do not scrape the district website or write to WebCoRE. Run tests with `python -m unittest discover -s school_calendar -p 'test_*.py'` from the repository root. Do not merge before tests and the academic source are verified.
+
+## Simplified annual refresh policy — 2026-10-13
+User prefers a once-per-year official academic-calendar interpretation, rather than a recurring scraper or monthly automated publication. Keep the annual snapshot versioned in GitHub; evaluate today's and tomorrow's attendance locally each day. Do not require an unattended ChatGPT-to-GitHub publishing bridge for the initial release. The existing monthly ChatGPT calendar-diff reminder is optional monitoring, not part of runtime correctness. Preserve basic data sanity checks (year bounds, closures, source) but avoid an elaborate continuous scraping service. The remaining production blockers are a supported WebCoRE delivery mechanism, a stale-date guard for School Mornings, and review/approval of changes to the existing pistons. No live changes implied.
