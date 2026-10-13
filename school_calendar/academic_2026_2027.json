@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "provisional",
+  "status": "verified",
   "district": "Leander ISD",
   "timezone": "America/Chicago",
   "source": "https://www.leanderisd.org/calendar/",
@@ -63,5 +63,9 @@
     "2026-12-18",
     "2027-05-27"
   ],
-  "note": "PROVISIONAL: dates transcribed from earlier research; official PDF must be independently cross-checked before status=verified or any production synchronization."
+  "provenance": {
+    "retrieved_at": "2026-10-13",
+    "academic_calendar_url": "https://lisdhamrick.github.io/Academic-Calendar/26-27?dates=1&embed=1&header=0",
+    "basis": "Official Leander ISD calendar page links to interactive academic calendar; Important Dates list compared against all closure and early-release entries"
+  }
 }
