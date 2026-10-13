@@ -1,6 +1,6 @@
 # TERMINAL restricted VM management commissioning
 
-Status: implementation release candidate in cznkane/webcore-CLI PR #5; no production installation authorized or performed by this engineering task. Canonical tracking: issues #36 and #43. Current source, security assessment, pinned Windows CI artifacts and installation/recovery procedure are maintained with the implementation PR. This record does not certify installed TERMINAL state.
+Status: PR #5 merged with user approval as f4c3ca3a78338dbe8d22464ec517ba40dfb80eac; production installation authorized but preflight stopped before provisioning. Corrective 0.4.12 implementation is under review in cznkane/webcore-CLI PR #8. No production installation or cutover has occurred. Canonical tracking: issues #36 and #43. Current source, security assessment, pinned Windows CI artifacts and installation/recovery procedure are maintained with the implementation PR. This record does not certify installed TERMINAL state.
 
 ## Architecture
 
@@ -22,7 +22,7 @@ Controlled cutover inhibits the watchdog only for the transaction, changes only 
 2. Download the successful Windows CI artifact and independently verify its digest. Extract into an administrator-owned directory whose ancestors prevent ordinary-user replacement. Do not run a floating branch archive or weaken permissions/execution policy.
 3. Run the packaged preflight. It checks package components, immutable source/ancestors, existing runtime identity/launcher, protected files, Node 24, firewall profiles and task state. No live changes occur. Ambiguous or unexpected current state is a stop condition.
 4. Install only the new boundary. Reinstall is validation-only. Existing task XML, tunnel YAML, watchdog/SMTP files and credential files are retained. The selected operator identity is fixed from the administrator session. Initial cutover is independently queued/approved through the installed window.
-5. Verify installed hashes/ACLs, limited identity, actual Node payload, MCP initialize/tools, exactly one intended tunnel, Business Admin refresh and fresh-chat status/Maker reads plus one approved syntax request. Expected enabled 0.4.11 inventory: 25 tools, 19 read and 6 write, subject to exact pinned source verification.
+5. Verify installed hashes/ACLs, limited identity, actual Node payload, MCP initialize/tools, exactly one intended tunnel, Business Admin refresh and fresh-chat status/Maker reads plus one approved syntax request. Expected enabled 0.4.12 inventory: 25 tools, 19 read and 6 write, subject to exact pinned source verification.
 6. Complete controlled reboot and rollback acceptance only after separate authorization, then classify active/rollback/retire/investigate inventory and document real outcomes.
 
 GitHub Windows hosted CI is development evidence, not evidence that TERMINAL has been changed. Production schedules, device logic, active/paused pistons and tunnel credentials are outside this installation's mutation scope.
@@ -41,3 +41,11 @@ Live WebCoRE status reported plugin 0.4.10, connected=true, dashboard_confirmed=
 ## Pinned development evidence
 
 Implementation candidate `08f6d436870240df85bf4fddd5bd02b072925d81` (0.4.11) passed repository workflow 38461610646 and Windows workflow 38461610758. Windows evidence includes 119 full-suite tests, 16 native checks and real limited-account installation/restart/staging/deployment/rollback/recovery/uninstall checks. Artifact 11846107735 is bound to that commit; its outer ZIP SHA-256 is be6ac7e63489f527f5f50dc8c3da5043557855deb42ec14bfdc2f1085cce2997. No production commissioning is implied. Deferred profile cleanup registration is tested; the subsequent real reboot cleanup is still a retirement gate.
+
+## TERMINAL preflight incident and correction (2026-10-13)
+
+User-reported administrator output verified both artifact checksums, then 0.4.11 preflight stopped with `Unique current MCP payload path not established`. Read-only local task/process evidence identified active configuration `C:\ProgramData\SmartHome\WebCoRE\webcore-windows.yaml`, Node `C:\Program Files\nodejs\node.exe`, and active script `C:/SmartHome/staging/webcore-cli-0.4.10/windows-readonly-launcher.cjs`. The prior content-based discovery selected `webcore-windows.pre-0.4.10.yaml`, a backup referencing the legacy source. This corrects the earlier inferred active-payload layout; legacy vm_git_status still does not prove active runtime identity.
+
+The reviewed launcher contains only strict mode, `WEBCORE_WINDOWS_MANAGEMENT_READONLY=enabled`, and `require('./server/index.js')`. Corrective PR #8 binds discovery to the task's actual single --config argument, verifies the running Node child, rejects stale backup substitution and unsupported wrapper code, preserves forward-slash/escaped/backslash pointer encoding, and catalogs the reviewed wrapper in baseline/candidate snapshots. Original unmanaged runtime-file verification allows unrelated documentation residue while preserving protected/hash checks on every snapshotted runtime file; managed payloads still enforce exact file sets. Windows CI now has direct and production-style wrapper layouts. The old staged 0.4.11 package is superseded for TERMINAL installation; do not modify its verified bytes or edit working production YAML to bypass preflight.
+
+Passing corrected Windows evidence and a new pinned artifact are required before resuming installation. Reboot, rollback and end-to-end management acceptance on TERMINAL remain pending. Installation authorization does not certify those gates or authorize unrelated device actions.
