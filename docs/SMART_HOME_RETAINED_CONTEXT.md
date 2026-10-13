@@ -516,3 +516,8 @@ The earlier Mac foreground bridge description is superseded for the **active rea
 - The old user-scoped runtime API key environment variable was removed; the SYSTEM runtime uses a protected machine-local key file. File ACL protection does not imply encryption at rest.
 - Do not mark full infrastructure retirement complete until Mac predecessor cleanup, crash-recovery/duplicate detection, backup/retention, monitoring, rollback, credential hygiene and documentation are verified.
 - API Platform identity remains separate from ChatGPT Business. The Platform organization was named Kane Consulting; an attempted invitation of the business-email identity as Owner failed in both incognito and normal sessions. Business membership does not confer Platform organization membership. Orphaned runtime key revocation remains pending.
+
+
+## Restricted Windows VM management preparation (2026-10-13)
+
+Issues #36/#43 and webcore-CLI PR #5 now track an integrated native broker, restricted worker, independent scoped UAC approvals and pinned installation/recovery package. See docs/WINDOWS_VM_MANAGEMENT_COMMISSIONING.md. This is a prepared release candidate, not commissioned production. Existing SYSTEM MCP/watchdog, credentials, schedules and piston/device state were not changed by the engineering task. Approval clicks remain independent; routine command relay is eliminated after successful commissioning. SYSTEM/local administrators remain a trust assumption. The legacy vm_git_status checkout is separate from the active payload; imported rollback snapshots must not be described as Git commits.
