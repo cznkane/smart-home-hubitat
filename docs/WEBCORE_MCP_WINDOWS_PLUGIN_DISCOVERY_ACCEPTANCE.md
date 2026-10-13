@@ -151,3 +151,20 @@ After the Admin screenshots showed 22 registered tools (17 read) and all four `v
 **Crucial unresolved postmortem point:** the precise event that caused ChatGPT exposure to transition from 17/18 to 22 is **not verified**. The operator had refreshed/saved Admin tools, inspected all toggles, and deleted failed prompts before a successful fresh-chat audit. This sequence is a timeline, **not proof** that deleting prompts, saving Admin configuration, or a cache expiration was the fix. Future releases must use the deterministic gate checks above and record any confirmed platform behavior. No further refresh/redeploy is justified solely by this now-passing gate.
 
 **Remaining closure:** verify stable operation as needed; classify v0.4.10 active path, v0.4.9 rollback, config backups and temporary files; update canonical runtime/retained context; merge this documentation PR after review. Do not delete the active v0.4.10 directory because it is named `staging`.
+
+## 10. 2026-10-13 release closure: two temporary YAML files retired
+
+Operator provided PowerShell output showing the scheduled task `SmartHome-WebCoRE-MCP` launches `C:\SmartHome\tunnel-client\v0.0.15\tunnel-client.exe run --config C:\ProgramData\SmartHome\WebCoRE\webcore-windows.yaml`. Four config hashes were checked: active `webcore-windows.yaml` and `webcore-windows.0.4.10.final.yaml` both `62FA8791A599A89C584BC9E284D11D6C5450F1563CA2208F9DB2391E3C4D56B6`; candidate `2BDD3599198E987F604AE47F18B5B2B5A49A678C519C9513D8632CEB8BEA39C4`; pre-0.4.10 backup `DFBC807670459E48A8282600BFA75C0D8538C1C9172830C35C1856E4E222E735`. No file contents or secrets were read.
+
+A guarded `Remove-Item -WhatIf` dry run named exactly two cleanup targets. After explicit operator go-ahead, a guarded real deletion returned:
+
+```text
+Removed: webcore-windows.0.4.10.candidate.yaml
+Removed: webcore-windows.0.4.10.final.yaml
+```
+
+**Post-cleanup independent connector verification:** `webcore_status` returned `connected: true`, `dashboard_confirmed: true`, `plugin_version: 0.4.10`. `vm_scheduled_tasks` returned MCP Running (last result `267009`) and watchdog Ready (last result `0`). `vm_processes` returned `tunnel-client.exe` PID 15472 with child `node.exe` PID 15820, plus separate `node.exe` PID 6476. The tool calls were read-only. The removal itself is operator-reported output, not an independent post-deletion filesystem listing.
+
+**Artifact disposition:** `C:\SmartHome\staging\webcore-cli-0.4.10` ACTIVE (preserve despite `staging` name); `C:\SmartHome\webcore-CLI` v0.4.9 ROLLBACK (preserve); `webcore-windows.yaml` ACTIVE; `webcore-windows.pre-0.4.10.yaml` ROLLBACK; candidate/final copies RETIRED; watchdog scripts, state/log files, `runtime.key`, `gmail-smtp.bin`, and toolkit preserved. No other files were removed.
+
+**Closure:** v0.4.10 production deployment and 22/22 tool / 4/4 VM diagnostic acceptance complete; approved temporary-YAML cleanup complete, with successful post-cleanup service checks. Remaining nonblocking uncertainties: exact cause of earlier ChatGPT tool exposure delay, significance of scheduled-task last-result code `267009`, and whether a separate Node process is expected. Do not describe those as proven faults or solved root causes. No further service restarts or deletions warranted by current evidence.
