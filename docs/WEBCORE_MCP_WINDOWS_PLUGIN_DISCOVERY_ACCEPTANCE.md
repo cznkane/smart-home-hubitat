@@ -132,3 +132,22 @@ Only close deployment after Gate K succeeds: `vm_status`, `vm_scheduled_tasks`, 
 - Canonical: `CHATGPT_INIT.md`; `docs/SMART_HOME_OPERATING_PROTOCOL.md`; `docs/WEBCORE_MCP_RELEASE_DEPLOYMENT_RUNBOOK.md`; `docs/SMART_HOME_RETAINED_CONTEXT.md`; `docs/WINDOWS_WEBCORE_MCP_RUNTIME.md`; `docs/CHATGPT_WEBCORE_MCP_ARCHITECTURE.md`.
 - OpenAI public help: [Plugins in ChatGPT](https://help.openai.com/en/articles/20001256-plugins-in-chatgpt), [Managing app permissions](https://help.openai.com/en/articles/20001495-managing-app-permissions-in-chatgpt), [Troubleshooting ChatGPT error messages](https://help.openai.com/en/articles/7996703-troubleshooting-chatgpt-error-messages).
 - The public help documents plugin selection and workspace availability; it does **not** prove why this particular 22-to-18 exposure discrepancy occurs. Preserve this uncertainty.
+
+## 9. 2026-10-13 acceptance update — passed, resolution mechanism unproven
+
+After the Admin screenshots showed 22 registered tools (17 read) and all four `vm_*` toggles ON, a subsequent new Business chat reported **22/22 exposed and 4/4 VM operations invoked successfully**. This is user-provided transcript evidence, not a tool call made by the author of this documentation. All four reported `read_only: true`.
+
+| Diagnostic | Observed result |
+|---|---|
+| `vm_status` | `TERMINAL`, Windows 11 Pro, 14.9 GiB total / 9.0 GiB available memory, 164.0 GiB free system drive |
+| `vm_scheduled_tasks` | `SmartHome-WebCoRE-MCP` Running, last result `267009`; `SmartHome-WebCoRE-Watchdog` Ready, last result `0` |
+| `vm_processes` | `node.exe` PID 6476 PPID 10492; `tunnel-client.exe` PID 15472 PPID 1576; `node.exe` PID 15820 PPID 15472 |
+| `vm_git_status` | Branch `main`, commit `e8eceeed487fe27dad566bdbe5ed50c160156d39`, clean tree, 0 changed files |
+
+**Acceptance:** tool exposure and four read-only diagnostic calls PASS. Resource/process/task presence and clean Git state PASS within their diagnostic scope. **Not independently proven:** whether the nonzero MCP task last result `267009` indicates a failure; remote Git synchronization; end-to-end application responsiveness from these four diagnostics alone. Previous separate `webcore_status` evidence did establish connected v0.4.10 service.
+
+**Git path interpretation:** `vm_git_status` reports the retained `C:\SmartHome\webcore-CLI` checkout at v0.4.9 commit; active v0.4.10 launcher is in `C:\SmartHome\staging\webcore-cli-0.4.10`. This is consistent with the documented rollback arrangement, but the diagnostic output alone does not certify the active checkout's Git status. Do not alter the old checkout just to change this report.
+
+**Crucial unresolved postmortem point:** the precise event that caused ChatGPT exposure to transition from 17/18 to 22 is **not verified**. The operator had refreshed/saved Admin tools, inspected all toggles, and deleted failed prompts before a successful fresh-chat audit. This sequence is a timeline, **not proof** that deleting prompts, saving Admin configuration, or a cache expiration was the fix. Future releases must use the deterministic gate checks above and record any confirmed platform behavior. No further refresh/redeploy is justified solely by this now-passing gate.
+
+**Remaining closure:** verify stable operation as needed; classify v0.4.10 active path, v0.4.9 rollback, config backups and temporary files; update canonical runtime/retained context; merge this documentation PR after review. Do not delete the active v0.4.10 directory because it is named `staging`.
