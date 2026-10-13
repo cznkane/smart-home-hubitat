@@ -29,10 +29,15 @@ GitHub Windows hosted CI is development evidence, not evidence that TERMINAL has
 
 ## Recovery and retirement
 
-Retain the original payload and protected original YAML as initial break-glass inventory. The packaged Recover mode disables the new management tasks and restores the original runtime, including original watchdog enablement; it avoids restarting an already-selected healthy original runtime. Uninstall requires prior recovery, removes only new tasks/account/profile/logon rights/outbound deny/shortcut/commissioning marker, and retains protected audit/recovery/payload files for explicit retirement. Do not declare no-dust completion while retained inventory lacks an owner and retirement condition.
+Retain the original payload and protected original YAML as initial break-glass inventory. The packaged Recover mode disables the new management tasks and restores the original runtime, including original watchdog enablement; it avoids restarting an already-selected healthy original runtime. Uninstall requires prior recovery, removes only new tasks/account/logon rights/outbound deny/shortcut/commissioning marker, and removes the worker profile or schedules protected cleanup at next startup if Windows retains its batch-logon hive, and retains protected audit/recovery/payload files for explicit retirement. Do not declare no-dust completion while retained inventory lacks an owner and retirement condition.
 
 The legacy vm_git_status tool inspects C:\SmartHome\webcore-CLI, which is not proof of the active versioned payload. Use management health plus actual process/MCP identity for the new active release. An initial imported snapshot is explicitly identified as a local snapshot, not a Git commit.
 
 ## Read-only evidence during preparation (2026-10-13)
 
 Live WebCoRE status reported plugin 0.4.10, connected=true, dashboard_confirmed=true and hub_snapshot. VM diagnostics identified TERMINAL Windows 11 Pro; the existing MCP task was Running, watchdog Ready with result zero, and the legacy inspected checkout was clean at e8eceeed487fe27dad566bdbe5ed50c160156d39. These observations prove read-path availability at their timestamps, not the installed worker or active-payload Git identity. No production write, installation, restart or device test was performed by this engineering task.
+
+
+## Pinned development evidence
+
+Implementation candidate `08f6d436870240df85bf4fddd5bd02b072925d81` (0.4.11) passed repository workflow 38461610646 and Windows workflow 38461610758. Windows evidence includes 119 full-suite tests, 16 native checks and real limited-account installation/restart/staging/deployment/rollback/recovery/uninstall checks. Artifact 11846107735 is bound to that commit; its outer ZIP SHA-256 is be6ac7e63489f527f5f50dc8c3da5043557855deb42ec14bfdc2f1085cce2997. No production commissioning is implied. Deferred profile cleanup registration is tested; the subsequent real reboot cleanup is still a retirement gate.
