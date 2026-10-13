@@ -1,10 +1,10 @@
 import json
 import tempfile
 import unittest
-from datetime import date
+from datetime import date, datetime, timezone
 from pathlib import Path
 
-from school_calendar.calendar import load_calendar, school_on_day
+from school_calendar.calendar import load_calendar, school_on_day, tomorrow_status
 
 DATA = Path(__file__).with_name("academic_2026_2027.json")
 
@@ -35,6 +35,14 @@ class SchoolCalendarTests(unittest.TestCase):
     def test_early_release_still_school(self):
         self.assertTrue(school_on_day(date(2026, 12, 18), self.verified()))
         self.assertTrue(school_on_day(date(2027, 5, 27), self.verified()))
+
+    def test_evening_looks_at_following_day(self):
+        data = {**self.data, "status": "verified"}
+        with tempfile.TemporaryDirectory() as d:
+            path = Path(d) / "calendar.json"
+            path.write_text(json.dumps(data))
+            result = tomorrow_status(path, datetime(2026, 10, 8, 23, 0, tzinfo=timezone.utc))
+            self.assertEqual(result, {"date": "2026-10-09", "school": False})
 
     def test_outside_year(self):
         self.assertFalse(school_on_day(date(2027, 6, 1), self.verified()))
