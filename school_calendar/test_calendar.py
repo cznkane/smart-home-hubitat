@@ -4,7 +4,7 @@ import unittest
 from datetime import date, datetime, timezone
 from pathlib import Path
 
-from school_calendar.calendar import load_calendar, school_on_day, tomorrow_status
+from school_calendar.calendar import load_calendar, school_on_day, tomorrow_status, status_pair
 
 DATA = Path(__file__).with_name("academic_2026_2027.json")
 
@@ -43,6 +43,24 @@ class SchoolCalendarTests(unittest.TestCase):
             path.write_text(json.dumps(data))
             result = tomorrow_status(path, datetime(2026, 10, 8, 23, 0, tzinfo=timezone.utc))
             self.assertEqual(result, {"date": "2026-10-09", "school": False})
+
+    def test_status_pair(self):
+        data = {**self.data, "status": "verified"}
+        with tempfile.TemporaryDirectory() as d:
+            path = Path(d) / "calendar.json"
+            path.write_text(json.dumps(data))
+            result = status_pair(path, datetime(2026, 10, 8, 23, tzinfo=timezone.utc))
+            self.assertEqual(result["date"], "2026-10-08")
+            self.assertTrue(result["school_today"])
+            self.assertFalse(result["school_tomorrow"])
+
+    def test_pair_refuses_uncovered_next_day(self):
+        data = {**self.data, "status": "verified"}
+        with tempfile.TemporaryDirectory() as d:
+            path = Path(d) / "calendar.json"
+            path.write_text(json.dumps(data))
+            with self.assertRaisesRegex(ValueError, "does not cover"):
+                status_pair(path, datetime(2027, 5, 27, 16, tzinfo=timezone.utc))
 
     def test_outside_year(self):
         self.assertFalse(school_on_day(date(2027, 6, 1), self.verified()))
