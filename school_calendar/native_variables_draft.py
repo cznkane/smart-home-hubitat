@@ -5,12 +5,15 @@ Native parser shapes for contains/concat/formatdatetime/$now were captured from
 the isolated TEST piston. adddays/weekdayname/isbetween/if shapes are inferred
 from the language DB and MUST be checked in the editor before production use.
 """
-from datetime import date
 from school_calendar.webcore_array import closure_array
 
 
 def literal(value):
     return {"t": "string", "v": value, "ok": True}
+
+
+def boolean(value):
+    return {"t": "boolean", "v": "true" if value else "false", "ok": True}
 
 
 def integer(value):
@@ -42,9 +45,9 @@ def school_expression(tomorrow=False):
     return function("if",
                     function("isbetween", day, literal("2026-08-12"), literal("2027-05-27")),
                     function("if", weekday,
-                             function("if", closed, literal("false"), literal("true")),
-                             literal("false")),
-                    literal("false"))
+                             function("if", closed, boolean(False), boolean(True)),
+                             boolean(False)),
+                    boolean(False))
 
 
 def draft_payload():
