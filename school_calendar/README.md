@@ -40,3 +40,6 @@ Draft PR for review; no live writes.
 - Source extraction is not implemented or tested yet. The provisional dataset remains blocked until a scraper with validation, source provenance and regression fixtures is implemented.
 - Scraper acceptance: reject missing year boundaries, missing/ambiguous closure labels, implausibly sparse data, unexpected structural changes, or contradictory dates. Retain last-known-good verified snapshot and alert on rejection; do not promote unverified content.
 - Distinguish daily runtime freshness checks from monthly content-change monitoring. Monthly ChatGPT report alone cannot guarantee a same-day closure update.
+
+## ChatGPT publishing architecture
+See CHATGPT_HANDOFF.md. The monthly ChatGPT task currently reports changes; unattended GitHub publishing remains unverified. The new intake.py and validate.py validate a proposed verified calendar JSON but do not scrape the district website or write to WebCoRE. Run tests with `python -m unittest discover -s school_calendar -p 'test_*.py'` from the repository root. Do not merge before tests and the academic source are verified.
