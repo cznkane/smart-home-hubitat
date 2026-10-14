@@ -329,7 +329,7 @@ The restricted management boundary uses a stricter package protocol in addition 
 - Existing installed broker/worker binaries are not upgraded merely by deploying a Node release. Native-boundary migration requires its own reviewed, tested and reversible procedure.
 - Draft release creation is a publication gate, not deployment authorization. Verify exact asset digests and Windows CI again before approving a production session.
 
-As of 2026-10-14, webcore-CLI PR #11 is the review candidate for this packaging flow and improved wrapped operator details. Production remains on accepted 0.4.14 until that candidate is reviewed, merged, packaged and separately approved.
+As of 2026-10-14, webcore-CLI PR #11 is the review candidate for this packaging flow and improved wrapped operator details. Candidate `b66335432d297c2c4ba9dabec7e9dade544e53b8` passed repository workflow 38639205398 and both direct/production-wrapper jobs in Windows workflow 38639205354. GitHub artifact 11930175283 has outer digest `30ccca5c024ddc694297a8c9a2f0ec59f5a7e9bfd6aae800e4c2a146a5ebc628`; production-wrapper artifact 11929856301 has outer digest `1f672b03ddae9e10d07afbb672988d9a761459b3200f8825f9b02627f7ceca66`. These are review artifacts, not a published release. Production remains on accepted 0.4.14 until the candidate is reviewed, merged, rebuilt as a draft release from the final main commit and separately approved.
 
 ## Definition of done
 
