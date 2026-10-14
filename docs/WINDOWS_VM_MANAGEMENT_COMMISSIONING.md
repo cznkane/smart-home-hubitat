@@ -1,6 +1,6 @@
 # TERMINAL restricted VM management commissioning
 
-Status: secure VM-management 0.4.14 is installed and initially cut over on TERMINAL. Exact release/digest, clean recovery, downstream read paths, fresh-chat exposure and one independently approved restricted syntax check are verified. Raw post-cutover protocol/installer output, reboot/live rollback acceptance, stability and retirement remain pending. See latest acceptance checkpoint below; issues #36/#43 remain open.
+Status: secure VM-management 0.4.14 is installed and accepted on TERMINAL. Exact release/digest, clean recovery, downstream read paths, fresh-chat exposure, a restricted syntax check, live rollback/restoration and reboot persistence are verified. Core issue #36 is closed. Full production `run_webcore_tests`, expanded remote authentication, stability/retirement and broader recovery work remain in #43, #47 and #23.
 
 ## Architecture
 
@@ -90,22 +90,24 @@ The independently approved initial deploy request 9765ea8bcdc8dee7f8ea12efa8066e
 
 Rick supplied a fresh-chat acceptance report for all three new management tools plus WebCoRE/Maker reads. Those management tools also became callable in the engineering chat. MCP queued run_webcore_syntax_check request c2485e9b9b5bd8d53f157af7a3dcfab6de1ece76cd3d5dfa; Rick approved through the native window; direct status retrieval proved succeeded, exitCode=0, durationMs=804, outputSuppressed=true. Subsequent health remained idle/clean and task reads remained healthy. This proves the restricted validation path works without PowerShell command relay. Each changing operation still needs independent scoped native approval; ChatGPT cannot issue the grant.
 
-Post-cutover installer Verify and independent stdio initialize/tools-list commands were supplied, but their explicit output was not pasted in this thread. Do not mark raw protocol/version/count/annotation certification from fresh-chat success alone. No reboot or live prior-release rollback acceptance has been performed. Those require separate approval; issues #36/#43 remain open. Hosted CI rollback is proven development evidence, not production rollback proof. The native list displays long JSON without wrapping; ChatGPT now reads status directly, but a readable details/status UI is an outstanding usability improvement.
+Post-cutover installer Verify and independent stdio initialize/tools-list commands were supplied, but their explicit output was not pasted in this thread. Do not mark raw protocol/version/count/annotation certification from fresh-chat success alone. The native list's long unwrapped JSON and the protected executable shortcut's Explorer-token behavior were subsequently treated as packaging/usability defects; webcore-CLI PR #11 contains a wrapping details pane, an elevation-safe shortcut and a pinned Setup EXE candidate. Those changes are not installed merely because the PR exists.
 
 ### Retained inventory
 
 | Inventory | Classification / owner | Retirement condition |
 | --- | --- | --- |
 | Managed 0.4.14 release and installed boundary | ACTIVE / Rick, SYSTEM-managed | Replace only through approved release workflow |
-| Previous 6ad12189afeda33bc161441b73396f4960179b0a, digest cb924e59ba96e1b7b36accde737f48374f8f737260b613b3f1e9c9709dfa1174 | ROLLBACK / Rick | Local imported snapshot identity, not a proven Git commit; retain through live rollback and stability acceptance |
-| Original 0.4.10 runtime and protected original YAML | BREAK-GLASS / Rick | Retain until live recovery/rollback and stability acceptance |
+| Previous 6ad12189afeda33bc161441b73396f4960179b0a, digest cb924e59ba96e1b7b36accde737f48374f8f737260b613b3f1e9c9709dfa1174 | ROLLBACK / Rick | Local imported snapshot identity, not a proven Git commit; live rollback passed, retain through stability/native-upgrade acceptance |
+| Original 0.4.10 runtime and protected original YAML | BREAK-GLASS / Rick | Live rollback passed; retain until stability/native-upgrade acceptance and explicit retirement |
 | Superseded 0.4.11/0.4.12/0.4.13 staging | RETAIN INCIDENT EVIDENCE / Rick | Review for scoped retirement after acceptance; no blind cleanup |
 | Both ACL backups and metadata audit/recovery | PROTECTED RECOVERY/AUDIT / Rick | Establish explicit retention before deletion; preserve original descriptors |
 
-### Proposed final production acceptance (not authorized/executed)
+### Final production acceptance evidence
 
-1. Approve a controlled rollback/redeploy pair and one TERMINAL reboot as a bounded maintenance session, with no device actions or automation edits. Recheck current health/scope immediately before each operation.
-2. Queue rollback_release for previous snapshot 6ad12189afeda33bc161441b73396f4960179b0a, digest cb924e59ba96e1b7b36accde737f48374f8f737260b613b3f1e9c9709dfa1174, expected current digest 1acac29bcf90c8e02679ea4e8702ac8b1c53a4d42427d75c95df9f1197585b8c. Rick independently approves once. Verify plugin 0.4.10, task/watchdog and both read paths. New management tools are expected to disappear from that older payload; do not infer broker loss.
-3. In the retained native approval window Rick uses Queue initial deployment and Approve once for the exact installed candidate 243860500b82f7a3c0ff91f5e5157e22b5e643a1 / manifest 1acac29bcf90c8e02679ea4e8702ac8b1c53a4d42427d75c95df9f1197585b8c. Verify restored 0.4.14 management health/status and both reads before continuing.
-4. After separate reboot approval, Rick performs one administrator-level Windows reboot; no reboot tool is in the worker allowlist. Verify existing MCP/watchdog plus new broker/worker recover, management health is idle/clean, correct release/tools remain and both read paths work. Do not force a reboot from arbitrary shell via MCP.
-5. Record actual results, raw MCP/installer checks, stability acceptance and explicit retained/retired inventory. Do not close the issues or certify full readiness before those gates.
+1. Rick separately approved the controlled live rollback. Request `a27d96e16c5235e48299e34606ca6892b6909df75098dab1` restored snapshot `6ad12189afeda33bc161441b73396f4960179b0a` / digest `cb924e59ba96e1b7b36accde737f48374f8f737260b613b3f1e9c9709dfa1174` and completed with `localProcessVerified=true`.
+2. Independent reads on the rollback state proved WebCoRE 0.4.10 connected/dashboard-confirmed, Maker API returned 96 authorized devices, the MCP task was Running, the watchdog was Ready/result zero, and exactly one tunnel/Node child was present. The management tools disappearing with the older payload was expected.
+3. Rick used the retained native one-use deployment flow to restore exact 0.4.14 commit `243860500b82f7a3c0ff91f5e5157e22b5e643a1` / digest `1acac29bcf90c8e02679ea4e8702ac8b1c53a4d42427d75c95df9f1197585b8c`. Independent management, WebCoRE and Maker reads proved idle/clean recovery and the restored downstream path.
+4. After separate approval, Rick rebooted TERMINAL. The existing MCP and watchdog recovered and independent reads again proved the exact 0.4.14 pin/digest, connected/dashboard-confirmed WebCoRE and 96-device Maker inventory.
+5. Post-reboot restricted syntax request `8ea4e2d47072036991e5726ce5e4e0a92085271d2663b762` succeeded with exit code zero, 1515 ms duration and suppressed output. Health remained idle/clean.
+
+This evidence closes the bounded core in #36. It does not close #43 because a full production `run_webcore_tests` request has not been accepted, #47 because remote authenticated approval/native upgrade is new work, or #23 because its broader recovery/retirement items remain.

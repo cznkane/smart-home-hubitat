@@ -317,6 +317,20 @@ The 2026-10-07 recovery established several permanent rules:
 - Do not disturb lower layers once evidence has exonerated them.
 - Finish with cleanup and documentation.
 
+## Windows VM-management installation packages
+
+The restricted management boundary uses a stricter package protocol in addition to the normal source/runtime gates:
+
+- Build only from a reviewed full commit reachable from canonical `main`; bind commit and archive SHA-256 into the installer.
+- Publish ZIP, Setup EXE and external SHA-256 files from the same successful Windows workflow. Native artifacts are currently unsigned, so the independently obtained release digest is mandatory.
+- The Setup EXE may stage only its embedded package into a fixed protected `C:\ProgramData\SmartHome\VmManagementInstall-<commit>` directory. It must reject traversal, alternate streams, reparse/symlink entries, Windows reserved names, duplicate paths, oversized archives, extra files, changed bytes, untrusted owners and foreign writers.
+- The executable exposes fixed installer modes only. It must not accept caller commands, paths, arguments or environment overrides, and it must not silently elevate or replace the existing MCP task identity.
+- Preflight, installation, verification, recovery and uninstall remain distinct. Installation does not authorize production cutover; each changing management operation still requires its own short-lived native grant.
+- Existing installed broker/worker binaries are not upgraded merely by deploying a Node release. Native-boundary migration requires its own reviewed, tested and reversible procedure.
+- Draft release creation is a publication gate, not deployment authorization. Verify exact asset digests and Windows CI again before approving a production session.
+
+As of 2026-10-14, webcore-CLI PR #11 is the review candidate for this packaging flow and improved wrapped operator details. Production remains on accepted 0.4.14 until that candidate is reviewed, merged, packaged and separately approved.
+
 ## Definition of done
 
 A deployment is complete only when:
