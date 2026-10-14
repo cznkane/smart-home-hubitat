@@ -1,0 +1,177 @@
+{
+  "Variables": {
+    "ok": true,
+    "id": ":d5f5963fee53c8113b294d4baf24c6e9:",
+    "expected_remote_hash": "df78afd9e70cb5840886e6e3dce5d36601b3cf7ea965d881b52d49e10fc245e9",
+    "proposed_hash": "f05f0ed70f0304e9faf0132a9be1aa7499fdd1b9836b562dfb63cd7e738c5eac",
+    "proposed_body_hash": "5e06c207ad30162fb96927e7a87b94dee1218562d00627936a5ee802d7616c16",
+    "body_fingerprint_version": 2,
+    "payload_format": "webcore-body",
+    "input_format": "body",
+    "body_summary": {
+      "logic_sections": 9,
+      "variables": 2,
+      "restrictions": 0
+    },
+    "language_hash": "72d7aeff12e053725692af7f71041275a8e1569d0c339546d2e4c7780d1e69dc"
+  },
+  "School_Mornings": {
+    "ok": true,
+    "id": ":917583854fbc49e5610e0ef27c2aa6d0:",
+    "expected_remote_hash": "a68dbbceab01316eb20b835097cd80e1140f760473f978803cfa39c5bdece0f0",
+    "proposed_hash": "2c891bf67c8d0cfc98bef3f8e4f7725f60136844bbc1df7f69b6035f7283775c",
+    "proposed_body_hash": "d896387e36deccf2cb9a61af41c6c62ffcdac5a2d19be4f7420ad48b1870b60a",
+    "body_fingerprint_version": 2,
+    "payload_format": "webcore-body",
+    "input_format": "body",
+    "body_summary": {
+      "logic_sections": 3,
+      "variables": 0,
+      "restrictions": 3
+    },
+    "language_hash": "72d7aeff12e053725692af7f71041275a8e1569d0c339546d2e4c7780d1e69dc"
+  },
+  "Modes": {
+    "ok": true,
+    "id": ":610151aa2ec89c411b197dcad7666d44:",
+    "expected_remote_hash": "ceb150e8da2d262528ce88da16f3496de9a23a015457fc9197df69a75a922b0a",
+    "proposed_hash": "80e964c853687d78b29666b3a7d4174161c77ed7742893d62cdf1810b7e2d9cc",
+    "proposed_body_hash": "a72994eb54487a9c073d1a9dea9715d979f06d9c0ae67a8464336861b6eec89d",
+    "body_fingerprint_version": 2,
+    "payload_format": "webcore-body",
+    "input_format": "body",
+    "body_summary": {
+      "logic_sections": 9,
+      "variables": 3,
+      "restrictions": 0
+    },
+    "language_hash": "72d7aeff12e053725692af7f71041275a8e1569d0c339546d2e4c7780d1e69dc"
+  },
+  "TEST_1": {
+    "ok": true,
+    "id": ":b17bb841eaced53aa7b1c04ae2218d7f:",
+    "expected_remote_hash": "44c56a7602ed85f4602faf80d54a89dc4908ec1a8a84352538ab42015c90f928",
+    "proposed_hash": "afc5e1118a55029b2268401b4cc020a266f47c53e7bb8e10aa87b5994dfc0074",
+    "proposed_body_hash": "6e85849a1a07b6ff1542317bb1f9efc1d206630bdcae9467b76539083f02fd1a",
+    "body_fingerprint_version": 2,
+    "payload_format": "webcore-body",
+    "input_format": "body",
+    "body_summary": {
+      "logic_sections": 20,
+      "variables": 10,
+      "restrictions": 0
+    },
+    "language_hash": "72d7aeff12e053725692af7f71041275a8e1569d0c339546d2e4c7780d1e69dc"
+  },
+  "TEST_2": {
+    "ok": true,
+    "id": ":b17bb841eaced53aa7b1c04ae2218d7f:",
+    "expected_remote_hash": "44c56a7602ed85f4602faf80d54a89dc4908ec1a8a84352538ab42015c90f928",
+    "proposed_hash": "ba37a1fb953702f438a077a72f5ac3557a00b45d20d336fc8a7cccd7df24a121",
+    "proposed_body_hash": "d6aad9ad8c86f332ae2c880e76bfabe2f50c56256265cf8bb5cf0e3aaaeb2a08",
+    "body_fingerprint_version": 2,
+    "payload_format": "webcore-body",
+    "input_format": "body",
+    "body_summary": {
+      "logic_sections": 20,
+      "variables": 10,
+      "restrictions": 0
+    },
+    "language_hash": "72d7aeff12e053725692af7f71041275a8e1569d0c339546d2e4c7780d1e69dc"
+  },
+  "TEST_3": {
+    "ok": true,
+    "id": ":b17bb841eaced53aa7b1c04ae2218d7f:",
+    "expected_remote_hash": "44c56a7602ed85f4602faf80d54a89dc4908ec1a8a84352538ab42015c90f928",
+    "proposed_hash": "90299494b1569a7fd48b057beab44f26234764fd41a14cfc33e20fcc59943230",
+    "proposed_body_hash": "43304852181e667f00e81b0397c6bf4c873347f370bdfac5b0d454ea1ff62223",
+    "body_fingerprint_version": 2,
+    "payload_format": "webcore-body",
+    "input_format": "body",
+    "body_summary": {
+      "logic_sections": 20,
+      "variables": 10,
+      "restrictions": 0
+    },
+    "language_hash": "72d7aeff12e053725692af7f71041275a8e1569d0c339546d2e4c7780d1e69dc"
+  },
+  "TEST_4": {
+    "ok": true,
+    "id": ":b17bb841eaced53aa7b1c04ae2218d7f:",
+    "expected_remote_hash": "44c56a7602ed85f4602faf80d54a89dc4908ec1a8a84352538ab42015c90f928",
+    "proposed_hash": "e2e248ab8a34f3190060dcc4d115f40bdf43e2376365f6d377fcbb6e6a1da680",
+    "proposed_body_hash": "ad14d6a5b9cd2f153a3ab35565e29104c1bfa575b1ab8953ad536a868951d554",
+    "body_fingerprint_version": 2,
+    "payload_format": "webcore-body",
+    "input_format": "body",
+    "body_summary": {
+      "logic_sections": 20,
+      "variables": 10,
+      "restrictions": 0
+    },
+    "language_hash": "72d7aeff12e053725692af7f71041275a8e1569d0c339546d2e4c7780d1e69dc"
+  },
+  "TEST_5": {
+    "ok": true,
+    "id": ":b17bb841eaced53aa7b1c04ae2218d7f:",
+    "expected_remote_hash": "44c56a7602ed85f4602faf80d54a89dc4908ec1a8a84352538ab42015c90f928",
+    "proposed_hash": "b9b93c65474c480a2cc2a0f92af8f8122e8c195bc1659fd845f148cb8b2c68cb",
+    "proposed_body_hash": "0d0800807c6792c821f982a356d0bdbeeffec7c2d5704024d464d4ba2b9f5fd5",
+    "body_fingerprint_version": 2,
+    "payload_format": "webcore-body",
+    "input_format": "body",
+    "body_summary": {
+      "logic_sections": 20,
+      "variables": 10,
+      "restrictions": 0
+    },
+    "language_hash": "72d7aeff12e053725692af7f71041275a8e1569d0c339546d2e4c7780d1e69dc"
+  },
+  "TEST_6": {
+    "ok": true,
+    "id": ":b17bb841eaced53aa7b1c04ae2218d7f:",
+    "expected_remote_hash": "44c56a7602ed85f4602faf80d54a89dc4908ec1a8a84352538ab42015c90f928",
+    "proposed_hash": "eaa81100c06e5dbf6c862ba2ce054662fea1cf0cda57edee04b3c173cdf156e8",
+    "proposed_body_hash": "660caf953b7243a4f11991a7d354bb5f985d0088a7ea7d9f39c9a2311dab7bcc",
+    "body_fingerprint_version": 2,
+    "payload_format": "webcore-body",
+    "input_format": "body",
+    "body_summary": {
+      "logic_sections": 20,
+      "variables": 10,
+      "restrictions": 0
+    },
+    "language_hash": "72d7aeff12e053725692af7f71041275a8e1569d0c339546d2e4c7780d1e69dc"
+  },
+  "TEST_7": {
+    "ok": true,
+    "id": ":b17bb841eaced53aa7b1c04ae2218d7f:",
+    "expected_remote_hash": "44c56a7602ed85f4602faf80d54a89dc4908ec1a8a84352538ab42015c90f928",
+    "proposed_hash": "44475487b30691ed7eebc2aae473bcc42b6b97d7537173664618f440f4e0a309",
+    "proposed_body_hash": "a22192d740a0ed8effc9c49c99632b11e2328094395d0d62db7a29a736a2d32d",
+    "body_fingerprint_version": 2,
+    "payload_format": "webcore-body",
+    "input_format": "body",
+    "body_summary": {
+      "logic_sections": 56,
+      "variables": 10,
+      "restrictions": 0
+    },
+    "language_hash": "72d7aeff12e053725692af7f71041275a8e1569d0c339546d2e4c7780d1e69dc"
+  },
+  "TEST_seed": {
+    "ok": true,
+    "id": ":b17bb841eaced53aa7b1c04ae2218d7f:",
+    "expected_remote_hash": "44c56a7602ed85f4602faf80d54a89dc4908ec1a8a84352538ab42015c90f928",
+    "proposed_hash": "61ef8778ee98cbb518a27888d046af00583b582ae66ab9734819e4db9176cb7b",
+    "proposed_body_hash": "1285f2ae2538f4c260a75ef743cbfd2ca9b4512c232c3c8389b6598a62944278",
+    "body_fingerprint_version": 2,
+    "payload_format": "webcore-body",
+    "input_format": "body",
+    "body_summary": {
+      "logic_sections": 1,
+      "variables": 2,
+      "restrictions": 0
+    }
+  }
+}

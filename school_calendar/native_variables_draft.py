@@ -1,11 +1,11 @@
-"""Construct a review-only native WebCoRE calendar expression AST.
+"""Native expression builder with matching text and AST.
 
-This generates an expression payload, NOT a complete or deployable piston.
-Native parser shapes for contains/concat/formatdatetime/$now were captured from
-the isolated TEST piston. adddays/weekdayname/isbetween/if shapes are inferred
-from the language DB and MUST be checked in the editor before production use.
+Parser grammar is checked against upstream dashboard source. Runtime certification
+is separate: execute the approved device-free TEST matrix before production.
 """
-from school_calendar.webcore_array import closure_array
+import json
+from school_calendar.webcore_array import closure_array, DATA
+from school_calendar.generate_webcore_dates import generate
 
 
 def literal(value):
@@ -25,42 +25,80 @@ def function(name, *args):
             "i": [{"t": "expression", "ok": True, "i": [arg]} for arg in args]}
 
 
-def local_date(tomorrow=False):
-    now = {"t": "variable", "x": "$now", "ok": True}
+def local_date(tomorrow=False, now_name="$now"):
+    now = {"t": "variable", "x": now_name, "ok": True}
     when = function("adddays", now, integer(1)) if tomorrow else now
     return function("formatdatetime", when, literal("yyyy-MM-dd"))
 
 
-def school_expression(tomorrow=False):
-    day = local_date(tomorrow)
-    when = (function("adddays", {"t": "variable", "x": "$now", "ok": True},
+def school_expression(tomorrow=False, now_name="$now", closure_name=None):
+    data = generate(DATA)
+    day = local_date(tomorrow, now_name)
+    when = (function("adddays", {"t": "variable", "x": now_name, "ok": True},
                      integer(1)) if tomorrow
-            else {"t": "variable", "x": "$now", "ok": True})
-    closed = function("contains", literal(closure_array()),
+            else {"t": "variable", "x": now_name, "ok": True})
+    closures = ({"t": "variable", "x": closure_name, "ok": True}
+                if closure_name else literal(closure_array()))
+    closed = function("contains", closures,
                       function("concat", literal("|"), day, literal("|")))
     weekday = function("contains", literal("|Monday|Tuesday|Wednesday|Thursday|Friday|"),
                        function("concat", literal("|"),
                                 function("weekdayname", when), literal("|")))
-    # The next three function signatures require native editor verification.
+    # Signatures and string comparison semantics were inspected in upstream Groovy.
+    # On-hub evaluation remains a mandatory release gate.
     return function("if",
-                    function("isbetween", day, literal("2026-08-12"), literal("2027-05-27")),
+                    function("isbetween", day, literal(data["first_day"]), literal(data["last_day"])),
                     function("if", weekday,
                              function("if", closed, boolean(False), boolean(True)),
                              boolean(False)),
                     boolean(False))
 
 
-def draft_payload():
+def expression_text(node):
+    """Render exactly the small native expression grammar emitted by this builder."""
+    kind = node["t"]
+    if kind == "expression":
+        if len(node["i"]) != 1:
+            raise ValueError("Only single-node argument expressions are supported")
+        return expression_text(node["i"][0])
+    if kind == "function":
+        return node["n"] + "(" + ", ".join(expression_text(a) for a in node["i"]) + ")"
+    if kind == "variable":
+        return node["x"]
+    if kind == "string":
+        return json.dumps(node["v"])
+    if kind == "boolean":
+        return node["v"]
+    if kind == "integer":
+        return str(node["v"])
+    raise ValueError(f"Unsupported native node: {kind}")
+
+
+def expression_operand(node, vt, grouping="avg"):
+    text = expression_text(node)
+    return {"t": "e", "e": text, "exp": {"t": "expression", "ok": True,
+            "str": text, "i": [node]}, "f": "l", "g": grouping, "vt": vt}
+
+
+def constant_operand(value, vt):
+    node = boolean(value) if isinstance(value, bool) else (integer(value) if isinstance(value, int) else literal(value))
+    text = expression_text(node)
+    return {"t": "c", "c": node["v"], "exp": {"t": "expression", "ok": True,
+            "str": text, "i": [node]}, "f": "l", "g": "avg", "vt": vt}
+
+
+def draft_payload(now_name="$now", closure_name=None):
     return {
         "review_only": True,
-        "requires_native_editor_confirmation": ["adddays", "weekdayname", "isbetween", "if"],
-        "school_today": school_expression(False),
-        "school_tomorrow": school_expression(True),
-        "school_date": local_date(False),
-        "school_tomorrow_date": local_date(True),
+        "requires_runtime_confirmation": ["adddays", "weekdayname", "isbetween", "if"],
+        "school_today": school_expression(False, now_name, closure_name),
+        "school_tomorrow": school_expression(True, now_name, closure_name),
+        "school_date": local_date(False, now_name),
+        "school_tomorrow_date": local_date(True, now_name),
     }
 
 
 if __name__ == "__main__":
     import json
     print(json.dumps(draft_payload(), indent=2))
+

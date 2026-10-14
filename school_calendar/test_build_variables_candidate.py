@@ -24,12 +24,14 @@ class BuilderTests(unittest.TestCase):
         result = candidate(original)
         self.assertEqual(original["s"][0]["$"], 7)
         self.assertEqual([s["$"] for s in result["s"][:2]], [13, 20])
-        self.assertEqual(len(result["s"]), 5)
-        self.assertEqual([s["lo2"].get("c", s["lo2"].get("s")) for s in result["s"][-3:]],
-                         [5, 290, "sunset"])
-        for s in result["s"][-3:]:
+        self.assertEqual(len(result["s"]), 6)
+        self.assertEqual([s["lo2"].get("c", s["lo2"].get("s")) for s in result["s"][-4:]],
+                         [5, 290, 1020, "sunset"])
+        for s in result["s"][-4:]:
             self.assertEqual([k["p"][0]["x"] for k in s["s"][0]["k"]],
-                             ["@SchoolDate", "@School", "@SchoolTomorrowDate", "@SchoolTomorrow"])
+                             ["schoolCalendarNow", "@School", "@SchoolDate", "@SchoolTomorrow", "@SchoolTomorrowDate"])
+        self.assertNotIn("REVIEW_ONLY_NATIVE_AST", str(result))
+        self.assertEqual(result["s"][:2], original["s"][2:])
 
     def test_rejects_changed_seasonal_writer(self):
         baseline = self.baseline()
@@ -40,3 +42,4 @@ class BuilderTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

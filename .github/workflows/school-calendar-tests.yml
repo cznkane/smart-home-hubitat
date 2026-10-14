@@ -22,3 +22,4 @@ jobs:
           python-version: '3.12'
       - name: Run school calendar unit tests
         run: python -m unittest discover -s school_calendar -p 'test_*.py' -v
+

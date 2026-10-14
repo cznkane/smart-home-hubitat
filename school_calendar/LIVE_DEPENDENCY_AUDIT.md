@@ -1,3 +1,5 @@
+> Historical October 13 preparation record. Current implementation, validator state and gates are in README.md and PRODUCTION_CUTOVER.md.
+
 # Live @School dependency audit — 2026-10-13
 
 Read-only WebCoRE inventory: 16 pistons, **16 active, 0 paused**. This supersedes earlier conversation claims that School Mornings remained paused. No live changes were made.
@@ -23,3 +25,4 @@ The other 12 pistons returned no exact `@School` references in their retrieved d
 7. Preserve rollback and obtain separate approval for live piston/global changes and live tests.
 
 No deployment authorized.
+

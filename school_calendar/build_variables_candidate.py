@@ -1,17 +1,14 @@
-"""Build a review-only Variables piston candidate from a freshly fetched native JSON baseline.
+"""Build a complete native Variables candidate from a fresh baseline.
 
-Usage:
-    python -m school_calendar.build_variables_candidate live_variables.json > candidate.json
-
-This program never connects to Hubitat, uploads a piston, or executes devices.
-Expression functions are NOT yet native-runtime verified. The candidate is for
-inspection and preparation validation only; do not deploy it.
+No network or live writes. Production requires approved TEST runtime evidence,
+reviewed preparation hashes, global type checks, and stale-baseline protection.
 """
 import copy
 import json
 import sys
 
-from school_calendar.native_variables_draft import draft_payload
+from school_calendar.native_variables_draft import draft_payload, expression_operand, constant_operand
+from school_calendar.webcore_array import closure_array
 
 
 def candidate(baseline):
@@ -35,7 +32,15 @@ def candidate(baseline):
     template = target(sample)
     if template.get("c") != "setVariable":
         raise ValueError("Expected setVariable command template")
-    data = draft_payload()
+    variables = p.setdefault("v", [])
+    if any(v.get("n") in ("schoolCalendarNow", "schoolCalendarClosures") for v in variables):
+        raise ValueError("Calendar local variable name collision")
+    variables.extend([
+        {"a": "d", "n": "schoolCalendarNow", "t": "datetime"},
+        {"a": "s", "n": "schoolCalendarClosures", "t": "string", "v":
+         constant_operand(closure_array(), "string")},
+    ])
+    data = draft_payload("schoolCalendarNow", "schoolCalendarClosures")
     existing_ids = []
     def collect(x):
         if isinstance(x, dict):
@@ -54,7 +59,9 @@ def candidate(baseline):
         next_id += 1
         return n
     p["s"] = [s for s in p["s"] if s.get("$") not in (7, 10)]
-    for minute in (5, 290, None):
+    # Modes starts collecting dusk at 17:30, potentially before solar sunset.
+    # A 17:00 recovery refresh prevents relying on sunset to initialize its inputs.
+    for minute in (5, 290, 1020, None):
         section = copy.deepcopy(sample)
         section["$"] = uid()
         if minute is None:
@@ -67,21 +74,21 @@ def candidate(baseline):
             }
         action = copy.deepcopy(sample["s"][0])
         action["$"] = uid()
-        action["k"] = []
+        anchor = copy.deepcopy(template)
+        anchor["$"] = uid()
+        anchor["p"][0]["x"] = "schoolCalendarNow"
+        anchor["p"][1] = {"t": "x", "x": "$now", "f": "l", "g": "avg", "vt": "datetime"}
+        action["k"] = [anchor]
         for variable, key, vt in (
-            ("@SchoolDate", "school_date", "string"),
             ("@School", "school_today", "boolean"),
-            ("@SchoolTomorrowDate", "school_tomorrow_date", "string"),
+            ("@SchoolDate", "school_date", "string"),
             ("@SchoolTomorrow", "school_tomorrow", "boolean"),
+            ("@SchoolTomorrowDate", "school_tomorrow_date", "string"),
         ):
             task = copy.deepcopy(template)
             task["$"] = uid()
             task["p"][0]["x"] = variable
-            task["p"][1] = {
-                "t": "e", "e": "REVIEW_ONLY_NATIVE_AST",
-                "exp": {"t": "expression", "ok": True, "str": "REVIEW_ONLY_NATIVE_AST", "i": [data[key]]},
-                "f": "l", "g": "avg", "vt": vt,
-            }
+            task["p"][1] = expression_operand(data[key], vt)
             action["k"].append(task)
         section["s"] = [action]
         p["s"].append(section)
@@ -98,3 +105,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

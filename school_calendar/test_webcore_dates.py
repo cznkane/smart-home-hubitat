@@ -28,3 +28,4 @@ class WebcoreDatesTests(unittest.TestCase):
         generated = generate(DATA)
         self.assertFalse(is_school_day(date(2027, 5, 28), generated))
         self.assertFalse(is_school_day(date(2026, 8, 11), generated))
+

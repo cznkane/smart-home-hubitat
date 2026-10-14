@@ -1,3 +1,5 @@
+> Historical October 13 preparation record. Current implementation, validator state and gates are in README.md and PRODUCTION_CUTOVER.md.
+
 # Modes and Scheduled Actions: inspected live references
 
 Read-only inspection of current native WebCoRE bodies (2026-10-13).
@@ -23,3 +25,4 @@ These remain **today** semantics and must not be replaced by `@SchoolTomorrow` w
 ## Cutover dependencies
 
 Deploy the approved validator fix first, then prepare full native diffs and check expected hashes. The Variables writer must publish `@SchoolTomorrow` with tomorrow's date stamp before Modes reads it. Do not change the live Modes operands in isolation. Explicit approval is required for all production piston writes.
+

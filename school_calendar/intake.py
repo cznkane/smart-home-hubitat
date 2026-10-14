@@ -47,3 +47,4 @@ def validate_submission(payload):
 
 def validate_file(path):
     return validate_submission(json.loads(Path(path).read_text(encoding="utf-8")))
+

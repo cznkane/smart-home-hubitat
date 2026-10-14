@@ -1,0 +1,13 @@
+# Native expression evidence and limits
+
+Evidence date: 2026-10-14. Connected core v0.3.114.20220203 / HE v0.3.114.20240115_HE; MCP 0.4.14. Language hash 72d7aeff12e053725692af7f71041275a8e1569d0c339546d2e4c7780d1e69dc.
+
+Primary source inspected: imnotbob/webCoRE, hubitat-patches commit 51c6becf1586007c232386fc7295611a8ec7a748. Dashboard piston.module.js blob d3b5fb3a60b5d24bd1b027dfab1d955ce32dafce; Groovy piston blob 466fd30a43e4db54f60c3c8c78416c20b60e83cd. These are independently inspected upstream sources, not a fingerprint of Hubitat's installed app code.
+
+- Dashboard parseExpression/validateExpression establish function-name lowercasing, expression-wrapped arguments, native boolean strings and variable/string node grammar. A scratch Node harness ran those actual upstream parser functions against all changed and TEST/seed expression operands: 456 matches after ignoring source locations, retaining native types/values/structure.
+- Groovy func_adddays delegates to addtimeHelper: epoch-day addition corrected by timezone-offset difference. func_weekdayname uses local datetime for epoch values. func_isbetween compares inclusively, preserving the value type; fixed-width yyyy-MM-dd strings sort chronologically. func_if evaluates its condition as boolean and returns the chosen branch's native type. func_contains returns a native boolean. formatDateTime uses the runtime timezone's SimpleDateFormat.
+- Live baseline's $tzId is US/Central, equivalent to the policy's America/Chicago. That observed timezone is not assumed for future executions.
+- Local off-hub regression model compared generated AST results to the independent pure calendar evaluator over 426 days at 00:05/04:50/17:30/23:59 for today/tomorrow (3,408 boolean/date checks). UTC/local-midnight tests pass. This model is not an execution of the Groovy runtime.
+- Seven prepared TEST bodies provide 64 fixed-epoch calendar/time cases, including all 35 closures, early releases, weekends, year bounds, midnight, both DST changes and the repeated autumn hour. The final body additionally executes 16 native AND freshness restrictions using local school/kids/date variables. Only local assignments and console logs occur. No device/global/HTTP/other-piston operations or schedules occur.
+
+On-hub evidence: NOT YET RUN. Require exactly 80 expected PASS records, no FAIL, no native expression/type error, and actual current timezone confirmation before production. An empty, truncated or missing log is not a passing case. TEST_seed is a separate production initialization body that writes school globals and must not be confused with the seven isolated test bodies.

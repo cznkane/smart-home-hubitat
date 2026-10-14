@@ -1,11 +1,9 @@
-# Academic calendar handoff
+# School calendar continuation — 2026-10-14
 
-The monthly ChatGPT task reads the official Leander ISD academic calendar at https://www.leanderisd.org/calendar/ and reports changes. The task's ability to call GitHub write tools while running unattended has not been verified. Do not claim an automated publishing pipeline yet.
+Implementation is corrected and prepared. Resume from APPROVAL_PACKAGE.md and PRODUCTION_CUTOVER.md, not the superseded external publisher/scraper design.
 
-A candidate calendar submission must include the actual academic-calendar source URL, retrieval timestamp, student closure ranges, early-release dates, and school-year boundaries. The local validator checks its structure before acceptance. A source retrieval failure must never silently replace the last known-good calendar.
+Current interface: WebCoRE MCP 0.4.14, TERMINAL VM healthy/idle with clean recovery, commit 243860500b82f7a3c0ff91f5e5157e22b5e643a1 and digest 1acac29bcf90c8e02679ea4e8702ac8b1c53a4d42427d75c95df9f1197585b8c observed. No restart/redeploy is needed.
 
-The preferred promotion path is a GitHub pull request with automated tests and a human-readable diff. If scheduled tasks cannot write to GitHub, a separate authenticated publisher will be required. Do not place credentials in the repository or scheduled-task instructions.
+No live changes were made during preparation. Variables/School Mornings/Modes/Scheduled Actions remain active; TEST remains paused. Fresh native bodies, exact candidates and preparation hashes are in cutover/2026-10-14. For sequential TEST updates, refresh the current remote hash while retaining each approved proposed hash/body hash. Do not reuse TEST's initial remote hash after the first write.
 
-Production evaluates today's attendance for @School and tomorrow's attendance for evening routines. The monthly calendar review is not a daily execution mechanism. A date freshness guard must protect School Mornings before any live cutover.
-
-Outstanding: prove unattended GitHub publication, read and interpret actual academic calendar data, run CI tests, implement a supported WebCoRE publisher, and approve changes to the existing Variables, Modes, Scheduled Actions, and School Mornings pistons. No production changes are authorized.
+Pending mandatory approval covers the bounded TEST validation and conditional exact production cutover. Global existence/types are not observable through current MCP tools; supported dashboard fallback must be approved and inspected. Source-only tests and parser matches are not runtime certification. Do not declare completion until runtime/log evidence, persisted bodies, global readback, scheduled refreshes and TEST cleanup are observed and documented.

@@ -1,3 +1,5 @@
+> Historical October 13 preparation record. Current implementation, validator state and gates are in README.md and PRODUCTION_CUTOVER.md.
+
 # WebCoRE Variables array payload — 2026–27
 
 Generated from `academic_2026_2027.json` on the PR branch. **Draft data, not validated native piston syntax. Do not paste into live WebCoRE.**
@@ -23,3 +25,4 @@ School-year inclusive: 2026-08-12 through 2027-05-27. Weekends are not school da
 ## Native AST verification outstanding
 
 This file records the exact array input and algorithm; it does **not** assert that a comma-separated string is a WebCoRE array or that `contains` uses safe token-boundary semantics. Test exact membership (no substring collisions), native expression parse, date formatting, and full body validation before proposing an apply.
+
