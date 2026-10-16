@@ -1,7 +1,7 @@
 # School Mornings Cancellation and Abort Architecture
 
 **Status:** Canonical design / forensic record  
-**Last reconciled:** 2026-10-07  
+**Last reconciled:** 2026-10-16  
 **Scope:** School Mornings cancellation behavior and the reusable lessons for WebCoRE delayed/scheduled work
 
 ## Purpose
@@ -94,6 +94,41 @@ Requirements:
 - ordering and failure behavior are defined before implementation
 
 A momentary control plus a small controller are candidates. Keep the first implementation proportional and School-Mornings-focused, while avoiding a design that is unnecessarily difficult to extend later.
+
+## Selected user-facing control architecture
+
+The first implementation should be **School-Mornings-specific and deliberately easy to clone later**, not generalized into a reusable whole-house abort framework yet. Only School Mornings has been forensically proven to have the desired Pause -> Resume semantics.
+
+Selected interface and ownership:
+- expose one momentary Hubitat control, conceptually `Abort School Mornings`, suitable for later SharpTools use;
+- use a small dedicated WebCoRE control piston to own the complete abort transaction;
+- do not add an abort global, persistent ON/OFF switch state, or School Mornings-local cancellation branch merely to support this control;
+- keep the control momentary because abort is an action, not a durable state that should require manual reset.
+
+Selected execution semantics:
+
+`button press -> pausePiston(School Mornings) -> confirm paused -> resumePiston(School Mornings) -> confirm active`
+
+The live WebCoRE language surface exposes `isPistonPaused()`, so implementation should use target-state verification when practical rather than rely only on an arbitrary delay.
+
+Ordering and failure requirements:
+- do not treat two unverified back-to-back commands as the strongest design when state verification is available;
+- after Pause, confirm School Mornings actually reached paused/stopped state before issuing Resume;
+- after Resume, verify School Mornings is no longer paused;
+- if state polling/serialization proves awkward in the actual piston editor/runtime, approximately **500 ms** is the current minimum sensible fallback synchronization delay between Pause and Resume; this is intentionally conservative relative to the investigated incident, where Pause-to-stop processing completed in roughly 164 ms;
+- use a bounded check, not an unbounded wait;
+- the important partial-failure case is Pause succeeding while Resume fails, because that would leave future School Mornings runs disabled; the controller must detect/report that condition rather than silently declare success.
+
+Why this design is preferred:
+- it uses the exact Pause behavior already proven to kill the active fade;
+- Resume was proven to rebuild future 6:00 AM / 8:00 AM schedules without replaying the already-passed 5:00 AM block;
+- a momentary button maps cleanly to Hubitat and SharpTools and has no stale ON state;
+- a dedicated controller keeps lifecycle-control mechanics out of School Mornings itself;
+- it introduces less infrastructure than global variables, a multi-button automation-control device, or a parameterized general controller.
+
+Do **not** generalize Pause -> Resume to Fade, Bedtime, DoorLights, or other pistons until each target's lifecycle and scheduled-work semantics have been inspected and proven. Generalization should follow repeated demonstrated need, not precede it.
+
+This control architecture is selected but **not yet implemented or behaviorally accepted**. Commissioning still requires live current-state inspection, implementation approval, persistence verification, and the acceptance tests below.
 
 ## Related delayed/scheduled behavior
 
