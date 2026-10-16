@@ -1,0 +1,32 @@
+name: School calendar resized TEST artifacts
+on:
+  push:
+    paths:
+      - 'school_calendar/split_runtime_test_batches.py'
+      - 'school_calendar/test_split_runtime_test_batches.py'
+      - 'school_calendar/cutover/2026-10-14/candidates/TEST_*.json'
+      - '.github/workflows/school-calendar-resized-tests.yml'
+  pull_request:
+    paths:
+      - 'school_calendar/split_runtime_test_batches.py'
+      - 'school_calendar/test_split_runtime_test_batches.py'
+      - 'school_calendar/cutover/2026-10-14/candidates/TEST_*.json'
+      - '.github/workflows/school-calendar-resized-tests.yml'
+jobs:
+  validate-and-package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test splitter and preservation
+        run: python -m unittest school_calendar.test_split_runtime_test_batches -v
+      - name: Generate all 80 one-case TEST bodies
+        run: python -m school_calendar.split_runtime_test_batches
+      - name: Publish reviewable candidate artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: school-calendar-resized-test-candidates
+          path: school_calendar/cutover/2026-10-14/resized_test_candidates/
+          if-no-files-found: error
