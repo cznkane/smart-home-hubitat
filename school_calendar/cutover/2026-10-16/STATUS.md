@@ -4,9 +4,9 @@ Observed 2026-10-16; this records the live check and review package, not a claim
 
 ## Git and connector
 
-- PR #40 is open and draft at `b2aef538834eb7ffe0c7a2a7fcda73e89e7b3f5a`; its recorded CI run passed. The feature branch is 9 commits behind current `main` (`088ebcde5399f54e84540595f7a86dfc82fa2f35`) and needs current-main integration plus CI before merge.
+- PR #40 is open and draft at head `4c889551eb1924a77e8c606251dbe80dc19ad244`; CI run `38944714392` passed. The feature branch was observed 9 commits behind current `main` (`088ebcde5399f54e84540595f7a86dfc82fa2f35`) and needs current-main integration plus CI before merge.
 - PR #50 (pinned TEST payload data) and webcore-CLI PR #14 (source-backed preparation/apply) are merged. The 0.4.17 source-handoff candidate commit remains an ancestor of CLI `main`.
-- Live WebCoRE MCP is 0.4.16. TERMINAL management is healthy, idle and clean at 0.4.16, with 0.4.14 retained as previous release. The approved 0.4.17 candidate staged successfully with tests and syntax checks passing; deployment is awaiting the required local operator decision.
+- Approved WebCoRE MCP 0.4.17 deployed successfully from `fd84df61ed6da2a894ba399ffdbd0067cb020ba4` (SHA-256 `e9242aef536ebda2a7c63480474132314a49133bfa059346f3205f399a983aa4`). TERMINAL reports healthy, idle, clean recovery, and exact current release; the Hub confirms dashboard, piston-list, and device access on plugin 0.4.17. No restart was needed.
 
 ## Live piston and global state
 
@@ -25,7 +25,7 @@ School Mornings build 31 retains `@School == true` and `@KidsPresent == true` on
 ## Validation and remaining gates
 
 - Local calendar suite: 41 tests pass, including coverage for both root-level and per-schedule School/Kids restrictions.
-- Seven approved device-free TEST batches remain the authorized runtime matrix. Previous large inline apply calls ended before returning a result; fresh readback confirms TEST is still its original build 3 and paused. No runtime case has been certified.
-- The 0.4.17 source-reference route is intended to avoid transferring large JSON through chat. PR #50's 80 resized payloads explicitly require separate approval and are not substituted for the seven candidates in the approved b2 package.
-- The Oct 14 production candidates for Variables and Modes still require fresh prepare/hash checks. The School Mornings candidate has changed because its live baseline changed; its exact production cutover requires approval under the existing package's changed-candidate rule.
-- Do not merge PR #40 or change production pistons until the approved TEST matrix passes, current branch CI passes, and the refreshed School Mornings candidate is approved. TEST must be restored to build 3 and paused after testing.
+- Seven approved device-free TEST batches remain the authorized runtime matrix. The 0.4.17 prepare for approved `TEST_1.json` matches expected remote/body/payload hashes, but transport preflight fails at 161,568 encoded bytes (99-chunk maximum). TEST remains build 3 and paused; no batch was written or executed, and no runtime case is certified. The currently exposed prepare interface accepts native JSON bodies but does not expose the pinned source-reference handoff, so do not bypass the size gate.
+- PR #50's 80 resized payloads explicitly require separate approval and are not substituted for the seven candidates in the approved b2 package. Fresh 0.4.17 prepares for Variables and Modes still match their approved body/payload hashes and pass transport preflight. The refreshed School Mornings candidate also prepares successfully against build 31, but its changed production candidate requires approval under the existing changed-candidate rule.
+- Variables and Modes production candidates pass fresh 0.4.17 prepare/hash checks. School Mornings also passes prepare, with current hash `1c5d4b66f749742814adfacf54ab69c1c374589006ef94bbca492049810a05fc`; it remains outside the original production approval because the candidate changed after the baseline refresh.
+- Do not merge PR #40 or change production pistons until the approved TEST matrix can pass, current-main integration CI passes, and the refreshed School Mornings candidate is approved. Current 0.4.17 transport ceiling blocks TEST_1 before any write. TEST must be restored to build 3 and paused after testing.
