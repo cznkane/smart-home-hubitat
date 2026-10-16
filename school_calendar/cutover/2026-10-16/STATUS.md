@@ -6,7 +6,7 @@ Observed 2026-10-16; this records the live check and review package, not a claim
 
 - PR #40 is open and draft at `b2aef538834eb7ffe0c7a2a7fcda73e89e7b3f5a`; its recorded CI run passed. The feature branch is 9 commits behind current `main` (`088ebcde5399f54e84540595f7a86dfc82fa2f35`) and needs current-main integration plus CI before merge.
 - PR #50 (pinned TEST payload data) and webcore-CLI PR #14 (source-backed preparation/apply) are merged. The 0.4.17 source-handoff candidate commit remains an ancestor of CLI `main`.
-- Live WebCoRE MCP is 0.4.16. TERMINAL management is healthy, idle and clean at 0.4.16, with 0.4.14 retained as previous release. A bounded 0.4.17 stage request is awaiting the required local operator decision.
+- Live WebCoRE MCP is 0.4.16. TERMINAL management is healthy, idle and clean at 0.4.16, with 0.4.14 retained as previous release. The approved 0.4.17 candidate staged successfully with tests and syntax checks passing; deployment is awaiting the required local operator decision.
 
 ## Live piston and global state
 
