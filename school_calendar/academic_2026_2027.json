@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "status": "verified",
+  "district": "Leander ISD",
+  "timezone": "America/Chicago",
+  "source": "https://www.leanderisd.org/calendar/",
+  "first_day": "2026-08-12",
+  "last_day": "2027-05-27",
+  "closures": [
+    {
+      "start": "2026-09-07",
+      "reason": "Labor Day"
+    },
+    {
+      "start": "2026-09-21",
+      "reason": "Professional learning"
+    },
+    {
+      "start": "2026-10-09",
+      "end": "2026-10-13",
+      "reason": "Conferences, professional learning, break"
+    },
+    {
+      "start": "2026-11-02",
+      "end": "2026-11-03",
+      "reason": "Continuous improvement"
+    },
+    {
+      "start": "2026-11-23",
+      "end": "2026-11-27",
+      "reason": "Fall break"
+    },
+    {
+      "start": "2026-12-21",
+      "end": "2027-01-04",
+      "reason": "Winter break and staff day"
+    },
+    {
+      "start": "2027-01-18",
+      "reason": "MLK Day"
+    },
+    {
+      "start": "2027-02-12",
+      "end": "2027-02-16",
+      "reason": "Break and staff days"
+    },
+    {
+      "start": "2027-03-15",
+      "end": "2027-03-19",
+      "reason": "Spring break"
+    },
+    {
+      "start": "2027-03-26",
+      "end": "2027-03-29",
+      "reason": "Break and staff day"
+    },
+    {
+      "start": "2027-04-26",
+      "reason": "Professional learning"
+    }
+  ],
+  "early_release": [
+    "2026-12-18",
+    "2027-05-27"
+  ],
+  "provenance": {
+    "retrieved_at": "2026-10-13",
+    "academic_calendar_url": "https://lisdhamrick.github.io/Academic-Calendar/26-27?dates=1&embed=1&header=0",
+    "basis": "Official Leander ISD calendar page links to interactive academic calendar; Important Dates list compared against all closure and early-release entries"
+  }
+}
+

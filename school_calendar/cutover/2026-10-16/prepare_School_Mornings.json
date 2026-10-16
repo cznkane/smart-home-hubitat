@@ -1,0 +1,17 @@
+{
+  "ok": true,
+  "id": ":917583854fbc49e5610e0ef27c2aa6d0:",
+  "expected_remote_hash": "6b4b7f7d192ed469eadd2ea1d7338341b38e9736a57b825fda92c6e01286f7dc",
+  "proposed_hash": "36c5330ba41028b1292227dcd158bde2d29a98bd05ada028ce94a9d2e10d7f27",
+  "proposed_body_hash": "1c5d4b66f749742814adfacf54ab69c1c374589006ef94bbca492049810a05fc",
+  "body_fingerprint_version": 2,
+  "payload_format": "webcore-body",
+  "input_format": "body",
+  "body_summary": {
+    "logic_sections": 3,
+    "variables": 0,
+    "restrictions": 1
+  },
+  "language_hash": "72d7aeff12e053725692af7f71041275a8e1569d0c339546d2e4c7780d1e69dc",
+  "source_build": 31
+}
