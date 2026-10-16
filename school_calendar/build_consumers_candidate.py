@@ -22,13 +22,45 @@ def _walk(obj):
 def school_mornings_candidate(baseline):
     p = copy.deepcopy(baseline)
     restrictions = p.get("r")
-    if not isinstance(restrictions, list) or len(restrictions) != 2:
+
+    def is_true_restriction(item, target):
+        return (
+            isinstance(item, dict)
+            and item.get("co") == "is"
+            and item.get("lo", {}).get("t") == "x"
+            and item.get("lo", {}).get("x") == target
+            and item.get("ro", {}).get("t") == "c"
+            and item.get("ro", {}).get("c") == "true"
+        )
+
+    # The live piston has used both a single piston-level restriction pair and
+    # the equivalent pair copied onto every scheduled block. Accept either
+    # native shape, then add the freshness guard at piston scope so it applies
+    # consistently to every schedule.
+    if not isinstance(restrictions, list):
         raise ValueError("Unexpected School Mornings restrictions; manual review required")
-    if [r.get("lo", {}).get("x") for r in restrictions] != ["@School", "@KidsPresent"]:
-        raise ValueError("School Mornings restriction targets changed")
-    if any(r.get("co") != "is" for r in restrictions):
-        raise ValueError("School Mornings restriction operators changed")
-    guard = copy.deepcopy(restrictions[0])
+    if len(restrictions) == 2 and all(
+        is_true_restriction(r, target)
+        for r, target in zip(restrictions, ("@School", "@KidsPresent"))
+    ):
+        guard = copy.deepcopy(restrictions[0])
+    elif not restrictions:
+        scheduled = [n for n in _walk(p.get("s", [])) if n.get("t") == "every"]
+        if not scheduled:
+            raise ValueError("No School Mornings schedules found")
+        for block in scheduled:
+            block_restrictions = block.get("r")
+            if not isinstance(block_restrictions, list) or len(block_restrictions) != 2:
+                raise ValueError("Unexpected per-schedule restrictions; manual review required")
+            if not all(
+                is_true_restriction(r, target)
+                for r, target in zip(block_restrictions, ("@School", "@KidsPresent"))
+            ):
+                raise ValueError("Per-schedule School/KidsPresent restrictions changed")
+        guard = copy.deepcopy(scheduled[0]["r"][0])
+    else:
+        raise ValueError("Unexpected School Mornings restrictions; manual review required")
+
     ids = [n["$"] for n in _walk(p) if isinstance(n.get("$"), int)]
     guard["$"] = max(ids, default=0) + 1
     expression = 'formatDateTime($now, "yyyy-MM-dd")'
