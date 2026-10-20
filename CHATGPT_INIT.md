@@ -102,7 +102,7 @@ The release/deployment runbook is standing operating knowledge. Apply it automat
 
 ### Reference-set, anatomy, and finish gate
 
-The latest user-supplied `Lamp_OFF.png` / `Lamp_ON.png` pair is the current **rendering-quality reference** until the user replaces it. Inspect the actual files at full resolution before designing. Use the photograph to identify the particular lamp and its parts; use the supplied pair to judge contour quality, stroke weight, apparent scale, edge finish, and the OFF/ON glow treatment. Do not copy the sample lamp's silhouette when the photographed lamp is different.
+The latest user-supplied `Lamp_OFF.png` / `Lamp_ON.png` pair is the current **rendering-quality reference** until the user replaces it. Inspect the actual files at full resolution before designing. If they are not attached in the active chat, resolve the matching files by filename in Library and materialize them locally; do not rely on prose descriptions or a prior generated candidate. Use the photograph to identify the particular lamp and its parts; use the supplied pair to judge contour quality, stroke weight, apparent scale, edge finish, and the OFF/ON glow treatment. Do not copy the sample lamp's silhouette when the photographed lamp is different.
 
 Before presenting an approval candidate:
 
