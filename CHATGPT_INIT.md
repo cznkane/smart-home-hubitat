@@ -100,6 +100,20 @@ The release/deployment runbook is standing operating knowledge. Apply it automat
 
 **Mandatory failure-analysis companion:** Before producing or revising SharpTools icon packs, read [docs/SHARPTOOLS_ICON_DELIVERY_POSTMORTEM.md](docs/SHARPTOOLS_ICON_DELIVERY_POSTMORTEM.md) in full. It records actual failures, root causes, corrected workflow, export fidelity checks, and the release checklist. Apply its checks automatically. A technically valid ZIP is not proof that exported artwork matches the approved mockup. When user approval has been given, treat each state image as visually immutable; if the original cannot be exported faithfully, stop and request approval of a new export-ready mockup. Do not describe rejected Sadie lamp exports as resolved.
 
+### Reference-set, anatomy, and finish gate
+
+The latest user-supplied `Lamp_OFF.png` / `Lamp_ON.png` pair is the current **rendering-quality reference** until the user replaces it. Inspect the actual files at full resolution before designing. Use the photograph to identify the particular lamp and its parts; use the supplied pair to judge contour quality, stroke weight, apparent scale, edge finish, and the OFF/ON glow treatment. Do not copy the sample lamp's silhouette when the photographed lamp is different.
+
+Before presenting an approval candidate:
+
+- Account for the complete photographed fixture: shade, connector/neck, stand or scrollwork, pull chain, and the full lower stand/base with a finished bottom. Do not stop at an arbitrary stem endpoint or omit the base. If the photo crops or obscures a part needed to draw the full fixture, ask for a clearer angle instead of silently inventing or omitting it.
+- Match the sample pair's polished finish at 512 x 512 and at expected tile size: bold, even, smoothly rounded contours; clean joins; balanced spacing; and a centered silhouette. Reject thin, rough, doubled, broken, or visibly hand-sketched linework.
+- Match the sample's actual state treatment unless the user specifies otherwise: OFF is clean white with no glow; ON retains a crisp bright white/cyan core with a substantial, smooth blue outer aura. A cyan outline with only a faint edge haze is not an equivalent glow. Keep the background truly transparent.
+- Compare the exact separate OFF and ON PNGs side by side with the supplied examples on the intended dark tile background. Check silhouette completeness, base, stroke weight, apparent size, edges, and glow before showing the pair. If it does not look like it belongs beside the examples, revise it before asking for approval.
+
+The supplied examples are a quality and rendering reference, not proof that a new icon has correct subject anatomy or is ready for export.
+
+
 
 Apply this standing workflow whenever creating or revising SharpTools icons:
 
