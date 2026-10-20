@@ -119,4 +119,14 @@ Do not infer that this documentation authorizes modifications to live SharpTools
 - **Current production status:** **NOT DELIVERED / NOT APPROVED FOR EXPORT.** Do not claim there is a usable Kids Away ZIP or that the first concept can be exactly extracted until the source is inspected.
 - **Recovery:** Locate the exact originally approved image; inspect whether it has genuine alpha and separable per-state art. If it does, use deterministic pixel-preserving extraction, inspect each state, and seek approval on the actual export-ready assets. If it does not, stop and prepare a transparent master with explicit renewed approval. Never silently regenerate after approval.
 
+## 2026-10-20: Lamp sample-set quality failure
+
+**Reference evidence:** The user supplied a photo of an ornate lamp and separate `Lamp_OFF.png` / `Lamp_ON.png` sample icons. The sample pair is the rendering-quality benchmark; the photo is the subject/anatomy reference.
+
+**Rejected candidate:** The assistant produced a manually simplified pair with underweight, visibly rough linework, an incomplete lower stand/base, and a faint cyan edge where the sample ON icon has a bright white/cyan core and a broad blue aura. The user explicitly rejected it. The earlier six-icon generated sheet is also concept-only, not a SharpTools deliverable.
+
+**Root cause:** The assistant relied on a generic line-art interpretation of the photo, failed to inspect and compare against the supplied sample pixels before presenting a candidate, and treated transparency plus matching canvas dimensions as sufficient. Those checks did not establish visual quality or subject completeness.
+
+**Required correction:** Follow the reference-set, anatomy, and finish gate in `CHATGPT_INIT.md`. Treat the latest user-supplied OFF/ON pair as the quality reference, draw the complete fixture from the photo, and compare the actual state files at canvas and tile scale before approval. No replacement was approved or delivered in this incident. Keep the rejected candidate rejected; do not regenerate it unless the user requests another design attempt.
+
 **Enforcement phrase:** *No source, no export. No verified transparency, no final approval. No generation after approval. No ZIP before fidelity proof.*
