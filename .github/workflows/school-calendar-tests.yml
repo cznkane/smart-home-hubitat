@@ -6,7 +6,7 @@ on:
       - '.github/workflows/school-calendar-tests.yml'
   push:
     branches:
-      - feature/lisd-academic-calendar-engine
+      - main
     paths:
       - 'school_calendar/**'
       - '.github/workflows/school-calendar-tests.yml'
