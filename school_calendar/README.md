@@ -1,19 +1,19 @@
-> **Historical engineering source preserved from PR #40.** Production is already deployed; see [authoritative production record](../docs/SCHOOL_CALENDAR_PRODUCTION_RECORD.md). Do not run historical candidate deployment procedures from this directory. Source/test preservation does not prove equivalence with current live pistons.
+# School calendar — maintained source and historical test fixtures
 
-# Leander ISD native school-calendar engine
+**Production status (2026-10-21): deployed.** See [canonical production record](../docs/SCHOOL_CALENDAR_PRODUCTION_RECORD.md) for live piston IDs, builds, rollback predecessors, and evidence boundaries.
 
-Status (2026-10-14): implementation and read-only preparation complete; on-hub TEST validation and production cutover require approval. No live pistons or globals have been changed by this engineering session.
+This directory preserves the calendar engine, source, tests, and design work from [closed PR #40](https://github.com/cznkane/smart-home-hubitat/pull/40). The `cutover/2026-10-14/baselines/` JSON files are **historical test fixtures only**, retained because `test_cutover_preservation.py` requires them. They are **not** current WebCoRE production definitions.
 
-The verified 2026–27 JSON is the annual source. Variables embeds one delimiter-safe closure lookup and derives today/tomorrow locally. No external API, publisher, or scheduler is required. Weekends, all 35 student closure dates, and dates outside August 12, 2026 through May 27, 2027 return false. Both early-release dates remain true.
+Do **not** execute candidate-builder outputs, reapply old cutover manifests, or interpret historical approvals as authorization to alter production. Any production change requires fresh live readback, review, rollback planning, and separate approval under the operating protocol.
 
-Variables refreshes at 00:05, 04:50, 17:00, and sunset, using a captured timestamp for a consistent pair. It writes each boolean before its date stamp. Only the April 27 and July 11 seasonal school sections are retired; holiday, guest and late-arrival sections are retained exactly.
+## Verification
 
-School Mornings retains @School and @KidsPresent, adding a current-local-date restriction. Modes changes exactly two evening operands to @SchoolTomorrow. Scheduled Actions remains unchanged and uses today.
+Run `python -m unittest discover -s school_calendar -p 'test_*.py' -v`. The GitHub Actions workflow runs this suite for pull requests that modify this directory. Passing tests validate repository code, **not** live WebCoRE behavior or source-to-live equivalence.
 
-Validation: 39 unit tests pass, Python syntax compilation passes, and 456 expression operands match the independently retrieved upstream dashboard parser after ignoring parser source-location annotations. All production candidates and seven device-free TEST batches pass live prepare at connector 0.4.14. These are not on-hub runtime results.
+## Historical record
 
-Run: `python -m unittest discover -s school_calendar -p 'test_*.py' -v`.
+For original October 14–16 design notes, candidate snapshots, and approval packages, refer to [PR #40](https://github.com/cznkane/smart-home-hubitat/pull/40/files). Those instructions describe a **superseded pre-deployment state** and are not part of this preservation PR.
 
-See [PRODUCTION_CUTOVER.md](PRODUCTION_CUTOVER.md), [NATIVE_RUNTIME_EVIDENCE.md](NATIVE_RUNTIME_EVIDENCE.md), and [APPROVAL_PACKAGE.md](APPROVAL_PACKAGE.md). The cutover directory contains native baselines, exact prepared candidates and hash manifests. Do not upload based on a unit test or `ok:true` alone.
+## Annual maintenance
 
-Annual maintenance: interpret the official district academic calendar, validate and commit the next annual JSON, regenerate the native candidate, test boundaries/closures/early releases, and obtain the required production approval. A monthly reminder is informational and not a runtime dependency. After the final day, the native expression returns false until a new approved calendar is installed.
+Review the official academic calendar, update the academic-year JSON, validate boundary cases and closures, and obtain explicit approval before any WebCoRE deployment. The existing production configuration remains authoritative until independently changed and verified.
