@@ -131,6 +131,24 @@ Apply this standing workflow whenever creating or revising SharpTools icons:
 
 This governs asset production and delivery, not authorization to change live SharpTools, Hubitat, or WebCoRE configuration. Continue to apply the operating protocol's approval and verification rules to live changes.
 
+## Mandatory diagnostic source inventory (2026-10-21)
+
+Before declaring a Smart Home log source unavailable, enumerate and attempt the relevant **read-only** connector paths. Do not conflate a disabled source with all logs being inaccessible. Distinguish command dispatch from device-state confirmation.
+
+| Source | Connector operation | Evidence / limitation |
+| --- | --- | --- |
+| webCoRE piston activity and trace | `webcore_get_activity` | Trigger, condition evaluation, commands dispatched, timing; not proof of physical execution |
+| webCoRE live piston definition and status | `webcore_get_piston`, `webcore_list_pistons` | Active logic, references, and status |
+| Hubitat Maker API device events | `hubitat_get_device_events` | Authorized device event history, up to 100 events per request |
+| Hubitat device snapshot | `hubitat_get_device_snapshot` | Current device details plus recent events |
+| Hubitat live device attributes | `hubitat_get_device`, `hubitat_get_device_attribute` | Reported state, not necessarily physical state |
+| Hubitat authorized device inventory | `hubitat_list_devices`, `hubitat_list_device_details` | Resolve device IDs and group/member relationships where exposed |
+| Hubitat driver logs | `hubitat_get_driver_logs` | Available only when private `hubitat.logsEnabled=true`; if disabled, report that specific restriction, not a blanket absence of direct Hubitat logs |
+| webCoRE authorized device inventory/state | `webcore_list_devices`, `webcore_get_device`, `webcore_refresh_device_states` | Supplementary state and capability evidence |
+| GitHub engineering history | Canonical GitHub connector | Code, issues, deployment history; not live execution evidence |
+
+For a device failure: (1) retrieve piston activity, (2) resolve the device/group in Hubitat inventory, (3) retrieve the relevant device snapshot/events and member events, (4) inspect driver logs when enabled, (5) correlate timestamps and report precisely which layer is proven or unknown. Do not execute commands or change live configuration during diagnosis without the required authorization. When a connector is disabled, document its exact error and continue with other available evidence sources.
+
 ## Task-specific retrieval
 
 Initialization is not permission to load every project artifact for every request. Retrieve what materially affects the current task.
